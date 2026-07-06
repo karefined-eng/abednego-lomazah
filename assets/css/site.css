@@ -14,7 +14,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
   background: var(--cream);
   color: var(--ink);
   overflow-x: hidden;
@@ -22,7 +22,12 @@ body {
 }
 
 a { color: inherit; }
+a:hover, a:focus-visible { outline: none; }
 img { max-width: 100%; display: block; }
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
 
 .navbar {
   position: sticky;
@@ -190,6 +195,9 @@ img { max-width: 100%; display: block; }
 .hero-poster {
   width: 100%;
   max-width: 420px;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
   border-radius: var(--radius);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
@@ -227,10 +235,22 @@ section { padding: 5rem 5vw; }
 }
 .section-lead {
   font-size: 1rem;
-  color: #5a3a20;
+  color: #4a2f17;
   max-width: 690px;
   line-height: 1.7;
   margin-bottom: 2.1rem;
+}
+.section-spacing-top {
+  margin-top: 1.5rem;
+}
+.section-spacing-top-tight {
+  margin-top: 1.4rem;
+}
+.compact-card-inner {
+  padding: 1.35rem;
+}
+.compact-card-inner--light {
+  background: rgba(255,255,255,0.95);
 }
 .container {
   max-width: 1200px;
