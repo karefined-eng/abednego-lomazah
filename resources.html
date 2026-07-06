@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses & Recordings | Abednego Lomazah</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        body { margin: 0; }
+        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.3s; }
+        .nav-links a:hover, .nav-links a.active { background: var(--secondary); color: var(--primary); }
+        .search-input { width: 100%; padding: 1rem 1.5rem; border: 2px solid var(--accent); border-radius: 50px; font-size: 1.1rem; outline: none; }
+        .search-input:focus { border-color: var(--secondary); }
+        .tabs { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; }
+        .tab-btn { padding: 0.8rem 2rem; border: none; background: var(--accent); cursor: pointer; border-radius: 8px; font-size: 1rem; transition: background 0.3s; }
+        .tab-btn.active { background: var(--secondary); font-weight: bold; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resources.html" class="active">Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="updates.html">Updates</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Courses & Recordings</h2>
+            <p class="subtitle">Complete course library + Tutorial recordings</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="course-search" class="search-input" placeholder="Search courses by title, department, semester...">
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('courses')">Courses Library</button>
+            <button class="tab-btn" onclick="showTab('recordings')">Recordings</button>
+        </div>
+
+        <div id="courses-section">
+            <div class="loading">Loading courses...</div>
+            <div id="courses-grid" class="cards-grid"></div>
+        </div>
+
+        <div id="recordings-section" style="display: none;">
+            <div class="loading">Loading recordings...</div>
+            <div id="recordings-grid" class="cards-grid"></div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
+        <ul class="footer-links">
+            <li><a href="#">WhatsApp Channel</a></li>
+            <li><a href="#">Telegram</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        const COURSES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
+        const RECORDINGS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1588089500&single=true&output=csv';
+
+        let coursesData = [];
+        let recordingsData = [];
+
+        async function parseCSV(url) {
+            const res = await fetch(url);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1).map(row => {
+                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                return cols.map(col => col.replace(/^"|"$/g, '').trim());
+            }).filter(r => r.length > 0 && r[0]);
+            return rows;
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('[onclick]').forEach(b => {
+                if (b.textContent.toLowerCase().includes(tabName === 'courses' ? 'courses' : 'recordings')) {
+                    b.classList.add('active');
+                }
+            });
+            document.getElementById('courses-section').style.display = tabName === 'courses' ? 'block' : 'none';
+            document.getElementById('recordings-section').style.display = tabName === 'recordings' ? 'block' : 'none';
+        }
+
+        function renderCards(data, containerId, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = data.map(item => `
+                <div class="card ${type}-card" data-title="${item[0]?.toLowerCase() || ''}" data-tags="${item.join(' ').toLowerCase()}">
+                    <div class="card-content">
+                        <h4 class="card-title">${item[0] || 'Untitled'}</h4>
+                        <p class="card-desc">${item.slice(1).join(' ') || ''}</p>
+                        <div class="card-meta">
+                            <span>${item[item.length-2] || 'N/A'}</span>
+                            <span>${item[item.length-1] || 'N/A'}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<div class="no-results">No items found</div>';
+        }
+
+        async function init() {
+            try {
+                coursesData = await parseCSV(COURSES_CSV);
+                recordingsData = await parseCSV(RECORDINGS_CSV);
+                
+                const headers = ['Title', ...Array(coursesData[0]?.length - 1 || 0).fill('Details')];
+                renderCardsWithHeaders(coursesData, 'courses-grid', headers);
+                renderCardsWithHeaders(recordingsData, 'recordings-grid', headers);
+            } catch (err) {
+                console.error('Error loading data:', err);
+                document.querySelectorAll('.loading').forEach(l => l.textContent = 'Failed to load content. Try refreshing.');
+            }
+        }
+
+        function renderCardsWithHeaders(data, containerId, extraMeta) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = data.map((row, idx) => {
+                const title = row[0] || 'Untitled';
+                const meta = extraMeta.slice(1).map((h, i) => `${h}: ${row[i+1] || 'N/A'}`).join(' • ');
+                return `
+                    <div class="card" data-title="${title.toLowerCase()}" data-meta="${meta.toLowerCase()}">
+                        <div class="card-content">
+                            <h4 class="card-title">${title}</h4>
+                            <p class="card-desc">${meta}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('') || '<div class="no-results">No courses available</div>';
+        }
+
+        function setupSearch(inputId, gridSelector) {
+            const input = document.getElementById(inputId);
+            const grid = document.querySelector(gridSelector);
+            input.addEventListener('input', e => {
+                const query = e.target.value.toLowerCase();
+                const cards = grid.querySelectorAll('.card');
+                cards.forEach(card => {
+                    const match = card.dataset.title.includes(query) || card.dataset.meta?.includes(query);
+                    card.style.display = match ? 'block' : 'none';
+                });
+                const visible = Array.from(cards).filter(c => c.style.display !== 'none');
+                grid.innerHTML = visible.map(c => c.outerHTML).join('') || '<div class="no-results">No results found</div>';
+            });
+        }
+
+        init();
+        setTimeout(() => {
+            setupSearch('course-search', '#courses-grid');
+            setupSearch('course-search', '#recordings-grid');
+        }, 1000);
+    </script>
+</body>
+</html>

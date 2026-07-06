@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Guides | Abednego Lomazah</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        body { margin: 0; }
+        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; }
+        .nav-links a.active { background: var(--secondary); color: var(--primary); }
+        .guide-img { width: 100%; height: 300px; object-fit: contain; background: #f8f8f8; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="guides.html" class="active">Guides</a></li>
+            <li><a href="updates.html">Updates</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>How-To Guides</h2>
+            <p class="subtitle">Step-by-step screenshots for campus navigation</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="guide-search" class="search-input" placeholder="Search guides by keyword (PIN, admission, resit, email...)">
+        </div>
+
+        <div id="guides-list" class="gallery-grid"></div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
+        <ul class="footer-links">
+            <li><a href="#">WhatsApp Channel</a></li>
+            <li><a href="#">Telegram</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        // Metadata index for static images (searchable)
+        const GUIDES_INDEX = [
+            { 
+                title: "Change MIS PIN or Password", 
+                desc: "Reset your student portal credentials",
+                img: "assets/guides/changing my pin or password on mis web or sts.jpg",
+                keywords: ["pin", "password", "mis", "portal", "credentials"]
+            },
+            { 
+                title: "Apply for UG Admission", 
+                desc: "Complete undergraduate application guide",
+                img: "assets/guides/how to apply for ug admission.jpg",
+                keywords: ["admission", "apply", "application", "ug", "undergraduate"]
+            },
+            { 
+                title: "Supplementary Resit Registration", 
+                desc: "Notice and requirements for supplementary exams",
+                img: "assets/guides/notice on suplementary resit registration.jpg",
+                keywords: ["resit", "supplementary", "exam", "registration", "retake"]
+            },
+            { 
+                title: "Request for Remarking", 
+                desc: "Procedure for exam result review",
+                img: "assets/guides/request for remarking or review of exams results.jpg",
+                keywords: ["remark", "review", "result", "exam", "grade"]
+            },
+            { 
+                title: "Sample Remarking Letter", 
+                desc: "Template for formal remarking requests",
+                img: "assets/guides/sample request for remarking letter.jpg",
+                keywords: ["letter", "template", "remarking", "request", "formal"]
+            },
+            { 
+                title: "Student Email Activation", 
+                desc: "Steps to activate your @st.ug.edu.gh account",
+                img: "assets/guides/steps for student email activation.jpg",
+                keywords: ["email", "activation", "account", "@st.ug.edu.gh"]
+            }
+        ];
+
+        function renderGuides(guides) {
+            const container = document.getElementById('guides-list');
+            container.innerHTML = guides.map(guide => `
+                <div class="gallery-item" data-title="${guide.title.toLowerCase()}" data-keywords="${guide.keywords.join(' ')}">
+                    <img src="${guide.img}" alt="${guide.title}" class="guide-img">
+                    <div class="gallery-overlay">
+                        <h4>${guide.title}</h4>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">${guide.desc}</p>
+                    </div>
+                </div>
+            `).join('') || '<div class="no-results">No guides found matching your search</div>';
+        }
+
+        function filterGuides(query) {
+            const lowerQuery = query.toLowerCase();
+            const filtered = GUIDES_INDEX.filter(g => 
+                g.title.toLowerCase().includes(lowerQuery) ||
+                g.keywords.some(k => k.includes(lowerQuery))
+            );
+            renderGuides(filtered);
+        }
+
+        function setupSearch() {
+            const input = document.getElementById('guide-search');
+            input.addEventListener('input', e => filterGuides(e.target.value));
+        }
+
+        renderGuides(GUIDES_INDEX);
+        setupSearch();
+    </script>
+</body>
+</html>

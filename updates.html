@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advocacy Tracker | Abednego Lomazah</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        body { margin: 0; }
+        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; }
+        .nav-links a.active { background: var(--secondary); color: var(--primary); }
+        .petition-img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="updates.html" class="active">Updates</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Advocacy & Updates</h2>
+            <p class="subtitle">Track petitions delivered + upcoming tutorials</p>
+        </div>
+
+        <div class="tabs" style="margin: 2rem 0;">
+            <button class="tab-btn active" onclick="showTab('petitions')">Petitions</button>
+            <button class="tab-btn" onclick="showTab('tutorials')">Upcoming Tutorials</button>
+        </div>
+
+        <!-- Petitions Section -->
+        <div id="petitions-section">
+            <div id="petitions-grid" class="gallery-grid"></div>
+        </div>
+
+        <!-- Tutorials Section -->
+        <div id="tutorials-section" style="display: none;">
+            <div class="loading">Loading tutorials...</div>
+            <div id="tutorials-grid" class="cards-grid"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 2rem; border-radius: 12px; margin-top: 3rem;">
+            <h3 style="margin-bottom: 1rem;">🎯 Your Issues Matter</h3>
+            <p style="margin-bottom: 1rem;">Every petition represents real student concerns. Submit yours:</p>
+            <a href="#" class="cta-btn" style="background: white; color: var(--primary);">Submit Issue</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
+        <ul class="footer-links">
+            <li><a href="#">WhatsApp Channel</a></li>
+            <li><a href="#">Telegram</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        const TUTORIALS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=508134725&single=true&output=csv';
+
+        const PETITIONS_DATA = [
+            { date: "Jun 16, 2026", title: "Course Registration Deadline Extension", img: "assets/petitions/2026-06-16 petition for course registration deadline extension.jpg", status: "Pending" },
+            { date: "Jun 19, 2026", title: "Wi-Fi Improvement in Traditional Halls", img: "assets/petitions/2026-06-19 petition for the improvement of wifi connectivity in the traditional halls.jpg", status: "Under Review" },
+            { date: "Jun 19, 2026", title: "24hr Reading Room Connectivity", img: "assets/petitions/2026-06-19 request for the immediate attention to the poor wifi connectivity issues in the 24hr reading room.jpg", status: "Submitted" },
+            { date: "Jun 24, 2026", title: "Practical Fees on CBAS Students", img: "assets/petitions/2026-06-24 petition on imposition of practical fees on cbas students.jpg", status: "Negotiating" },
+            { date: "Jun 26, 2026", title: "Accra City Campus Welfare", img: "assets/petitions/2026-06-26 petion on the improvment of learning facilities and student welfare at the accra city campus.jpg", status: "Pending" },
+            { date: "Jun 26, 2026", title: "SBAHS Transportation Challenges", img: "assets/petitions/2026-06-26 petiton on the trannsportation challenges faced by the students of the SBAHS.jpg", status: "Action Taken" },
+            { date: "Jun 30, 2026", title: "Exam Center Security Measures", img: "assets/petitions/2026-06-30 petition on the inadequate security measures for students valuables at examiniation centers.jpg", status: "Accepted" },
+            { date: "Jun 26, 2026", title: "SBAS Lecture Venues", img: "assets/petitions/2026.06.26 petition on  lack of adequate lecture venues for sbas students.jpg", status: "In Progress" },
+            { date: "Jun 30, 2026", title: "Transportation Fares Address", img: "assets/petitions/2026.06.30 address on transportation fares.jpg", status: "Discussed" },
+            { date: "Jul 2, 2026", title: "Organic Chemistry Tutorial", img: "assets/petitions/2026.07.02 organic chemistry pre ia tutorials on teams.jpg", status: "Scheduled" },
+            { date: "Jul 4, 2026", title: "African Studies Tutorial (Teams)", img: "assets/petitions/2026.07.04  african studies pre ai tutorial on teams.jpg", status: "Confirmed" },
+            { date: "Jul 4, 2026", title: "African Studies Tutorial (Zoom)", img: "assets/petitions/2026.07.04 african studies pre-ia tutorial on zoom.jpg", status: "Confirmed" },
+            { date: "Accepted", title: "Course Registration Extension Accepted", img: "assets/petitions/petition for course registration deadline extension accepted.jpg", status: "✅ Success!" }
+        ];
+
+        let tutorialsData = [];
+
+        async function parseCSV(url) {
+            const res = await fetch(url);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1).map(row => {
+                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                return cols.map(col => col.replace(/^"|"$/g, '').trim());
+            }).filter(r => r.length > 0 && r[0]);
+            return rows;
+        }
+
+        function renderPetitions() {
+            const container = document.getElementById('petitions-grid');
+            container.innerHTML = PETITIONS_DATA.map(pet => `
+                <div class="gallery-item" data-title="${pet.title.toLowerCase()}" data-status="${pet.status.toLowerCase()}">
+                    <img src="${pet.img}" alt="${pet.title}" class="petition-img">
+                    <div class="gallery-overlay">
+                        <h4>${pet.title}</h4>
+                        <p style="opacity: 0.9; margin-top: 0.5rem;">Status: ${pet.status}</p>
+                        <small>${pet.date}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function renderTutorials() {
+            try {
+                tutorialsData = await parseCSV(TUTORIALS_CSV);
+                const container = document.getElementById('tutorials-grid');
+                container.innerHTML = tutorialsData.map((row, idx) => `
+                    <div class="card" data-title="${row[0]?.toLowerCase() || ''}" data-meta="${row.slice(1).join(' ').toLowerCase()}">
+                        <div class="card-content">
+                            <h4 class="card-title">${row[0] || 'Tutorial'}</h4>
+                            <p class="card-desc">${row.slice(1).join(' ') || ''}</p>
+                            <div class="card-meta">
+                                <span>📅 Tutorial</span>
+                                <span>#${idx + 1}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('') || '<div class="no-results">No upcoming tutorials scheduled</div>';
+                document.querySelector('#tutorials-section .loading').style.display = 'none';
+            } catch (err) {
+                console.error('Error loading tutorials:', err);
+                document.querySelector('#tutorials-section .loading').textContent = 'Failed to load tutorials.';
+            }
+        }
+
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('petitions-section').style.display = tabName === 'petitions' ? 'block' : 'none';
+            document.getElementById('tutorials-section').style.display = tabName === 'tutorials' ? 'block' : 'none';
+        }
+
+        function setupSearch() {
+            document.getElementById('guide-search').addEventListener('input', e => {
+                const query = e.target.value.toLowerCase();
+                const items = document.querySelectorAll('.gallery-item');
+                items.forEach(item => {
+                    const match = item.dataset.title.includes(query) || item.dataset.status.includes(query);
+                    item.style.display = match ? 'block' : 'none';
+                });
+            });
+        }
+
+        renderPetitions();
+        renderTutorials();
+    </script>
+</body>
+</html>

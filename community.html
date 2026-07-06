@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Community | Abednego Lomazah</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <style>
+        body { margin: 0; }
+        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; }
+        .nav-links a.active { background: var(--secondary); color: var(--primary); }
+        .whatsapp-card .card-img { height: 150px; background: linear-gradient(135deg, #25D366, #128C7E); display: flex; align-items: center; justify-content: center; }
+        .whatsapp-card .card-img::before { content: "💬"; font-size: 3rem; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="community.html" class="active">Community</a></li>
+            <li><a href="guides.html">Guides</a></li>
+            <li><a href="updates.html">Updates</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Community Channels</h2>
+            <p class="subtitle">Join 5000+ students across 72+ WhatsApp groups</p>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="group-search" class="search-input" placeholder="Search groups by department, college, level...">
+        </div>
+
+        <div class="loading">Loading groups...</div>
+        <div id="groups-grid" class="cards-grid"></div>
+    </div>
+
+    <div class="container">
+        <div style="background: linear-gradient(135deg, var(--secondary), var(--accent)); padding: 2rem; border-radius: 12px; text-align: center;">
+            <h3 style="color: var(--primary); margin-bottom: 1rem;">Can't find your group?</h3>
+            <p style="margin-bottom: 1rem;">Request your department group via the form below</p>
+            <a href="#" class="cta-btn">Submit Group Request</a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
+        <ul class="footer-links">
+            <li><a href="#">WhatsApp Channel</a></li>
+            <li><a href="#">Telegram</a></li>
+            <li><a href="#">Instagram</a></li>
+        </ul>
+    </footer>
+
+    <script>
+        const GROUPS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=497908091&single=true&output=csv';
+
+        let groupsData = [];
+
+        async function parseCSV(url) {
+            const res = await fetch(url);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1).map(row => {
+                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+                return cols.map(col => col.replace(/^"|"$/g, '').trim());
+            }).filter(r => r.length > 0 && r[0]);
+            return rows;
+        }
+
+        function renderGroups(data) {
+            const container = document.getElementById('groups-grid');
+            container.innerHTML = data.map((row, idx) => `
+                <div class="card whatsapp-card" data-name="${row[0]?.toLowerCase() || ''}" data-details="${row.slice(1).join(' ').toLowerCase()}">
+                    <div class="card-content">
+                        <h4 class="card-title">${row[0] || 'Unknown Group'}</h4>
+                        <p class="card-desc">${row.slice(1).join(' ') || 'Click to join via WhatsApp link'}</p>
+                        <div class="card-meta">
+                            <span>📱 WhatsApp Group</span>
+                            <span>${idx + 1} of ${data.length}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('') || '<div class="no-results">No groups available</div>';
+        }
+
+        function setupSearch(inputId) {
+            const input = document.getElementById(inputId);
+            input.addEventListener('input', e => {
+                const query = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('.whatsapp-card');
+                let visibleCount = 0;
+                cards.forEach(card => {
+                    const match = card.dataset.name.includes(query) || card.dataset.details.includes(query);
+                    card.style.display = match ? 'block' : 'none';
+                    if (match) visibleCount++;
+                });
+            });
+        }
+
+        async function init() {
+            try {
+                groupsData = await parseCSV(GROUPS_CSV);
+                renderGroups(groupsData);
+                setupSearch('group-search');
+            } catch (err) {
+                console.error('Error loading groups:', err);
+                document.querySelector('.loading').textContent = 'Failed to load groups. Try refreshing.';
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
