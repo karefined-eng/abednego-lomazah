@@ -1,121 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Guides | Abednego Lomazah</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        body { margin: 0; }
-        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; }
-        .nav-links a.active { background: var(--secondary); color: var(--primary); }
-        .guide-img { width: 100%; height: 300px; object-fit: contain; background: #f8f8f8; border-radius: 8px; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Guides | Abednego Lomazah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/site.css" />
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="resources.html">Resources</a></li>
-            <li><a href="community.html">Community</a></li>
-            <li><a href="guides.html" class="active">Guides</a></li>
-            <li><a href="updates.html">Updates</a></li>
-        </ul>
-    </nav>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="guides.html" class="active">Guides</a></li>
+      <li><a href="updates.html">Updates</a></li>
+    </ul>
+  </nav>
 
+  <section class="page-section-top">
     <div class="container">
-        <div class="page-header">
-            <h2>How-To Guides</h2>
-            <p class="subtitle">Step-by-step screenshots for campus navigation</p>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="guide-search" class="search-input" placeholder="Search guides by keyword (PIN, admission, resit, email...)">
-        </div>
-
-        <div id="guides-list" class="gallery-grid"></div>
+      <div class="page-header">
+        <h2>HOW-TO GUIDES</h2>
+        <p class="subtitle">Search the latest step-by-step guides from the live Google Sheet data.</p>
+      </div>
+      <input class="searchbar" id="guide-search" type="text" placeholder="Search by title, summary, or type" />
+      <div class="loading" id="guides-loading">Loading guides...</div>
+      <div class="gallery-grid" id="guides-list"></div>
     </div>
+  </section>
 
-    <footer class="footer">
-        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
-        <ul class="footer-links">
-            <li><a href="#">WhatsApp Channel</a></li>
-            <li><a href="#">Telegram</a></li>
-            <li><a href="#">Instagram</a></li>
-        </ul>
-    </footer>
+  <footer class="footer">
+    <span class="footer-brand">ABEDNEGO LOMAZAH</span>
+    <ul class="footer-links">
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="updates.html">Updates</a></li>
+    </ul>
+  </footer>
 
-    <script>
-        // Metadata index for static images (searchable)
-        const GUIDES_INDEX = [
-            { 
-                title: "Change MIS PIN or Password", 
-                desc: "Reset your student portal credentials",
-                img: "assets/guides/changing my pin or password on mis web or sts.jpg",
-                keywords: ["pin", "password", "mis", "portal", "credentials"]
-            },
-            { 
-                title: "Apply for UG Admission", 
-                desc: "Complete undergraduate application guide",
-                img: "assets/guides/how to apply for ug admission.jpg",
-                keywords: ["admission", "apply", "application", "ug", "undergraduate"]
-            },
-            { 
-                title: "Supplementary Resit Registration", 
-                desc: "Notice and requirements for supplementary exams",
-                img: "assets/guides/notice on suplementary resit registration.jpg",
-                keywords: ["resit", "supplementary", "exam", "registration", "retake"]
-            },
-            { 
-                title: "Request for Remarking", 
-                desc: "Procedure for exam result review",
-                img: "assets/guides/request for remarking or review of exams results.jpg",
-                keywords: ["remark", "review", "result", "exam", "grade"]
-            },
-            { 
-                title: "Sample Remarking Letter", 
-                desc: "Template for formal remarking requests",
-                img: "assets/guides/sample request for remarking letter.jpg",
-                keywords: ["letter", "template", "remarking", "request", "formal"]
-            },
-            { 
-                title: "Student Email Activation", 
-                desc: "Steps to activate your @st.ug.edu.gh account",
-                img: "assets/guides/steps for student email activation.jpg",
-                keywords: ["email", "activation", "account", "@st.ug.edu.gh"]
-            }
-        ];
+  <script src="assets/js/cms.js"></script>
+  <script>
+    const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
+    const guidesList = document.getElementById('guides-list');
+    const guideSearch = document.getElementById('guide-search');
+    const guidesLoading = document.getElementById('guides-loading');
+    let allGuides = [];
 
-        function renderGuides(guides) {
-            const container = document.getElementById('guides-list');
-            container.innerHTML = guides.map(guide => `
-                <div class="gallery-item" data-title="${guide.title.toLowerCase()}" data-keywords="${guide.keywords.join(' ')}">
-                    <img src="${guide.img}" alt="${guide.title}" class="guide-img">
-                    <div class="gallery-overlay">
-                        <h4>${guide.title}</h4>
-                        <p style="opacity: 0.9; margin-top: 0.5rem;">${guide.desc}</p>
-                    </div>
-                </div>
-            `).join('') || '<div class="no-results">No guides found matching your search</div>';
-        }
+    function renderGuides(guides) {
+      guidesList.innerHTML = guides.length
+        ? guides.map((guide) => `
+          <article class="gallery-item" data-search="${(guide.title + ' ' + guide.type + ' ' + guide.summary + ' ' + guide.status).toLowerCase()}">
+            <div class="course-icon">📝</div>
+            <div class="course-code">${guide.type || 'Guide'}</div>
+            <h4>${guide.title || 'Guide'}</h4>
+            <p>${guide.summary || 'No summary provided.'}</p>
+            <p style="margin-top: 0.6rem;"><strong>Status:</strong> ${guide.status || 'Unknown'}</p>
+            ${guide.date && !window.cms.isPlaceholderValue(guide.date) ? `<p style="margin-top: 0.3rem;"><strong>Date:</strong> ${guide.date}</p>` : ''}
+          </article>`).join('')
+        : '<div class="empty-state">No guides match your search.</div>';
+    }
 
-        function filterGuides(query) {
-            const lowerQuery = query.toLowerCase();
-            const filtered = GUIDES_INDEX.filter(g => 
-                g.title.toLowerCase().includes(lowerQuery) ||
-                g.keywords.some(k => k.includes(lowerQuery))
-            );
-            renderGuides(filtered);
-        }
+    function applySearch(query) {
+      const normalized = query.toLowerCase();
+      const filtered = allGuides.filter((guide) => {
+        const haystack = `${guide.title} ${guide.type} ${guide.summary} ${guide.status}`.toLowerCase();
+        return haystack.includes(normalized);
+      });
+      renderGuides(filtered);
+    }
 
-        function setupSearch() {
-            const input = document.getElementById('guide-search');
-            input.addEventListener('input', e => filterGuides(e.target.value));
-        }
+    guideSearch.addEventListener('input', (event) => applySearch(event.target.value));
 
-        renderGuides(GUIDES_INDEX);
-        setupSearch();
-    </script>
+    async function init() {
+      try {
+        const rows = await window.cms.fetchCSV(GUIDES_CSV);
+        allGuides = rows.map((row) => ({
+          date: row[0] || '',
+          type: row[1] || '',
+          title: row[2] || '',
+          summary: row[3] || '',
+          status: row[4] || '',
+          sourceLink: row[5] || ''
+        })).filter((guide) => guide.title && !window.cms.isPlaceholderValue(guide.title));
+        renderGuides(allGuides);
+        guidesLoading.style.display = 'none';
+      } catch (error) {
+        console.error(error);
+        guidesLoading.textContent = 'Failed to load guides.';
+      }
+    }
+
+    init();
+  </script>
 </body>
 </html>

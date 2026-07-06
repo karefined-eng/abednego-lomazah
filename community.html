@@ -1,118 +1,110 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Community | Abednego Lomazah</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        body { margin: 0; }
-        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; }
-        .nav-links a.active { background: var(--secondary); color: var(--primary); }
-        .whatsapp-card .card-img { height: 150px; background: linear-gradient(135deg, #25D366, #128C7E); display: flex; align-items: center; justify-content: center; }
-        .whatsapp-card .card-img::before { content: "💬"; font-size: 3rem; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community | Abednego Lomazah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/site.css" />
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="resources.html">Resources</a></li>
-            <li><a href="community.html" class="active">Community</a></li>
-            <li><a href="guides.html">Guides</a></li>
-            <li><a href="updates.html">Updates</a></li>
-        </ul>
-    </nav>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="community.html" class="active">Community</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="updates.html">Updates</a></li>
+    </ul>
+  </nav>
 
+  <section class="page-section-top">
     <div class="container">
-        <div class="page-header">
-            <h2>Community Channels</h2>
-            <p class="subtitle">Join 5000+ students across 72+ WhatsApp groups</p>
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="group-search" class="search-input" placeholder="Search groups by department, college, level...">
-        </div>
-
-        <div class="loading">Loading groups...</div>
-        <div id="groups-grid" class="cards-grid"></div>
+      <div class="page-header">
+        <h2>WHATSAPP COMMUNITY</h2>
+        <p class="subtitle">Search and join the communities that fit your programme, college, or level.</p>
+      </div>
+      <input class="searchbar" id="group-search" type="text" placeholder="Search by category, group name, or notes" />
+      <div class="loading" id="groups-loading">Loading groups...</div>
+      <div class="wa-grid" id="groups-grid"></div>
     </div>
+  </section>
 
-    <div class="container">
-        <div style="background: linear-gradient(135deg, var(--secondary), var(--accent)); padding: 2rem; border-radius: 12px; text-align: center;">
-            <h3 style="color: var(--primary); margin-bottom: 1rem;">Can't find your group?</h3>
-            <p style="margin-bottom: 1rem;">Request your department group via the form below</p>
-            <a href="#" class="cta-btn">Submit Group Request</a>
-        </div>
-    </div>
+  <footer class="footer">
+    <span class="footer-brand">ABEDNEGO LOMAZAH</span>
+    <ul class="footer-links">
+      <li><a href="resources.html">Resources</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="updates.html">Updates</a></li>
+    </ul>
+  </footer>
 
-    <footer class="footer">
-        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
-        <ul class="footer-links">
-            <li><a href="#">WhatsApp Channel</a></li>
-            <li><a href="#">Telegram</a></li>
-            <li><a href="#">Instagram</a></li>
-        </ul>
-    </footer>
+  <script src="assets/js/cms.js"></script>
+  <script>
+    const GROUPS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=497908091&single=true&output=csv';
+    const groupsGrid = document.getElementById('groups-grid');
+    const groupSearch = document.getElementById('group-search');
+    const groupsLoading = document.getElementById('groups-loading');
 
-    <script>
-        const GROUPS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=497908091&single=true&output=csv';
+    let allGroups = [];
 
-        let groupsData = [];
+    function renderGroups(groups) {
+      const grouped = groups.reduce((acc, group) => {
+        const category = group.category || 'General';
+        if (!acc[category]) acc[category] = [];
+        acc[category].push(group);
+        return acc;
+      }, {});
 
-        async function parseCSV(url) {
-            const res = await fetch(url);
-            const text = await res.text();
-            const rows = text.split('\n').slice(1).map(row => {
-                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-                return cols.map(col => col.replace(/^"|"$/g, '').trim());
-            }).filter(r => r.length > 0 && r[0]);
-            return rows;
-        }
+      groupsGrid.innerHTML = Object.keys(grouped).length
+        ? Object.entries(grouped).map(([category, items]) => `
+          <div style="grid-column: 1 / -1;">
+            <h3 class="section-title" style="font-size: 1.4rem; margin-bottom: 0.8rem;">${category}</h3>
+            <div class="wa-grid">
+              ${items.map((group) => `
+                <article class="wa-card" data-search="${(group.category + ' ' + group.name + ' ' + group.notes).toLowerCase()}">
+                  <div class="wa-card-icon">💬</div>
+                  <h3>${group.name || 'WhatsApp Group'}</h3>
+                  <p>${group.notes || 'Join the community to get updates and resources.'}</p>
+                  ${group.link && !window.cms.isPlaceholderValue(group.link) ? `<a href="${group.link}" target="_blank" rel="noopener" class="wa-btn">Join Group →</a>` : '<span class="filter-chip" style="display:inline-block; margin-top:0.2rem;">Link unavailable</span>'}
+                </article>`).join('')}
+            </div>
+          </div>`).join('')
+        : '<div class="empty-state">No groups match your search.</div>';
+    }
 
-        function renderGroups(data) {
-            const container = document.getElementById('groups-grid');
-            container.innerHTML = data.map((row, idx) => `
-                <div class="card whatsapp-card" data-name="${row[0]?.toLowerCase() || ''}" data-details="${row.slice(1).join(' ').toLowerCase()}">
-                    <div class="card-content">
-                        <h4 class="card-title">${row[0] || 'Unknown Group'}</h4>
-                        <p class="card-desc">${row.slice(1).join(' ') || 'Click to join via WhatsApp link'}</p>
-                        <div class="card-meta">
-                            <span>📱 WhatsApp Group</span>
-                            <span>${idx + 1} of ${data.length}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<div class="no-results">No groups available</div>';
-        }
+    function applySearch(query) {
+      const normalized = query.toLowerCase();
+      const filtered = allGroups.filter((group) => {
+        const haystack = `${group.category} ${group.name} ${group.notes}`.toLowerCase();
+        return haystack.includes(normalized);
+      });
+      renderGroups(filtered);
+    }
 
-        function setupSearch(inputId) {
-            const input = document.getElementById(inputId);
-            input.addEventListener('input', e => {
-                const query = e.target.value.toLowerCase();
-                const cards = document.querySelectorAll('.whatsapp-card');
-                let visibleCount = 0;
-                cards.forEach(card => {
-                    const match = card.dataset.name.includes(query) || card.dataset.details.includes(query);
-                    card.style.display = match ? 'block' : 'none';
-                    if (match) visibleCount++;
-                });
-            });
-        }
+    groupSearch.addEventListener('input', (event) => applySearch(event.target.value));
 
-        async function init() {
-            try {
-                groupsData = await parseCSV(GROUPS_CSV);
-                renderGroups(groupsData);
-                setupSearch('group-search');
-            } catch (err) {
-                console.error('Error loading groups:', err);
-                document.querySelector('.loading').textContent = 'Failed to load groups. Try refreshing.';
-            }
-        }
+    async function init() {
+      try {
+        const rows = await window.cms.fetchCSV(GROUPS_CSV);
+        allGroups = rows.map((row) => ({
+          category: row[0] || '',
+          name: row[1] || '',
+          link: row[2] || '',
+          notes: row[3] || ''
+        })).filter((group) => group.name && !window.cms.isPlaceholderValue(group.name));
+        renderGroups(allGroups);
+        groupsLoading.style.display = 'none';
+      } catch (error) {
+        console.error(error);
+        groupsLoading.textContent = 'Failed to load community groups.';
+      }
+    }
 
-        init();
-    </script>
+    init();
+  </script>
 </body>
 </html>

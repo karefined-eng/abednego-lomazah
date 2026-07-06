@@ -1,162 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Courses & Recordings | Abednego Lomazah</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <style>
-        body { margin: 0; }
-        .nav-links a { color: var(--white); text-decoration: none; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.3s; }
-        .nav-links a:hover, .nav-links a.active { background: var(--secondary); color: var(--primary); }
-        .search-input { width: 100%; padding: 1rem 1.5rem; border: 2px solid var(--accent); border-radius: 50px; font-size: 1.1rem; outline: none; }
-        .search-input:focus { border-color: var(--secondary); }
-        .tabs { display: flex; justify-content: center; gap: 1rem; margin: 2rem 0; }
-        .tab-btn { padding: 0.8rem 2rem; border: none; background: var(--accent); cursor: pointer; border-radius: 8px; font-size: 1rem; transition: background 0.3s; }
-        .tab-btn.active { background: var(--secondary); font-weight: bold; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Resources | Abednego Lomazah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/site.css" />
 </head>
 <body>
-    <nav class="navbar">
-        <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-        <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="resources.html" class="active">Resources</a></li>
-            <li><a href="community.html">Community</a></li>
-            <li><a href="guides.html">Guides</a></li>
-            <li><a href="updates.html">Updates</a></li>
-        </ul>
-    </nav>
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">Abednego Lomazah</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="resources.html" class="active">Resources</a></li>
+      <li><a href="community.html">Community</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="updates.html">Updates</a></li>
+    </ul>
+  </nav>
 
+  <section class="page-section-top">
     <div class="container">
-        <div class="page-header">
-            <h2>Courses & Recordings</h2>
-            <p class="subtitle">Complete course library + Tutorial recordings</p>
-        </div>
+      <div class="page-header">
+        <h2>COURSE LIBRARY</h2>
+        <p class="subtitle">Browse student resources assembled from the live Google Sheet CMS.</p>
+      </div>
 
-        <div class="search-container">
-            <input type="text" id="course-search" class="search-input" placeholder="Search courses by title, department, semester...">
-        </div>
+      <input class="searchbar" id="resource-search" type="text" placeholder="Search by college, programme, semester, or notes" aria-label="Search student resources and Drive folders" />
+      <p class="search-help">Search for a course or college to find the matching Google Drive folder.</p>
+      <p class="search-summary" id="search-summary" aria-live="polite"></p>
+      <div class="filters" id="resource-filters"></div>
+      <div class="filters">
+        <select class="filter-select" id="semester-filter" title="Filter by semester" aria-label="Filter by semester">
+          <option value="All">All semesters</option>
+          <option value="1st">1st Semester</option>
+          <option value="2nd">2nd Semester</option>
+          <option value="Both">Both</option>
+        </select>
+      </div>
 
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('courses')">Courses Library</button>
-            <button class="tab-btn" onclick="showTab('recordings')">Recordings</button>
-        </div>
-
-        <div id="courses-section">
-            <div class="loading">Loading courses...</div>
-            <div id="courses-grid" class="cards-grid"></div>
-        </div>
-
-        <div id="recordings-section" style="display: none;">
-            <div class="loading">Loading recordings...</div>
-            <div id="recordings-grid" class="cards-grid"></div>
-        </div>
+      <div class="loading" id="resources-loading">Loading resources...</div>
+      <div class="courses-grid" id="resources-grid"></div>
     </div>
+  </section>
 
-    <footer class="footer">
-        <p>&copy; 2026 Abednego Lomazah | UG SRC Presidential Campaign</p>
-        <ul class="footer-links">
-            <li><a href="#">WhatsApp Channel</a></li>
-            <li><a href="#">Telegram</a></li>
-            <li><a href="#">Instagram</a></li>
-        </ul>
-    </footer>
+  <section class="section-dark page-section-dark">
+    <div class="container">
+      <div class="page-header">
+        <h2>RECORDINGS</h2>
+        <p class="subtitle">Tutorial recordings and revision sessions curated from the CMS.</p>
+      </div>
+      <div class="loading" id="recordings-loading">Loading recordings...</div>
+      <div class="recordings-grid" id="recordings-grid"></div>
+    </div>
+  </section>
 
-    <script>
-        const COURSES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
-        const RECORDINGS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1588089500&single=true&output=csv';
+  <footer class="footer">
+    <span class="footer-brand">ABEDNEGO LOMAZAH</span>
+    <ul class="footer-links">
+      <li><a href="community.html">Community</a></li>
+      <li><a href="guides.html">Guides</a></li>
+      <li><a href="updates.html">Updates</a></li>
+    </ul>
+  </footer>
 
-        let coursesData = [];
-        let recordingsData = [];
+  <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true">
+    <div class="modal-box">
+      <div class="modal-header">
+        <span class="modal-title" id="modalTitle">Drive Folder</span>
+        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      </div>
+      <iframe class="modal-frame" id="modalFrame" title="Drive Folder" loading="lazy"></iframe>
+    </div>
+  </div>
 
-        async function parseCSV(url) {
-            const res = await fetch(url);
-            const text = await res.text();
-            const rows = text.split('\n').slice(1).map(row => {
-                const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-                return cols.map(col => col.replace(/^"|"$/g, '').trim());
-            }).filter(r => r.length > 0 && r[0]);
-            return rows;
+  <script src="assets/js/cms.js"></script>
+  <script>
+    const RESOURCE_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
+    const RECORDINGS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1588089500&single=true&output=csv';
+
+    const resourcesGrid = document.getElementById('resources-grid');
+    const recordingsGrid = document.getElementById('recordings-grid');
+    const resourceSearch = document.getElementById('resource-search');
+    const resourceFilters = document.getElementById('resource-filters');
+    const resourcesLoading = document.getElementById('resources-loading');
+    const recordingsLoading = document.getElementById('recordings-loading');
+
+    let allResources = [];
+    let activeFilter = 'All';
+
+    function createCardMarkup(item, kind) {
+      if (kind === 'resource') {
+        return `
+          <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0">
+            <div class="course-icon">📂</div>
+            <div class="course-code">${item.college || 'UNIVERSAL'}</div>
+            <h3 class="course-name">${item.programme || 'Untitled resource'}</h3>
+            <p class="course-desc">${item.notes || 'Live resource folder from the campaign CMS.'}</p>
+            <div class="course-open">Open Folder</div>
+          </article>`;
+      }
+      return `
+        <article class="recording-card" data-search="${(item.course + ' ' + item.type + ' ' + item.level + ' ' + item.description).toLowerCase()}" data-folder-id="${item.folderId || ''}">
+          <div class="rec-icon">🎥</div>
+          <div class="rec-label">${item.type || 'Recording'}</div>
+          <h3 class="rec-title">${item.course || 'Recording'}</h3>
+          <p class="rec-desc">${item.description || ''}</p>
+        </article>`;
+    }
+
+    function openResourceFolder(card) {
+      const folderId = card.dataset.folderId || '';
+      if (folderId) {
+        window.openDriveModal(card.querySelector('.course-name').textContent, folderId);
+      }
+    }
+
+    function renderResources(resources) {
+      const semesterFilter = document.getElementById('semester-filter').value;
+      const filtered = resources.filter((item) => {
+        const collegeMatch = activeFilter === 'All' || item.college === activeFilter;
+        const semesterValue = String(item.semester || '').toLowerCase();
+        const semesterMatch = semesterFilter === 'All' || semesterValue === semesterFilter.toLowerCase() || (semesterFilter === 'Both' && semesterValue === 'both');
+        return collegeMatch && semesterMatch;
+      });
+      resourcesGrid.innerHTML = filtered.length
+        ? filtered.map((item) => createCardMarkup(item, 'resource')).join('')
+        : '<div class="empty-state">No resources match your search yet. Try a different college, programme, or semester.</div>';
+
+      resourcesGrid.querySelectorAll('.course-card').forEach((card) => {
+        card.addEventListener('click', () => openResourceFolder(card));
+        card.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            openResourceFolder(card);
+          }
+        });
+      });
+
+      const summary = document.getElementById('search-summary');
+      if (summary) {
+        const query = resourceSearch.value.trim();
+        if (query) {
+          summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'folder' : 'folders'} match “${query}”.`;
+        } else {
+          summary.textContent = `${filtered.length} resource ${filtered.length === 1 ? 'folder is' : 'folders are'} available.`;
         }
+      }
+    }
 
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('[onclick]').forEach(b => {
-                if (b.textContent.toLowerCase().includes(tabName === 'courses' ? 'courses' : 'recordings')) {
-                    b.classList.add('active');
-                }
-            });
-            document.getElementById('courses-section').style.display = tabName === 'courses' ? 'block' : 'none';
-            document.getElementById('recordings-section').style.display = tabName === 'recordings' ? 'block' : 'none';
+    function renderRecordings(recordings) {
+      recordingsGrid.innerHTML = recordings.length
+        ? recordings.map((item) => createCardMarkup(item, 'recording')).join('')
+        : '<div class="empty-state">No recordings are available right now.</div>';
+
+      recordingsGrid.querySelectorAll('.recording-card').forEach((card) => {
+        card.addEventListener('click', () => {
+          const folderId = card.dataset.folderId || '';
+          if (folderId) {
+            window.openDriveModal(card.querySelector('.rec-title').textContent, folderId);
+          }
+        });
+      });
+    }
+
+    function renderFilters(resources) {
+      const colleges = ['All', ...new Set(resources.map((item) => item.college).filter(Boolean))];
+      resourceFilters.innerHTML = colleges.map((college) => `
+        <button class="filter-chip ${college === activeFilter ? 'active' : ''}" data-college="${college}">${college}</button>
+      `).join('');
+
+      resourceFilters.querySelectorAll('.filter-chip').forEach((button) => {
+        button.addEventListener('click', () => {
+          activeFilter = button.dataset.college;
+          renderFilters(resources);
+          renderResources(resources);
+        });
+      });
+    }
+
+    function applySearch(query, resources, recordings) {
+      const normalized = query.toLowerCase();
+      const filteredResources = resources.filter((item) => {
+        const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`.toLowerCase();
+        return haystack.includes(normalized);
+      });
+      const filteredRecordings = recordings.filter((item) => {
+        const haystack = `${item.course} ${item.type} ${item.level} ${item.description}`.toLowerCase();
+        return haystack.includes(normalized);
+      });
+      renderResources(filteredResources);
+      renderRecordings(filteredRecordings);
+    }
+
+    resourceSearch.addEventListener('input', (event) => {
+      applySearch(event.target.value, allResources, allRecordings);
+    });
+
+    resourceSearch.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        const query = resourceSearch.value.trim().toLowerCase();
+        if (!query) return;
+        const matches = allResources.filter((item) => {
+          const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`.toLowerCase();
+          return haystack.includes(query);
+        });
+        if (matches.length === 1 && matches[0].folderId) {
+          window.openDriveModal(matches[0].programme || 'Resource', matches[0].folderId);
         }
+      }
+    });
 
-        function renderCards(data, containerId, type) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = data.map(item => `
-                <div class="card ${type}-card" data-title="${item[0]?.toLowerCase() || ''}" data-tags="${item.join(' ').toLowerCase()}">
-                    <div class="card-content">
-                        <h4 class="card-title">${item[0] || 'Untitled'}</h4>
-                        <p class="card-desc">${item.slice(1).join(' ') || ''}</p>
-                        <div class="card-meta">
-                            <span>${item[item.length-2] || 'N/A'}</span>
-                            <span>${item[item.length-1] || 'N/A'}</span>
-                        </div>
-                    </div>
-                </div>
-            `).join('') || '<div class="no-results">No items found</div>';
-        }
+    document.getElementById('semester-filter').addEventListener('change', () => {
+      renderResources(allResources);
+    });
 
-        async function init() {
-            try {
-                coursesData = await parseCSV(COURSES_CSV);
-                recordingsData = await parseCSV(RECORDINGS_CSV);
-                
-                const headers = ['Title', ...Array(coursesData[0]?.length - 1 || 0).fill('Details')];
-                renderCardsWithHeaders(coursesData, 'courses-grid', headers);
-                renderCardsWithHeaders(recordingsData, 'recordings-grid', headers);
-            } catch (err) {
-                console.error('Error loading data:', err);
-                document.querySelectorAll('.loading').forEach(l => l.textContent = 'Failed to load content. Try refreshing.');
-            }
-        }
+    let allRecordings = [];
 
-        function renderCardsWithHeaders(data, containerId, extraMeta) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = data.map((row, idx) => {
-                const title = row[0] || 'Untitled';
-                const meta = extraMeta.slice(1).map((h, i) => `${h}: ${row[i+1] || 'N/A'}`).join(' • ');
-                return `
-                    <div class="card" data-title="${title.toLowerCase()}" data-meta="${meta.toLowerCase()}">
-                        <div class="card-content">
-                            <h4 class="card-title">${title}</h4>
-                            <p class="card-desc">${meta}</p>
-                        </div>
-                    </div>
-                `;
-            }).join('') || '<div class="no-results">No courses available</div>';
-        }
+    async function init() {
+      try {
+        const resources = await window.cms.fetchCSV(RESOURCE_CSV);
+        const recordings = await window.cms.fetchCSV(RECORDINGS_CSV);
 
-        function setupSearch(inputId, gridSelector) {
-            const input = document.getElementById(inputId);
-            const grid = document.querySelector(gridSelector);
-            input.addEventListener('input', e => {
-                const query = e.target.value.toLowerCase();
-                const cards = grid.querySelectorAll('.card');
-                cards.forEach(card => {
-                    const match = card.dataset.title.includes(query) || card.dataset.meta?.includes(query);
-                    card.style.display = match ? 'block' : 'none';
-                });
-                const visible = Array.from(cards).filter(c => c.style.display !== 'none');
-                grid.innerHTML = visible.map(c => c.outerHTML).join('') || '<div class="no-results">No results found</div>';
-            });
-        }
+        allResources = resources.map((row) => ({
+          college: row[0] || 'Universal',
+          programme: row[1] || '',
+          semester: row[2] || '',
+          folderId: row[3] || '',
+          notes: row[4] || ''
+        })).filter((item) => item.folderId && item.programme);
 
-        init();
-        setTimeout(() => {
-            setupSearch('course-search', '#courses-grid');
-            setupSearch('course-search', '#recordings-grid');
-        }, 1000);
-    </script>
+        allRecordings = recordings.map((row) => ({
+          course: row[0] || '',
+          type: row[1] || '',
+          level: row[2] || '',
+          description: row[3] || '',
+          folderId: row[4] || ''
+        })).filter((item) => item.folderId && item.course);
+
+        renderResources(allResources);
+        renderRecordings(allRecordings);
+        renderFilters(allResources);
+        resourcesLoading.style.display = 'none';
+        recordingsLoading.style.display = 'none';
+      } catch (error) {
+        console.error(error);
+        resourcesLoading.textContent = 'Failed to load resources.';
+        recordingsLoading.textContent = 'Failed to load recordings.';
+      }
+    }
+
+    init();
+  </script>
 </body>
 </html>
