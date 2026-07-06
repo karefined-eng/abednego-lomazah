@@ -1,0 +1,15 @@
+{
+  "name": "abednego-lomazah",
+  "version": "1.0.0",
+  "description": "Personal website for Abednego Lomazah",
+  "scripts": {
+    "build": "echo 'Build completed'",
+    "lint": "echo 'No linting configured yet'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/speed-insights": "^1.1.0"
+  }
+}
