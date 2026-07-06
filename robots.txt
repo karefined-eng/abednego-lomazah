@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://abednego-lomazah.github.io/sitemap.xml
