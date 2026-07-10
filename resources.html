@@ -60,7 +60,7 @@
     <div class="container">
       <div class="page-header">
         <h2> TUTORIAL RECORDINGS</h2>
-        <p class="subtitle">Tutorial recordings and revision sessions curated by Abedego Lomazah.</p>
+        <p class="subtitle">Tutorial recordings and revision sessions curated by Abednego Lomazah.</p>
       </div>
       <div class="loading" id="recordings-loading">Loading session recordings...</div>
       <div class="recordings-grid" id="recordings-grid"></div>
@@ -80,9 +80,14 @@
     <div class="modal-box">
       <div class="modal-header">
         <span class="modal-title" id="modalTitle">Drive Folder</span>
-        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        <div class="modal-actions">
+          <a class="modal-open-link" id="modalOpenLink" href="#" target="_blank" rel="noopener noreferrer">Open in Drive ↗</a>
+          <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        </div>
       </div>
-      <iframe class="modal-frame" id="modalFrame" title="Drive Folder" loading="lazy"></iframe>
+      <div class="modal-body">
+        <iframe class="modal-frame" id="modalFrame" title="Drive Folder" loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 
@@ -100,6 +105,52 @@
 
     let allResources = [];
     let activeFilter = 'All';
+
+    function normalizeSearchText(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    }
+
+    function extractCourseCodes(text) {
+      return [...String(text || '').matchAll(/([a-z]+)(\d+)/gi)].map((match) => ({
+        subject: match[1].toLowerCase(),
+        number: Number(match[2])
+      }));
+    }
+
+    function matchesCourseQuery(query, haystack) {
+      const normalizedQuery = normalizeSearchText(query);
+      const normalizedHaystack = normalizeSearchText(haystack);
+
+      if (!normalizedQuery) {
+        return true;
+      }
+
+      if (normalizedHaystack.includes(normalizedQuery)) {
+        return true;
+      }
+
+      const queryParts = normalizedQuery.split(/\s+/).filter(Boolean);
+      const subject = queryParts.find((part) => part.length > 2 && !/^\d+$/.test(part));
+      const number = queryParts.find((part) => /^\d+$/.test(part));
+
+      if (!subject) {
+        return normalizedHaystack.includes(normalizedQuery);
+      }
+
+      const codes = extractCourseCodes(haystack);
+      if (!codes.length) {
+        return normalizedHaystack.includes(subject);
+      }
+
+      if (number) {
+        const targetNumber = Number(number);
+        return codes.some(({ subject: codeSubject, number: codeNumber }) => {
+          return codeSubject === subject && Math.abs(codeNumber - targetNumber) <= 1;
+        });
+      }
+
+      return codes.some(({ subject: codeSubject }) => codeSubject === subject);
+    }
 
     function createCardMarkup(item, kind) {
       if (kind === 'resource') {
@@ -138,7 +189,7 @@
       });
       resourcesGrid.innerHTML = filtered.length
         ? filtered.map((item) => createCardMarkup(item, 'resource')).join('')
-        : '<div class="empty-state">No resources match your search yet. Try a different college, programme, or semester.</div>';
+        : `<div class="empty-state">No matching folders were found. Try searching by your college first, then open the folder to browse the specific courses available there.</div>`;
 
       resourcesGrid.querySelectorAll('.course-card').forEach((card) => {
         card.addEventListener('click', () => openResourceFolder(card));
@@ -194,12 +245,12 @@
     function applySearch(query, resources, recordings) {
       const normalized = query.toLowerCase();
       const filteredResources = resources.filter((item) => {
-        const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`.toLowerCase();
-        return haystack.includes(normalized);
+        const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`;
+        return matchesCourseQuery(normalized, haystack);
       });
       const filteredRecordings = recordings.filter((item) => {
-        const haystack = `${item.course} ${item.type} ${item.level} ${item.description}`.toLowerCase();
-        return haystack.includes(normalized);
+        const haystack = `${item.course} ${item.type} ${item.level} ${item.description}`;
+        return matchesCourseQuery(normalized, haystack);
       });
       renderResources(filteredResources);
       renderRecordings(filteredRecordings);
@@ -215,8 +266,8 @@
         const query = resourceSearch.value.trim().toLowerCase();
         if (!query) return;
         const matches = allResources.filter((item) => {
-          const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`.toLowerCase();
-          return haystack.includes(query);
+          const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`;
+          return matchesCourseQuery(query, haystack);
         });
         if (matches.length === 1 && matches[0].folderId) {
           window.openDriveModal(matches[0].programme || 'Resource', matches[0].folderId);

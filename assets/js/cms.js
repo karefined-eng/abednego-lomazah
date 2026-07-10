@@ -83,7 +83,11 @@
   }
 
   function getDriveUrl(folderId) {
-    return `https://drive.google.com/embeddedfolderview?id=${encodeURIComponent(folderId)}#grid`;
+    return `https://drive.google.com/embeddedfolderview?id=${encodeURIComponent(folderId)}#list`;
+  }
+
+  function getDriveFolderUrl(folderId) {
+    return `https://drive.google.com/drive/folders/${encodeURIComponent(folderId)}?usp=sharing`;
   }
 
   function setupDriveModal() {
@@ -91,6 +95,7 @@
     const frame = document.getElementById('modalFrame');
     const title = document.getElementById('modalTitle');
     const closeBtn = document.getElementById('modalClose');
+    const openLink = document.getElementById('modalOpenLink');
 
     if (!overlay || !frame || !title || !closeBtn) {
       return;
@@ -98,7 +103,11 @@
 
     function openModal(name, folderId) {
       title.textContent = name;
+      frame.removeAttribute('srcdoc');
       frame.src = getDriveUrl(folderId);
+      if (openLink) {
+        openLink.href = getDriveFolderUrl(folderId);
+      }
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
     }

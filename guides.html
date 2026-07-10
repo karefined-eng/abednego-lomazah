@@ -52,17 +52,30 @@
     const guidesLoading = document.getElementById('guides-loading');
     let allGuides = [];
 
+    function getAdvocacyImage(title) {
+      const imageMap = {
+        'WiFi Connectivity on Campus': '2026-06-19 petition for the improvement of wifi connectivity in the traditional halls.jpg',
+        'Course Registration Deadline Extension': '2026-06-16 petition for course registration deadline extension.jpg',
+        'Exam Hall Belongings Security': '2026-06-30 petition on the inadequate security measures for students valuables at examiniation centers.jpg',
+        'Transportation Fares On Campus': '2026.06.30 address on transportation fares.jpg'
+      };
+      return imageMap[title];
+    }
+
     function renderGuides(guides) {
       guidesList.innerHTML = guides.length
-        ? guides.map((guide) => `
+        ? guides.map((guide) => {
+          const advocacyImage = guide.type === 'Advocacy' ? getAdvocacyImage(guide.title) : null;
+          return `
           <article class="gallery-item" data-search="${(guide.title + ' ' + guide.type + ' ' + guide.summary + ' ' + guide.status).toLowerCase()}">
-            <div class="course-icon">📝</div>
+            ${advocacyImage ? `<img src="assets/petitions/${encodeURIComponent(advocacyImage)}" alt="${guide.title}" style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 0.8rem;">` : `<div class="course-icon">📝</div>`}
             <div class="course-code">${guide.type || 'Guide'}</div>
             <h4>${guide.title || 'Guide'}</h4>
             <p>${guide.summary || 'No summary provided.'}</p>
             <p style="margin-top: 0.6rem;"><strong>Status:</strong> ${guide.status || 'Unknown'}</p>
             ${guide.date && !window.cms.isPlaceholderValue(guide.date) ? `<p style="margin-top: 0.3rem;"><strong>Date:</strong> ${guide.date}</p>` : ''}
-          </article>`).join('')
+          </article>`;
+        }).join('')
         : '<div class="empty-state">No guides match your search.</div>';
     }
 
