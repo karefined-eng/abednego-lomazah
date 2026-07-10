@@ -535,6 +535,87 @@ section { padding: 5rem 5vw; }
   text-decoration: none;
   opacity: 0.8;
 }
+
+/* Image Lightbox */
+.guide-thumbnail {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: var(--radius);
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.guide-thumbnail:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+.image-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 10, 0, 0.92);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  flex-direction: column;
+}
+.image-lightbox.active {
+  display: flex;
+}
+.lightbox-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  z-index: 10;
+}
+.lightbox-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.lightbox-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.lightbox-image-container {
+  max-width: 100%;
+  max-height: calc(100vh - 4rem);
+  overflow: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lightbox-image {
+  max-width: 100%;
+  max-height: calc(100vh - 4rem);
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  transform-origin: center;
+}
+.lightbox-image.zoomed {
+  transform: scale(1.5);
+  cursor: zoom-out;
+}
+.lightbox-image:not(.zoomed) {
+  cursor: zoom-in;
+}
+
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; text-align: center; }
   .hero-btns { justify-content: center; }

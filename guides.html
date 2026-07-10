@@ -56,6 +56,22 @@
     </ul>
   </footer>
 
+  <div class="image-lightbox" id="image-lightbox">
+    <div class="lightbox-topbar">
+      <button class="lightbox-btn" id="lightbox-share" aria-label="Share Image">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        Share
+      </button>
+      <button class="lightbox-btn" id="lightbox-close" aria-label="Close Lightbox">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        Close
+      </button>
+    </div>
+    <div class="lightbox-image-container">
+      <img src="" alt="Full view" class="lightbox-image" id="lightbox-img" />
+    </div>
+  </div>
+
   <script src="assets/js/cms.js"></script>
   <script>
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
@@ -64,12 +80,17 @@
     const guidesLoading = document.getElementById('guides-loading');
     let allGuides = [];
 
-    function getAdvocacyImage(title) {
+    function getGuideImage(title) {
       const imageMap = {
-        'WiFi Connectivity on Campus': '2026-06-19 petition for the improvement of wifi connectivity in the traditional halls.jpg',
-        'Course Registration Deadline Extension': '2026-06-16 petition for course registration deadline extension.jpg',
-        'Exam Hall Belongings Security': '2026-06-30 petition on the inadequate security measures for students valuables at examiniation centers.jpg',
-        'Transportation Fares On Campus': '2026.06.30 address on transportation fares.jpg'
+        'WiFi Connectivity on Campus': 'assets/petitions/2026-06-19 petition for the improvement of wifi connectivity in the traditional halls.jpg',
+        'Course Registration Deadline Extension': 'assets/petitions/2026-06-16 petition for course registration deadline extension.jpg',
+        'Exam Hall Belongings Security': 'assets/petitions/2026-06-30 petition on the inadequate security measures for students valuables at examiniation centers.jpg',
+        'Transportation Fares On Campus': 'assets/petitions/2026.06.30 address on transportation fares.jpg',
+        'Supplementary Resit Timetable Distribution': 'assets/guides/notice on suplementary resit registration.jpg',
+        'Student Data / Internet Connectivity': 'assets/petitions/2026-06-19 request for the immediate attention to the poor wifi connectivity issues in the 24hr reading room.jpg',
+        'How to Prepare for Science Course Finals (CHEM113 / PHYS143 / ABCS101 / MATH101)': 'assets/petitions/2026.07.02 organic chemistry pre ia tutorials on teams.jpg',
+        'How to Prepare for Your UGRC IA': 'assets/petitions/2026.07.04 african studies pre-ia tutorial on zoom.jpg',
+        'Free Tutorial Sessions (Zoom / Teams)': 'assets/petitions/2026.07.04  african studies pre ai tutorial on teams.jpg'
       };
       return imageMap[title];
     }
@@ -77,10 +98,11 @@
     function renderGuides(guides) {
       guidesList.innerHTML = guides.length
         ? guides.map((guide) => {
-          const advocacyImage = guide.type === 'Advocacy' ? getAdvocacyImage(guide.title) : null;
+          const guideImage = getGuideImage(guide.title);
+          const encodedImagePath = guideImage ? guideImage.split('/').map(p => encodeURIComponent(p)).join('/') : null;
           return `
           <article class="gallery-item" data-search="${(guide.title + ' ' + guide.type + ' ' + guide.summary + ' ' + guide.status).toLowerCase()}">
-            ${advocacyImage ? `<img src="assets/petitions/${encodeURIComponent(advocacyImage)}" alt="${guide.title}" style="width: 100%; height: auto; border-radius: 4px; margin-bottom: 0.8rem;">` : `<div class="course-icon">📝</div>`}
+            ${encodedImagePath ? `<img src="${encodedImagePath}" alt="${guide.title}" class="guide-thumbnail">` : `<div class="course-icon">📝</div>`}
             <div class="course-code">${guide.type || 'Guide'}</div>
             <h4>${guide.title || 'Guide'}</h4>
             <p>${guide.summary || 'No summary provided.'}</p>
@@ -101,6 +123,44 @@
     }
 
     guideSearch.addEventListener('input', (event) => applySearch(event.target.value));
+
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxShare = document.getElementById('lightbox-share');
+
+    guidesList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('guide-thumbnail')) {
+        lightboxImg.src = e.target.getAttribute('src');
+        lightboxImg.alt = e.target.getAttribute('alt');
+        lightboxImg.classList.remove('zoomed');
+        lightbox.classList.add('active');
+      }
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightboxImg.addEventListener('click', () => {
+      lightboxImg.classList.toggle('zoomed');
+    });
+
+    lightboxShare.addEventListener('click', async () => {
+      try {
+        if (navigator.share) {
+          const url = new URL(lightboxImg.getAttribute('src'), window.location.origin).href;
+          await navigator.share({
+            title: lightboxImg.alt,
+            url: url
+          });
+        } else {
+          alert('Sharing is not supported on this browser.');
+        }
+      } catch (err) {
+        console.error('Share failed:', err);
+      }
+    });
 
     async function init() {
       try {
