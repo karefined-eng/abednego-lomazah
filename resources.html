@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
   <title>Academic Resources | Compiled by Abednego Lomazah</title>
-  <meta name="description" content="Access a comprehensive library of academic resources and study materials for University of Ghana courses." />
+  <meta name="description"
+    content="Access a comprehensive library of academic resources and study materials for University of Ghana courses." />
   <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/resources.html" />
   <meta property="og:title" content="Academic Resources | Compiled by Abednego Lomazah" />
-  <meta property="og:description" content="Access a comprehensive library of academic resources and study materials for University of Ghana courses." />
+  <meta property="og:description"
+    content="Access a comprehensive library of academic resources and study materials for University of Ghana courses." />
   <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
   <meta property="og:url" content="https://abednego-lomazah-site.vercel.app/resources.html" />
   <meta property="og:type" content="website" />
@@ -23,14 +26,18 @@
   <link rel="preconnect" href="https://drive.google.com" />
   <link rel="preload" href="assets/css/site.css" as="style" />
   <link rel="preload" href="assets/js/cms.js" as="script" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
+
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu">☰</button>
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Open menu">☰</button>
     <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html" class="active" aria-current="page">Resources</a></li>
@@ -42,50 +49,46 @@
 
   <main id="main-content">
 
-  <section class="page-section-top">
-    <div class="container">
-      <div class="page-header">
-        <h1>COURSE LIBRARY</h1>
-        <p class="subtitle">Browse student resources assembled by Abednego Lomazah.</p>
+    <section class="page-section-top">
+      <div class="container">
+        <div class="page-header">
+          <h1>COURSE LIBRARY</h1>
+          <p class="subtitle">Browse student resources assembled by Abednego Lomazah.</p>
+        </div>
+
+        <input class="searchbar" id="resource-search" type="text"
+          placeholder="Search by college, programme, semester, or course code"
+          aria-label="Search student resources and Google Drive folders" />
+        <p class="search-help">Search for a course or college to find the matching Google Drive folder.</p>
+        <p class="search-summary" id="search-summary" aria-live="polite"></p>
+        <div class="filters" id="resource-filters" role="group" aria-label="Filter by college"></div>
+        <div class="filters">
+          <select class="filter-select" id="semester-filter" title="Filter by Semester" aria-label="Filter by Semester">
+            <option value="All">All Semesters</option>
+            <option value="1st">1st Semester</option>
+            <option value="2nd">2nd Semester</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
+
+        <!-- Tip #6: Skeleton screen for resources section -->
+        <div id="resources-loading" aria-live="polite" aria-label="Loading resources"></div>
+        <div class="courses-grid" id="resources-grid"></div>
       </div>
+    </section>
 
-      <input
-        class="searchbar"
-        id="resource-search"
-        type="text"
-        placeholder="Search by college, programme, semester, or course code"
-        aria-label="Search student resources and Google Drive folders"
-      />
-      <p class="search-help">Search for a course or college to find the matching Google Drive folder.</p>
-      <p class="search-summary" id="search-summary" aria-live="polite"></p>
-      <div class="filters" id="resource-filters" role="group" aria-label="Filter by college"></div>
-      <div class="filters">
-        <select class="filter-select" id="semester-filter" title="Filter by Semester" aria-label="Filter by Semester">
-          <option value="All">All Semesters</option>
-          <option value="1st">1st Semester</option>
-          <option value="2nd">2nd Semester</option>
-          <option value="Both">Both</option>
-        </select>
+    <section class="section-dark page-section-dark">
+      <div class="container">
+        <div class="page-header">
+          <h2>TUTORIAL RECORDINGS</h2>
+          <p class="subtitle">Tutorial recordings and revision sessions curated by Abednego Lomazah.</p>
+        </div>
+
+        <!-- Tip #6: Skeleton screen for recordings section -->
+        <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings"></div>
+        <div class="recordings-grid" id="recordings-grid"></div>
       </div>
-
-      <!-- Tip #6: Skeleton screen for resources section -->
-      <div id="resources-loading" aria-live="polite" aria-label="Loading resources"></div>
-      <div class="courses-grid" id="resources-grid"></div>
-    </div>
-  </section>
-
-  <section class="section-dark page-section-dark">
-    <div class="container">
-      <div class="page-header">
-        <h2>TUTORIAL RECORDINGS</h2>
-        <p class="subtitle">Tutorial recordings and revision sessions curated by Abednego Lomazah.</p>
-      </div>
-
-      <!-- Tip #6: Skeleton screen for recordings section -->
-      <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings"></div>
-      <div class="recordings-grid" id="recordings-grid"></div>
-    </div>
-  </section>
+    </section>
   </main>
 
   <footer class="footer">
@@ -102,7 +105,8 @@
       <div class="modal-header">
         <span class="modal-title" id="modalTitle">Drive Folder</span>
         <div class="modal-actions">
-          <a class="modal-open-link" id="modalOpenLink" href="#" target="_blank" rel="noopener noreferrer">Open in Drive ↗</a>
+          <a class="modal-open-link" id="modalOpenLink" href="#" target="_blank" rel="noopener noreferrer">Open in Drive
+            ↗</a>
           <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
         </div>
       </div>
@@ -114,19 +118,19 @@
 
   <script src="assets/js/cms.js"></script>
   <script defer>
-    const RESOURCE_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
+    const RESOURCE_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
     const RECORDINGS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1588089500&single=true&output=csv';
 
-    const resourcesGrid    = document.getElementById('resources-grid');
-    const recordingsGrid   = document.getElementById('recordings-grid');
-    const resourceSearch   = document.getElementById('resource-search');
-    const resourceFilters  = document.getElementById('resource-filters');
+    const resourcesGrid = document.getElementById('resources-grid');
+    const recordingsGrid = document.getElementById('recordings-grid');
+    const resourceSearch = document.getElementById('resource-search');
+    const resourceFilters = document.getElementById('resource-filters');
     const resourcesLoading = document.getElementById('resources-loading');
     const recordingsLoading = document.getElementById('recordings-loading');
 
-    let allResources  = [];
+    let allResources = [];
     let allRecordings = [];
-    let activeFilter  = 'All';
+    let activeFilter = 'All';
 
     window.cms.injectSkeletons(resourcesLoading, 'compact', 4);
     window.cms.injectSkeletons(recordingsLoading, 'compact-dark', 3);
@@ -143,15 +147,15 @@
     }
 
     function matchesCourseQuery(query, haystack) {
-      const normalizedQuery    = normalizeSearchText(query);
+      const normalizedQuery = normalizeSearchText(query);
       const normalizedHaystack = normalizeSearchText(haystack);
 
       if (!normalizedQuery) return true;
       if (normalizedHaystack.includes(normalizedQuery)) return true;
 
       const queryParts = normalizedQuery.split(/\s+/).filter(Boolean);
-      const subject    = queryParts.find((part) => part.length > 2 && !/^\d+$/.test(part));
-      const number     = queryParts.find((part) => /^\d+$/.test(part));
+      const subject = queryParts.find((part) => part.length > 2 && !/^\d+$/.test(part));
+      const number = queryParts.find((part) => /^\d+$/.test(part));
 
       if (!subject) return normalizedHaystack.includes(normalizedQuery);
 
@@ -198,7 +202,7 @@
     function renderResources(resources) {
       const semesterFilter = document.getElementById('semester-filter').value;
       const filtered = resources.filter((item) => {
-        const collegeMatch  = activeFilter === 'All' || item.college === activeFilter;
+        const collegeMatch = activeFilter === 'All' || item.college === activeFilter;
         const semesterValue = String(item.semester || '').toLowerCase();
         const semesterMatch = semesterFilter === 'All'
           || semesterValue === semesterFilter.toLowerCase()
@@ -271,8 +275,8 @@
     }
 
     function applySearch(query, resources, recordings) {
-      const normalized         = query.toLowerCase();
-      const filteredResources  = resources.filter((item) => {
+      const normalized = query.toLowerCase();
+      const filteredResources = resources.filter((item) => {
         const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`;
         return matchesCourseQuery(normalized, haystack);
       });
@@ -313,11 +317,11 @@
       try {
         const rows = await window.cms.fetchCSV(RESOURCE_CSV);
         allResources = rows.map((row) => ({
-          college:   row[0] || 'Universal',
+          college: row[0] || 'Universal',
           programme: row[1] || '',
-          semester:  row[2] || '',
-          folderId:  row[3] || '',
-          notes:     row[4] || ''
+          semester: row[2] || '',
+          folderId: row[3] || '',
+          notes: row[4] || ''
         })).filter((item) => item.folderId && item.programme);
         renderResources(allResources);
         renderFilters(allResources);
@@ -332,11 +336,11 @@
       try {
         const rows = await window.cms.fetchCSV(RECORDINGS_CSV);
         allRecordings = rows.map((row) => ({
-          course:      row[0] || '',
-          type:        row[1] || '',
-          level:       row[2] || '',
+          course: row[0] || '',
+          type: row[1] || '',
+          level: row[2] || '',
           description: row[3] || '',
-          folderId:    row[4] || ''
+          folderId: row[4] || ''
         })).filter((item) => item.folderId && item.course);
         renderRecordings(allRecordings);
         recordingsLoading.style.display = 'none';
@@ -351,4 +355,5 @@
     loadRecordings();
   </script>
 </body>
+
 </html>

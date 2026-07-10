@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
   <title>Guides | Abednego Lomazah</title>
-  <meta name="description" content="Step-by-step academic and advocacy guides compiled by Abednego Lomazah for University of Ghana students." />
+  <meta name="description"
+    content="Step-by-step academic and advocacy guides compiled by Abednego Lomazah for University of Ghana students." />
   <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/guides.html" />
   <meta property="og:title" content="Guides | Abednego Lomazah" />
-  <meta property="og:description" content="Step-by-step academic and advocacy guides compiled by Abednego Lomazah for University of Ghana students." />
+  <meta property="og:description"
+    content="Step-by-step academic and advocacy guides compiled by Abednego Lomazah for University of Ghana students." />
   <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
   <meta property="og:url" content="https://abednego-lomazah-site.vercel.app/guides.html" />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
+
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu">☰</button>
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Open menu">☰</button>
     <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html">Resources</a></li>
@@ -34,28 +41,23 @@
 
   <main id="main-content">
 
-  <section class="page-section-top">
-    <div class="container">
-      <div class="page-header">
-        <h1>HOW-TO GUIDES</h1>
-        <p class="subtitle">Search the latest step-by-step guides from Abednego Lomazah.</p>
+    <section class="page-section-top">
+      <div class="container">
+        <div class="page-header">
+          <h1>HOW-TO GUIDES</h1>
+          <p class="subtitle">Search the latest step-by-step guides from Abednego Lomazah.</p>
+        </div>
+
+        <!-- Tip #2: aria-label added for screen-reader clarity -->
+        <input class="searchbar" id="guide-search" type="text" aria-label="Search academic guides"
+          placeholder="Search by title, summary, or type" />
+
+        <!-- Tip #6: Skeleton screen — replaced plain "Loading..." text -->
+        <div id="guides-loading" aria-live="polite" aria-label="Loading guides"></div>
+
+        <div class="gallery-grid" id="guides-list"></div>
       </div>
-
-      <!-- Tip #2: aria-label added for screen-reader clarity -->
-      <input
-        class="searchbar"
-        id="guide-search"
-        type="text"
-        aria-label="Search academic guides"
-        placeholder="Search by title, summary, or type"
-      />
-
-      <!-- Tip #6: Skeleton screen — replaced plain "Loading..." text -->
-      <div id="guides-loading" aria-live="polite" aria-label="Loading guides"></div>
-
-      <div class="gallery-grid" id="guides-list"></div>
-    </div>
-  </section>
+    </section>
   </main>
 
   <footer class="footer">
@@ -70,11 +72,22 @@
   <div class="image-lightbox" id="image-lightbox">
     <div class="lightbox-topbar">
       <button class="lightbox-btn" id="lightbox-share" aria-label="Share Image">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
         Share
       </button>
       <button class="lightbox-btn" id="lightbox-close" aria-label="Close Lightbox">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
         Close
       </button>
     </div>
@@ -86,8 +99,8 @@
   <script src="assets/js/cms.js"></script>
   <script>
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
-    const guidesList    = document.getElementById('guides-list');
-    const guideSearch   = document.getElementById('guide-search');
+    const guidesList = document.getElementById('guides-list');
+    const guideSearch = document.getElementById('guide-search');
     const guidesLoading = document.getElementById('guides-loading');
     let allGuides = [];
     window.cms.injectSkeletons(guidesLoading, 'gallery', 6);
@@ -141,8 +154,8 @@
 
     guideSearch.addEventListener('input', (event) => applySearch(event.target.value));
 
-    const lightbox      = document.getElementById('image-lightbox');
-    const lightboxImg   = document.getElementById('lightbox-img');
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
     const lightboxClose = document.getElementById('lightbox-close');
     const lightboxShare = document.getElementById('lightbox-share');
 
@@ -182,11 +195,11 @@
       try {
         const rows = await window.cms.fetchCSV(GUIDES_CSV);
         allGuides = rows.map((row) => ({
-          date:       row[0] || '',
-          type:       row[1] || '',
-          title:      row[2] || '',
-          summary:    row[3] || '',
-          status:     row[4] || '',
+          date: row[0] || '',
+          type: row[1] || '',
+          title: row[2] || '',
+          summary: row[3] || '',
+          status: row[4] || '',
           sourceLink: row[5] || ''
         })).filter((guide) => guide.title && !window.cms.isPlaceholderValue(guide.title));
         renderGuides(allGuides);
@@ -200,4 +213,5 @@
     init();
   </script>
 </body>
+
 </html>

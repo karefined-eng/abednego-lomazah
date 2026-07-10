@@ -148,7 +148,7 @@
     if (!container) return;
     count = count || 6;
 
-    const isDark    = variant === 'compact-dark';
+    const isDark = variant === 'compact-dark';
     const isGallery = variant === 'gallery';
 
     const grid = document.createElement('div');

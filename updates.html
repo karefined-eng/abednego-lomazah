@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,20 +10,25 @@
   <meta name="description" content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
   <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/updates.html" />
   <meta property="og:title" content="Updates | Abednego Lomazah" />
-  <meta property="og:description" content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
+  <meta property="og:description"
+    content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
   <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
   <meta property="og:url" content="https://abednego-lomazah-site.vercel.app/updates.html" />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
+
 <body>
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu">☰</button>
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Open menu">☰</button>
     <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html">Resources</a></li>
@@ -34,18 +40,18 @@
 
   <main id="main-content">
 
-  <section class="page-section-top">
-    <div class="container">
-      <div class="page-header">
-        <h1>ADVOCACY TRACKER</h1>
-        <p class="subtitle">Get informed about updates and upcoming tutorials.</p>
+    <section class="page-section-top">
+      <div class="container">
+        <div class="page-header">
+          <h1>ADVOCACY TRACKER</h1>
+          <p class="subtitle">Get informed about updates and upcoming tutorials.</p>
+        </div>
+        <div id="tracker-loading" aria-live="polite" aria-label="Loading tracker"></div>
+        <div class="cards-grid" id="tracker-grid"></div>
+        <div id="tutorials-loading" aria-live="polite" aria-label="Loading tutorials"></div>
+        <div class="cards-grid" id="tutorials-grid"></div>
       </div>
-      <div id="tracker-loading" aria-live="polite" aria-label="Loading tracker"></div>
-      <div class="cards-grid" id="tracker-grid"></div>
-      <div id="tutorials-loading" aria-live="polite" aria-label="Loading tutorials"></div>
-      <div class="cards-grid" id="tutorials-grid"></div>
-    </div>
-  </section>
+    </section>
   </main>
 
   <footer class="footer">
@@ -128,4 +134,5 @@
     init();
   </script>
 </body>
+
 </html>
