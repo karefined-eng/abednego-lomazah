@@ -222,11 +222,11 @@
   }
 
   function getDriveUrl(folderId) {
-    return \`https://drive.google.com/embeddedfolderview?id=\${encodeURIComponent(folderId)}#list\`;
+    return `https://drive.google.com/embeddedfolderview?id=${encodeURIComponent(folderId)}#list`;
   }
 
   function getDriveFolderUrl(folderId) {
-    return \`https://drive.google.com/drive/folders/\${encodeURIComponent(folderId)}?usp=sharing\`;
+    return `https://drive.google.com/drive/folders/${encodeURIComponent(folderId)}?usp=sharing`;
   }
 
   function setupDriveModal() {

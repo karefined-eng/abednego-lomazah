@@ -523,7 +523,6 @@ section { padding: 5rem 5vw; }
 }
 
 /* Dark-section variants (recordings panel — brown background) */
-.skeleton-grid--dark {}
 .skeleton-card--dark {
   background: rgba(255, 255, 255, 0.07);
   box-shadow: none;
