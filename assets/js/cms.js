@@ -4,48 +4,33 @@
   }
 
   function parseCSV(text) {
+    // This regex handles three cases for each field:
+    // 1. Quoted fields: "..." (allows commas and newlines inside)
+    // 2. Quoted fields with escaped quotes: "..." "..." -> "..."
+    // 3. Unquoted fields
+    const fieldRegex = /"((?:[^"]|"")*)"|([^,^\n\r]*)/g;
+
     const rows = [];
-    let row = [];
-    let field = '';
-    let inQuotes = false;
+    const lines = text.trim().split(/\r?\n/);
 
-    for (let i = 0; i < text.length; i += 1) {
-      const char = text[i];
-      const next = text[i + 1];
+    for (const line of lines) {
+      if (!line.trim()) continue; // Skip empty lines
 
-      if (char === '"') {
-        if (inQuotes && next === '"') {
-          field += '"';
-          i += 1;
-        } else {
-          inQuotes = !inQuotes;
-        }
-      } else if (char === ',' && !inQuotes) {
-        row.push(field);
-        field = '';
-      } else if ((char === '\n' || char === '\r') && !inQuotes) {
-        if (char === '\r' && text[i + 1] === '\n') {
-          i += 1;
-        }
-        row.push(field);
-        if (row.some((cell) => normalizeCell(cell) !== '')) {
-          rows.push(row);
-        }
-        row = [];
-        field = '';
-      } else {
-        field += char;
+      const row = [];
+      let match;
+      // Use the regex to find all fields in the current line.
+      while ((match = fieldRegex.exec(line))) {
+        // If it's a quoted field (group 1), un-escape the double quotes.
+        // Otherwise, it's an unquoted field (group 2).
+        const value = match[1] !== undefined ? match[1].replace(/""/g, '"') : match[2];
+        row.push(normalizeCell(value));
+        // If the next character is not a comma, we've reached the end of the line.
+        if (line[fieldRegex.lastIndex] !== ',') break;
+        fieldRegex.lastIndex++; // Move past the comma.
       }
+      rows.push(row);
     }
-
-    if (field.length > 0 || row.length > 0) {
-      row.push(field);
-      if (row.some((cell) => normalizeCell(cell) !== '')) {
-        rows.push(row);
-      }
-    }
-
-    return rows.map((r) => r.map((cell) => normalizeCell(cell)));
+    return rows;
   }
 
   // ── localStorage cache (30-minute TTL) ───────────────────────────────────
@@ -304,15 +289,32 @@
 
   function setupMobileMenu() {
     const toggle = document.querySelector('.mobile-menu-toggle');
-    const navLinks = document.getElementById('primary-navigation');
+    const navLinks = document.querySelector('.nav-links');
 
     if (toggle && navLinks) {
       toggle.addEventListener('click', () => {
         const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', !isExpanded);
-        navLinks.classList.toggle('expanded');
+        navLinks.classList.toggle('active');
       });
     }
+  }
+
+  /**
+   * Creates a debounced function that delays invoking `func` until after `wait`
+   * milliseconds have elapsed since the last time the debounced function was
+   * invoked.
+   */
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -328,6 +330,7 @@
     getDriveUrl,
     setupDriveModal,
     injectSkeletons,
-    showErrorState
+    showErrorState,
+    debounce
   };
 })();

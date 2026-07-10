@@ -289,9 +289,9 @@
       renderRecordings(filteredRecordings);
     }
 
-    resourceSearch.addEventListener('input', (event) => {
+    resourceSearch.addEventListener('input', window.cms.debounce((event) => {
       applySearch(event.target.value, allResources, allRecordings);
-    });
+    }, 300));
 
     resourceSearch.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {

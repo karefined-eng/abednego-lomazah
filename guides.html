@@ -52,6 +52,7 @@
         <!-- Tip #2: aria-label added for screen-reader clarity -->
         <input class="searchbar" id="guide-search" type="text" aria-label="Search academic guides"
           placeholder="Search by title, summary, or type" />
+        <p class="search-summary" id="guide-summary" aria-live="polite"></p>
 
         <!-- Tip #6: Skeleton screen — replaced plain "Loading..." text -->
         <div id="guides-loading" aria-live="polite" aria-label="Loading guides"></div>
@@ -142,6 +143,15 @@
              <strong>No guides match your search.</strong>
              <p style="margin-top:0.3rem;font-size:0.85rem;color:var(--brown-mid);">Try a different keyword or clear the search field.</p>
            </div>`;
+
+      const summary = document.getElementById('guide-summary');
+      if (summary) {
+        const query = guideSearch.value.trim();
+        const count = guides.length;
+        summary.textContent = query
+          ? `${count} ${count === 1 ? 'guide' : 'guides'} match "${query}".`
+          : `${allGuides.length} ${allGuides.length === 1 ? 'guide is' : 'guides are'} available.`;
+      }
     }
 
     function applySearch(query) {
@@ -149,11 +159,13 @@
       const filtered = allGuides.filter((guide) => {
         const haystack = `${guide.title} ${guide.type} ${guide.summary} ${guide.status}`.toLowerCase();
         return haystack.includes(normalized);
+        const keywords = normalized.split(' ').filter(Boolean);
+        return keywords.every(keyword => haystack.includes(keyword));
       });
       renderGuides(filtered);
     }
 
-    guideSearch.addEventListener('input', (event) => applySearch(event.target.value));
+    guideSearch.addEventListener('input', window.cms.debounce((event) => applySearch(event.target.value), 300));
 
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
