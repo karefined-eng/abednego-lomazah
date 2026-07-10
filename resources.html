@@ -49,10 +49,16 @@
         <p class="subtitle">Browse student resources assembled by Abednego Lomazah.</p>
       </div>
 
-      <input class="searchbar" id="resource-search" type="text" placeholder="Search by college, programme, semester, or course code" aria-label="Search student resources and Google Drive folders" />
+      <input
+        class="searchbar"
+        id="resource-search"
+        type="text"
+        placeholder="Search by college, programme, semester, or course code"
+        aria-label="Search student resources and Google Drive folders"
+      />
       <p class="search-help">Search for a course or college to find the matching Google Drive folder.</p>
       <p class="search-summary" id="search-summary" aria-live="polite"></p>
-      <div class="filters" id="resource-filters"></div>
+      <div class="filters" id="resource-filters" role="group" aria-label="Filter by college"></div>
       <div class="filters">
         <select class="filter-select" id="semester-filter" title="Filter by Semester" aria-label="Filter by Semester">
           <option value="All">All Semesters</option>
@@ -62,7 +68,48 @@
         </select>
       </div>
 
-      <div class="loading" id="resources-loading">Loading Abednego compiled resources...</div>
+      <!-- Tip #6: Skeleton screen for resources section -->
+      <div id="resources-loading" aria-live="polite" aria-label="Loading resources">
+        <div class="skeleton-grid skeleton-grid--compact" aria-hidden="true">
+          <!-- Skeleton card repeats — mimics course-card (no thumbnail, text lines only) -->
+          <div class="skeleton-card skeleton-card--compact">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <div class="skeleton-card skeleton-card--compact">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <div class="skeleton-card skeleton-card--compact">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <div class="skeleton-card skeleton-card--compact">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block"></div>
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="courses-grid" id="resources-grid"></div>
     </div>
   </section>
@@ -70,10 +117,39 @@
   <section class="section-dark page-section-dark">
     <div class="container">
       <div class="page-header">
-        <h2> TUTORIAL RECORDINGS</h2>
+        <h2>TUTORIAL RECORDINGS</h2>
         <p class="subtitle">Tutorial recordings and revision sessions curated by Abednego Lomazah.</p>
       </div>
-      <div class="loading" id="recordings-loading">Loading session recordings...</div>
+
+      <!-- Tip #6: Skeleton screen for recordings section -->
+      <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings">
+        <div class="skeleton-grid skeleton-grid--compact skeleton-grid--dark" aria-hidden="true">
+          <div class="skeleton-card skeleton-card--compact skeleton-card--dark">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block skeleton-icon-block--dark"></div>
+              <div class="skeleton-line skeleton-line--short skeleton-line--dark"></div>
+              <div class="skeleton-line skeleton-line--title skeleton-line--dark"></div>
+              <div class="skeleton-line skeleton-line--long skeleton-line--dark"></div>
+            </div>
+          </div>
+          <div class="skeleton-card skeleton-card--compact skeleton-card--dark">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block skeleton-icon-block--dark"></div>
+              <div class="skeleton-line skeleton-line--short skeleton-line--dark"></div>
+              <div class="skeleton-line skeleton-line--title skeleton-line--dark"></div>
+              <div class="skeleton-line skeleton-line--long skeleton-line--dark"></div>
+            </div>
+          </div>
+          <div class="skeleton-card skeleton-card--compact skeleton-card--dark">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block skeleton-icon-block--dark"></div>
+              <div class="skeleton-line skeleton-line--short skeleton-line--dark"></div>
+              <div class="skeleton-line skeleton-line--title skeleton-line--dark"></div>
+              <div class="skeleton-line skeleton-line--long skeleton-line--dark"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="recordings-grid" id="recordings-grid"></div>
     </div>
   </section>
@@ -105,18 +181,19 @@
 
   <script src="assets/js/cms.js"></script>
   <script defer>
-    const RESOURCE_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
+    const RESOURCE_CSV   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
     const RECORDINGS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1588089500&single=true&output=csv';
 
-    const resourcesGrid = document.getElementById('resources-grid');
-    const recordingsGrid = document.getElementById('recordings-grid');
-    const resourceSearch = document.getElementById('resource-search');
-    const resourceFilters = document.getElementById('resource-filters');
+    const resourcesGrid    = document.getElementById('resources-grid');
+    const recordingsGrid   = document.getElementById('recordings-grid');
+    const resourceSearch   = document.getElementById('resource-search');
+    const resourceFilters  = document.getElementById('resource-filters');
     const resourcesLoading = document.getElementById('resources-loading');
     const recordingsLoading = document.getElementById('recordings-loading');
 
-    let allResources = [];
-    let activeFilter = 'All';
+    let allResources  = [];
+    let allRecordings = [];
+    let activeFilter  = 'All';
 
     function normalizeSearchText(value) {
       return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -130,35 +207,26 @@
     }
 
     function matchesCourseQuery(query, haystack) {
-      const normalizedQuery = normalizeSearchText(query);
+      const normalizedQuery    = normalizeSearchText(query);
       const normalizedHaystack = normalizeSearchText(haystack);
 
-      if (!normalizedQuery) {
-        return true;
-      }
-
-      if (normalizedHaystack.includes(normalizedQuery)) {
-        return true;
-      }
+      if (!normalizedQuery) return true;
+      if (normalizedHaystack.includes(normalizedQuery)) return true;
 
       const queryParts = normalizedQuery.split(/\s+/).filter(Boolean);
-      const subject = queryParts.find((part) => part.length > 2 && !/^\d+$/.test(part));
-      const number = queryParts.find((part) => /^\d+$/.test(part));
+      const subject    = queryParts.find((part) => part.length > 2 && !/^\d+$/.test(part));
+      const number     = queryParts.find((part) => /^\d+$/.test(part));
 
-      if (!subject) {
-        return normalizedHaystack.includes(normalizedQuery);
-      }
+      if (!subject) return normalizedHaystack.includes(normalizedQuery);
 
       const codes = extractCourseCodes(haystack);
-      if (!codes.length) {
-        return normalizedHaystack.includes(subject);
-      }
+      if (!codes.length) return normalizedHaystack.includes(subject);
 
       if (number) {
         const targetNumber = Number(number);
-        return codes.some(({ subject: codeSubject, number: codeNumber }) => {
-          return codeSubject === subject && Math.abs(codeNumber - targetNumber) <= 1;
-        });
+        return codes.some(({ subject: codeSubject, number: codeNumber }) =>
+          codeSubject === subject && Math.abs(codeNumber - targetNumber) <= 1
+        );
       }
 
       return codes.some(({ subject: codeSubject }) => codeSubject === subject);
@@ -167,7 +235,7 @@
     function createCardMarkup(item, kind) {
       if (kind === 'resource') {
         return `
-          <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0">
+          <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0" aria-label="Open ${item.programme || 'resource'} folder">
             <div class="course-icon">📂</div>
             <div class="course-code">${item.college || 'UNIVERSAL'}</div>
             <h3 class="course-name">${item.programme || 'Untitled resource'}</h3>
@@ -194,14 +262,22 @@
     function renderResources(resources) {
       const semesterFilter = document.getElementById('semester-filter').value;
       const filtered = resources.filter((item) => {
-        const collegeMatch = activeFilter === 'All' || item.college === activeFilter;
+        const collegeMatch  = activeFilter === 'All' || item.college === activeFilter;
         const semesterValue = String(item.semester || '').toLowerCase();
-        const semesterMatch = semesterFilter === 'All' || semesterValue === semesterFilter.toLowerCase() || (semesterFilter === 'Both' && semesterValue === 'both');
+        const semesterMatch = semesterFilter === 'All'
+          || semesterValue === semesterFilter.toLowerCase()
+          || (semesterFilter === 'Both' && semesterValue === 'both');
         return collegeMatch && semesterMatch;
       });
+
+      /* Tip #4: Rich empty state with icon + helper text */
       resourcesGrid.innerHTML = filtered.length
         ? filtered.map((item) => createCardMarkup(item, 'resource')).join('')
-        : `<div class="empty-state">No matching folders were found. Try searching by your college first, then open the folder to browse the specific courses available there.</div>`;
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">📂</div>
+             <strong>No matching folders found.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:var(--brown-mid);">Try searching by your college first, then open the folder to browse courses available there.</p>
+           </div>`;
 
       resourcesGrid.querySelectorAll('.course-card').forEach((card) => {
         card.addEventListener('click', () => openResourceFolder(card));
@@ -216,18 +292,21 @@
       const summary = document.getElementById('search-summary');
       if (summary) {
         const query = resourceSearch.value.trim();
-        if (query) {
-          summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'folder' : 'folders'} match “${query}”.`;
-        } else {
-          summary.textContent = `${filtered.length} resource ${filtered.length === 1 ? 'folder is' : 'folders are'} available.`;
-        }
+        summary.textContent = query
+          ? `${filtered.length} ${filtered.length === 1 ? 'folder' : 'folders'} match "${query}".`
+          : `${filtered.length} resource ${filtered.length === 1 ? 'folder is' : 'folders are'} available.`;
       }
     }
 
     function renderRecordings(recordings) {
+      /* Tip #4: Rich empty state */
       recordingsGrid.innerHTML = recordings.length
         ? recordings.map((item) => createCardMarkup(item, 'recording')).join('')
-        : '<div class="empty-state">No recordings are available right now.</div>';
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">🎥</div>
+             <strong>No recordings available right now.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:rgba(245,240,232,0.6);">Check back soon — new tutorial sessions are added regularly.</p>
+           </div>`;
 
       recordingsGrid.querySelectorAll('.recording-card').forEach((card) => {
         card.addEventListener('click', () => {
@@ -241,9 +320,10 @@
 
     function renderFilters(resources) {
       const colleges = ['All', ...new Set(resources.map((item) => item.college).filter(Boolean))];
-      resourceFilters.innerHTML = colleges.map((college) => `
-        <button class="filter-chip ${college === activeFilter ? 'active' : ''}" data-college="${college}">${college}</button>
-      `).join('');
+      resourceFilters.innerHTML = colleges.map((college) =>
+        /* Tip #2: aria-pressed communicates active filter state to screen readers */
+        `<button class="filter-chip ${college === activeFilter ? 'active' : ''}" data-college="${college}" aria-pressed="${college === activeFilter}">${college}</button>`
+      ).join('');
 
       resourceFilters.querySelectorAll('.filter-chip').forEach((button) => {
         button.addEventListener('click', () => {
@@ -255,8 +335,8 @@
     }
 
     function applySearch(query, resources, recordings) {
-      const normalized = query.toLowerCase();
-      const filteredResources = resources.filter((item) => {
+      const normalized         = query.toLowerCase();
+      const filteredResources  = resources.filter((item) => {
         const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`;
         return matchesCourseQuery(normalized, haystack);
       });
@@ -291,44 +371,83 @@
       renderResources(allResources);
     });
 
-    let allRecordings = [];
+    /* Tip #4: Per-section error state with individual retry buttons */
+    function showSectionError(loadingEl, sectionLabel, retryCallback) {
+      loadingEl.innerHTML = `
+        <div class="error-state" role="alert">
+          <div class="error-state__icon">⚠️</div>
+          <p class="error-state__message">Could not load ${sectionLabel}</p>
+          <p class="error-state__sub">Check your internet connection and try again.</p>
+          <button class="error-state__retry" data-retry="${sectionLabel}">↺ Retry</button>
+        </div>`;
+      loadingEl.querySelector('.error-state__retry').addEventListener('click', () => {
+        loadingEl.innerHTML = buildSkeletonHTML(sectionLabel === 'recordings');
+        retryCallback();
+      });
+    }
 
-    async function init() {
+    function buildSkeletonHTML(isDark = false) {
+      const darkMod = isDark ? 'skeleton-grid--dark' : '';
+      const cardMod = isDark ? 'skeleton-card--dark' : '';
+      const lineMod = isDark ? 'skeleton-line--dark' : '';
+      const iconMod = isDark ? 'skeleton-icon-block--dark' : '';
+      const count   = isDark ? 3 : 4;
+      let cards = '';
+      for (let i = 0; i < count; i++) {
+        cards += `
+          <div class="skeleton-card skeleton-card--compact ${cardMod}">
+            <div class="skeleton-body">
+              <div class="skeleton-icon-block ${iconMod}"></div>
+              <div class="skeleton-line skeleton-line--short ${lineMod}"></div>
+              <div class="skeleton-line skeleton-line--title ${lineMod}"></div>
+              <div class="skeleton-line skeleton-line--long ${lineMod}"></div>
+              <div class="skeleton-line skeleton-line--medium ${lineMod}"></div>
+            </div>
+          </div>`;
+      }
+      return `<div class="skeleton-grid skeleton-grid--compact ${darkMod}" aria-hidden="true">${cards}</div>`;
+    }
+
+    async function loadResources() {
       try {
-        const [resources, recordings] = await Promise.all([
-          window.cms.fetchCSV(RESOURCE_CSV),
-          window.cms.fetchCSV(RECORDINGS_CSV)
-        ]);
-
-        allResources = resources.map((row) => ({
-          college: row[0] || 'Universal',
+        const rows = await window.cms.fetchCSV(RESOURCE_CSV);
+        allResources = rows.map((row) => ({
+          college:   row[0] || 'Universal',
           programme: row[1] || '',
-          semester: row[2] || '',
-          folderId: row[3] || '',
-          notes: row[4] || ''
+          semester:  row[2] || '',
+          folderId:  row[3] || '',
+          notes:     row[4] || ''
         })).filter((item) => item.folderId && item.programme);
-
-        allRecordings = recordings.map((row) => ({
-          course: row[0] || '',
-          type: row[1] || '',
-          level: row[2] || '',
-          description: row[3] || '',
-          folderId: row[4] || ''
-        })).filter((item) => item.folderId && item.course);
-
         renderResources(allResources);
-        renderRecordings(allRecordings);
         renderFilters(allResources);
         resourcesLoading.style.display = 'none';
-        recordingsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        resourcesLoading.textContent = 'Failed to load resources.';
-        recordingsLoading.textContent = 'Failed to load recordings.';
+        showSectionError(resourcesLoading, 'resources', loadResources);
       }
     }
 
-    init();
+    async function loadRecordings() {
+      try {
+        const rows = await window.cms.fetchCSV(RECORDINGS_CSV);
+        allRecordings = rows.map((row) => ({
+          course:      row[0] || '',
+          type:        row[1] || '',
+          level:       row[2] || '',
+          description: row[3] || '',
+          folderId:    row[4] || ''
+        })).filter((item) => item.folderId && item.course);
+        renderRecordings(allRecordings);
+        recordingsLoading.style.display = 'none';
+      } catch (error) {
+        console.error(error);
+        showSectionError(recordingsLoading, 'recordings', loadRecordings);
+      }
+    }
+
+    /* Fire both fetches independently — one failing doesn't block the other */
+    loadResources();
+    loadRecordings();
   </script>
 </body>
 </html>

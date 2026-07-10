@@ -294,11 +294,14 @@ section { padding: 5rem 5vw; }
   font-size: clamp(2rem, 5vw, 3rem);
   color: var(--brown);
   margin-bottom: 0.4rem;
+  /* Tip #3: Large display headings should have tight line-height (Gestalt proximity) */
+  line-height: 1.1;
 }
 .page-header .subtitle {
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  color: var(--brown-mid);
+  /* Tip #2: Darkened from --brown-mid (#5C2E10) to pass WCAG AA at 16px italic */
+  color: #3d1a07;
 }
 .panel {
   background: var(--white);
@@ -453,6 +456,124 @@ section { padding: 5rem 5vw; }
   text-align: center;
   padding: 1.6rem 1rem;
   color: var(--brown-mid);
+}
+
+/* ── Tip #6: Skeleton Screen ─────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.2rem;
+}
+.skeleton-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 0;
+  overflow: hidden;
+}
+.skeleton-thumb {
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(90deg, #ede6d6 25%, #f5f0e8 50%, #ede6d6 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+.skeleton-body {
+  padding: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.skeleton-line {
+  height: 12px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #ede6d6 25%, #f5f0e8 50%, #ede6d6 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+.skeleton-line--short  { width: 38%; }
+.skeleton-line--medium { width: 65%; }
+.skeleton-line--long   { width: 90%; }
+.skeleton-line--title  { height: 18px; width: 78%; }
+
+/* Compact card variant — for course-card / recording-card (no thumbnail) */
+.skeleton-grid--compact {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.skeleton-card--compact {
+  padding: 0;
+}
+.skeleton-icon-block {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 6px;
+  margin-bottom: 0.65rem;
+  background: linear-gradient(90deg, #ede6d6 25%, #f5f0e8 50%, #ede6d6 75%);
+  background-size: 600px 100%;
+  animation: shimmer 1.5s infinite linear;
+}
+
+/* Dark-section variants (recordings panel — brown background) */
+.skeleton-grid--dark {}
+.skeleton-card--dark {
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: none;
+}
+.skeleton-line--dark {
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 75%);
+  background-size: 600px 100%;
+}
+.skeleton-icon-block--dark {
+  background: linear-gradient(90deg, rgba(255,255,255,0.08) 25%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 75%);
+  background-size: 600px 100%;
+}
+
+
+/* ── Tip #4: Error State ─────────────────────────────────────────────────── */
+.error-state {
+  text-align: center;
+  padding: 2.5rem 1rem;
+  color: var(--brown);
+}
+.error-state__icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.6rem;
+}
+.error-state__message {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--brown);
+}
+.error-state__sub {
+  font-size: 0.85rem;
+  color: var(--brown-mid);
+  margin-bottom: 1.2rem;
+}
+.error-state__retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.65rem 1.4rem;
+  background: var(--gold);
+  color: var(--brown);
+  border: none;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.error-state__retry:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
 }
 .badge {
   display: inline-block;

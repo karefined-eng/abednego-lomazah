@@ -48,14 +48,49 @@
     return rows.map((r) => r.map((cell) => normalizeCell(cell)));
   }
 
+  const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
+
+  function _cacheKey(url) {
+    return 'cms_csv_' + btoa(url).replace(/=/g, '');
+  }
+
+  function _readCache(url) {
+    try {
+      const key = _cacheKey(url);
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+      const { ts, data } = JSON.parse(raw);
+      if (Date.now() - ts > CACHE_TTL_MS) {
+        localStorage.removeItem(key);
+        return null;
+      }
+      return data;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function _writeCache(url, rows) {
+    try {
+      const key = _cacheKey(url);
+      localStorage.setItem(key, JSON.stringify({ ts: Date.now(), data: rows }));
+    } catch (_) {
+      // Storage quota exceeded or private browsing — silently skip
+    }
+  }
+
   async function fetchCSV(url) {
+    const cached = _readCache(url);
+    if (cached) return cached;
+
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to load CSV: ${response.status}`);
     }
     const text = await response.text();
-    const rows = parseCSV(text);
-    return rows.slice(1);
+    const rows = parseCSV(text).slice(1);
+    _writeCache(url, rows);
+    return rows;
   }
 
   function isPlaceholderValue(value) {

@@ -40,8 +40,52 @@
         <h1>HOW-TO GUIDES</h1>
         <p class="subtitle">Search the latest step-by-step guides from Abednego Lomazah.</p>
       </div>
-      <input class="searchbar" id="guide-search" type="text" placeholder="Search by title, summary, or type" />
-      <div class="loading" id="guides-loading">Loading guides...</div>
+
+      <!-- Tip #2: aria-label added for screen-reader clarity -->
+      <input
+        class="searchbar"
+        id="guide-search"
+        type="text"
+        aria-label="Search academic guides"
+        placeholder="Search by title, summary, or type"
+      />
+
+      <!-- Tip #6: Skeleton screen — replaced plain "Loading..." text -->
+      <div id="guides-loading" aria-live="polite" aria-label="Loading guides">
+        <div class="skeleton-grid" aria-hidden="true">
+          <!-- Card 1 -->
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="gallery-grid" id="guides-list"></div>
     </div>
   </section>
@@ -75,8 +119,8 @@
   <script src="assets/js/cms.js"></script>
   <script>
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
-    const guidesList = document.getElementById('guides-list');
-    const guideSearch = document.getElementById('guide-search');
+    const guidesList    = document.getElementById('guides-list');
+    const guideSearch   = document.getElementById('guide-search');
     const guidesLoading = document.getElementById('guides-loading');
     let allGuides = [];
 
@@ -110,7 +154,12 @@
             ${guide.date && !window.cms.isPlaceholderValue(guide.date) ? `<p style="margin-top: 0.3rem;"><strong>Date:</strong> ${guide.date}</p>` : ''}
           </article>`;
         }).join('')
-        : '<div class="empty-state">No guides match your search.</div>';
+        /* Tip #4: Improved "no results" empty state */
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">🔍</div>
+             <strong>No guides match your search.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:var(--brown-mid);">Try a different keyword or clear the search field.</p>
+           </div>`;
     }
 
     function applySearch(query) {
@@ -124,8 +173,8 @@
 
     guideSearch.addEventListener('input', (event) => applySearch(event.target.value));
 
-    const lightbox = document.getElementById('image-lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
+    const lightbox      = document.getElementById('image-lightbox');
+    const lightboxImg   = document.getElementById('lightbox-img');
     const lightboxClose = document.getElementById('lightbox-close');
     const lightboxShare = document.getElementById('lightbox-share');
 
@@ -150,10 +199,7 @@
       try {
         if (navigator.share) {
           const url = new URL(lightboxImg.getAttribute('src'), window.location.origin).href;
-          await navigator.share({
-            title: lightboxImg.alt,
-            url: url
-          });
+          await navigator.share({ title: lightboxImg.alt, url: url });
         } else {
           alert('Sharing is not supported on this browser.');
         }
@@ -162,22 +208,57 @@
       }
     });
 
+    /* Tip #4: Robust error state with retry button */
+    function showErrorState() {
+      guidesLoading.innerHTML = `
+        <div class="error-state" role="alert">
+          <div class="error-state__icon">⚠️</div>
+          <p class="error-state__message">Could not load guides</p>
+          <p class="error-state__sub">There was a problem connecting to the guides database.<br>Check your internet connection and try again.</p>
+          <button class="error-state__retry" id="guides-retry">↺ Retry</button>
+        </div>`;
+      document.getElementById('guides-retry').addEventListener('click', () => {
+        guidesLoading.innerHTML = '';
+        guidesLoading.appendChild(buildSkeletonGrid());
+        init();
+      });
+    }
+
+    function buildSkeletonGrid() {
+      const grid = document.createElement('div');
+      grid.className = 'skeleton-grid';
+      grid.setAttribute('aria-hidden', 'true');
+      for (let i = 0; i < 3; i++) {
+        grid.innerHTML += `
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--short"></div>
+              <div class="skeleton-line skeleton-line--title"></div>
+              <div class="skeleton-line skeleton-line--long"></div>
+              <div class="skeleton-line skeleton-line--medium"></div>
+            </div>
+          </div>`;
+      }
+      return grid;
+    }
+
     async function init() {
       try {
         const rows = await window.cms.fetchCSV(GUIDES_CSV);
         allGuides = rows.map((row) => ({
-          date: row[0] || '',
-          type: row[1] || '',
-          title: row[2] || '',
-          summary: row[3] || '',
-          status: row[4] || '',
+          date:       row[0] || '',
+          type:       row[1] || '',
+          title:      row[2] || '',
+          summary:    row[3] || '',
+          status:     row[4] || '',
           sourceLink: row[5] || ''
         })).filter((guide) => guide.title && !window.cms.isPlaceholderValue(guide.title));
         renderGuides(allGuides);
         guidesLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        guidesLoading.textContent = 'Failed to load guides.';
+        showErrorState();
       }
     }
 
