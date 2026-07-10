@@ -1,0 +1,17 @@
+# Windows system files
+desktop.ini
+Thumbs.db
+ehthumbs.db
+
+# Editor config
+.vscode/
+.idea/
+
+# Python scripts & environments
+*.py
+.venv/
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
