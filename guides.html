@@ -166,7 +166,6 @@
       const normalized = query.toLowerCase();
       const filtered = allGuides.filter((guide) => {
         const haystack = `${guide.title} ${guide.type} ${guide.summary} ${guide.status}`.toLowerCase();
-        return haystack.includes(normalized);
         const keywords = normalized.split(' ').filter(Boolean);
         return keywords.every(keyword => haystack.includes(keyword));
       });
