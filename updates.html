@@ -12,16 +12,20 @@
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
 <body>
-  <nav class="navbar">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <ul class="nav-links">
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation" aria-label="Open menu">☰</button>
+    <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html">Resources</a></li>
       <li><a href="community.html">Community</a></li>
       <li><a href="guides.html">Guides</a></li>
-      <li><a href="updates.html" class="active">Updates</a></li>
+      <li><a href="updates.html" class="active" aria-current="page">Updates</a></li>
     </ul>
   </nav>
+
+  <main id="main-content">
 
   <section class="page-section-top">
     <div class="container">
@@ -35,6 +39,7 @@
       <div class="cards-grid" id="tutorials-grid"></div>
     </div>
   </section>
+  </main>
 
   <footer class="footer">
     <span class="footer-brand">ABEDNEGO LOMAZAH</span>

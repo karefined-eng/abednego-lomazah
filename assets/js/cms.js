@@ -101,7 +101,30 @@
       return;
     }
 
+    let previousActiveElement = null;
+
+    function trapFocus(e) {
+      const focusableElements = overlay.querySelectorAll('a[href], button, iframe, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+      const firstFocusable = focusableElements[0];
+      const lastFocusable = focusableElements[focusableElements.length - 1];
+
+      if (e.key === 'Tab') {
+        if (e.shiftKey) {
+          if (document.activeElement === firstFocusable) {
+            e.preventDefault();
+            lastFocusable.focus();
+          }
+        } else {
+          if (document.activeElement === lastFocusable) {
+            e.preventDefault();
+            firstFocusable.focus();
+          }
+        }
+      }
+    }
+
     function openModal(name, folderId) {
+      previousActiveElement = document.activeElement;
       title.textContent = name;
       frame.removeAttribute('srcdoc');
       frame.src = getDriveUrl(folderId);
@@ -110,12 +133,18 @@
       }
       overlay.classList.add('active');
       document.body.style.overflow = 'hidden';
+      overlay.addEventListener('keydown', trapFocus);
+      setTimeout(() => closeBtn.focus(), 100);
     }
 
     function closeModal() {
       overlay.classList.remove('active');
       frame.src = '';
       document.body.style.overflow = '';
+      overlay.removeEventListener('keydown', trapFocus);
+      if (previousActiveElement) {
+        previousActiveElement.focus();
+      }
     }
 
     closeBtn.addEventListener('click', closeModal);
@@ -125,7 +154,7 @@
       }
     });
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && overlay.classList.contains('active')) {
         closeModal();
       }
     });
@@ -134,7 +163,23 @@
     window.closeDriveModal = closeModal;
   }
 
-  document.addEventListener('DOMContentLoaded', setupDriveModal);
+  function setupMobileMenu() {
+    const toggle = document.querySelector('.mobile-menu-toggle');
+    const navLinks = document.getElementById('primary-navigation');
+
+    if (toggle && navLinks) {
+      toggle.addEventListener('click', () => {
+        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', !isExpanded);
+        navLinks.classList.toggle('expanded');
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupDriveModal();
+    setupMobileMenu();
+  });
 
   window.cms = {
     parseCSV,
