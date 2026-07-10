@@ -188,8 +188,10 @@ img { max-width: 100%; display: block; }
 .hero-visual {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
+  gap: 1rem;
   z-index: 2;
 }
 .hero-poster {
@@ -202,10 +204,8 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 }
 .hero-tag {
-  position: absolute;
-  bottom: -16px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: static;
+  transform: none;
   background: var(--gold);
   color: var(--brown);
   font-family: 'Bebas Neue', sans-serif;

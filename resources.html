@@ -6,8 +6,16 @@
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
   <title>Academic Resources | Compiled by Abednego Lomazah</title>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  <link rel="dns-prefetch" href="https://docs.google.com" />
+  <link rel="dns-prefetch" href="https://drive.google.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://docs.google.com" />
+  <link rel="preconnect" href="https://drive.google.com" />
+  <link rel="preload" href="assets/css/site.css" as="style" />
+  <link rel="preload" href="assets/js/cms.js" as="script" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
@@ -78,8 +86,8 @@
     </div>
   </div>
 
-  <script src="assets/js/cms.js"></script>
-  <script>
+  <script defer src="assets/js/cms.js"></script>
+  <script defer>
     const RESOURCE_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1654773588&single=true&output=csv';
     const RECORDINGS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=1588089500&single=true&output=csv';
 
@@ -224,8 +232,10 @@
 
     async function init() {
       try {
-        const resources = await window.cms.fetchCSV(RESOURCE_CSV);
-        const recordings = await window.cms.fetchCSV(RECORDINGS_CSV);
+        const [resources, recordings] = await Promise.all([
+          window.cms.fetchCSV(RESOURCE_CSV),
+          window.cms.fetchCSV(RECORDINGS_CSV)
+        ]);
 
         allResources = resources.map((row) => ({
           college: row[0] || 'Universal',
