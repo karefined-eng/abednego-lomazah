@@ -48,6 +48,7 @@
     return rows.map((r) => r.map((cell) => normalizeCell(cell)));
   }
 
+  // ── localStorage cache (30-minute TTL) ───────────────────────────────────
   const CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
   function _cacheKey(url) {
@@ -93,6 +94,109 @@
     return rows;
   }
 
+  // ── Skeleton utilities ────────────────────────────────────────────────────
+
+  /**
+   * Build a full-card skeleton (with thumbnail) for gallery grids.
+   * @returns {HTMLElement}
+   */
+  function _buildGallerySkeleton() {
+    const card = document.createElement('div');
+    card.className = 'skeleton-card';
+    card.innerHTML = `
+      <div class="skeleton-thumb"></div>
+      <div class="skeleton-body">
+        <div class="skeleton-line skeleton-line--short"></div>
+        <div class="skeleton-line skeleton-line--title"></div>
+        <div class="skeleton-line skeleton-line--long"></div>
+        <div class="skeleton-line skeleton-line--medium"></div>
+      </div>`;
+    return card;
+  }
+
+  /**
+   * Build a compact skeleton (no thumbnail, icon block + text lines).
+   * @param {boolean} dark  – use dark-variant classes
+   * @returns {HTMLElement}
+   */
+  function _buildCompactSkeleton(dark = false) {
+    const cardMod = dark ? ' skeleton-card--dark' : '';
+    const lineMod = dark ? ' skeleton-line--dark' : '';
+    const iconMod = dark ? ' skeleton-icon-block--dark' : '';
+    const card = document.createElement('div');
+    card.className = `skeleton-card skeleton-card--compact${cardMod}`;
+    card.innerHTML = `
+      <div class="skeleton-body">
+        <div class="skeleton-icon-block${iconMod}"></div>
+        <div class="skeleton-line skeleton-line--short${lineMod}"></div>
+        <div class="skeleton-line skeleton-line--title${lineMod}"></div>
+        <div class="skeleton-line skeleton-line--long${lineMod}"></div>
+        <div class="skeleton-line skeleton-line--medium${lineMod}"></div>
+      </div>`;
+    return card;
+  }
+
+  /**
+   * Inject N skeleton cards into a container element, replacing any existing
+   * content. The container receives a skeleton-grid wrapper inside it.
+   *
+   * @param {HTMLElement} container  – the loading placeholder element
+   * @param {'gallery'|'compact'|'compact-dark'} variant
+   * @param {number} [count=6]
+   */
+  function injectSkeletons(container, variant, count) {
+    if (!container) return;
+    count = count || 6;
+
+    const isDark    = variant === 'compact-dark';
+    const isGallery = variant === 'gallery';
+
+    const grid = document.createElement('div');
+    grid.setAttribute('aria-hidden', 'true');
+
+    if (isGallery) {
+      grid.className = 'skeleton-grid';
+    } else {
+      grid.className = 'skeleton-grid skeleton-grid--compact' + (isDark ? ' skeleton-grid--dark' : '');
+    }
+
+    for (let i = 0; i < count; i++) {
+      grid.appendChild(isGallery ? _buildGallerySkeleton() : _buildCompactSkeleton(isDark));
+    }
+
+    container.innerHTML = '';
+    container.appendChild(grid);
+  }
+
+  /**
+   * Replace a loading container with a styled error state that includes a
+   * retry button.
+   *
+   * @param {HTMLElement} container   – the loading/error host element
+   * @param {string}      label       – human-readable section name, e.g. "guides"
+   * @param {Function}    onRetry     – callback to re-trigger the data fetch
+   * @param {'gallery'|'compact'|'compact-dark'} [skeletonVariant='compact']
+   */
+  function showErrorState(container, label, onRetry, skeletonVariant) {
+    if (!container) return;
+    skeletonVariant = skeletonVariant || 'compact';
+
+    container.innerHTML = `
+      <div class="error-state" role="alert">
+        <div class="error-state__icon">⚠️</div>
+        <p class="error-state__message">Could not load ${label}</p>
+        <p class="error-state__sub">There was a problem connecting to the database.<br>Check your internet connection and try again.</p>
+        <button class="error-state__retry" aria-label="Retry loading ${label}">↺ Retry</button>
+      </div>`;
+
+    container.querySelector('.error-state__retry').addEventListener('click', () => {
+      injectSkeletons(container, skeletonVariant, 6);
+      onRetry();
+    });
+  }
+
+  // ── Drive modal ───────────────────────────────────────────────────────────
+
   function isPlaceholderValue(value) {
     const normalized = normalizeCell(value).toLowerCase();
     if (!normalized) return true;
@@ -118,11 +222,11 @@
   }
 
   function getDriveUrl(folderId) {
-    return `https://drive.google.com/embeddedfolderview?id=${encodeURIComponent(folderId)}#list`;
+    return \`https://drive.google.com/embeddedfolderview?id=\${encodeURIComponent(folderId)}#list\`;
   }
 
   function getDriveFolderUrl(folderId) {
-    return `https://drive.google.com/drive/folders/${encodeURIComponent(folderId)}?usp=sharing`;
+    return \`https://drive.google.com/drive/folders/\${encodeURIComponent(folderId)}?usp=sharing\`;
   }
 
   function setupDriveModal() {
@@ -222,6 +326,8 @@
     isPlaceholderValue,
     isUsableLink,
     getDriveUrl,
-    setupDriveModal
+    setupDriveModal,
+    injectSkeletons,
+    showErrorState
   };
 })();

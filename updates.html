@@ -40,9 +40,9 @@
         <h1>ADVOCACY TRACKER</h1>
         <p class="subtitle">Get informed about updates and upcoming tutorials.</p>
       </div>
-      <div class="loading" id="tracker-loading">Loading tracker...</div>
+      <div id="tracker-loading" aria-live="polite" aria-label="Loading tracker"></div>
       <div class="cards-grid" id="tracker-grid"></div>
-      <div class="loading" id="tutorials-loading">Loading tutorials...</div>
+      <div id="tutorials-loading" aria-live="polite" aria-label="Loading tutorials"></div>
       <div class="cards-grid" id="tutorials-grid"></div>
     </div>
   </section>
@@ -65,6 +65,9 @@
     const tutorialsGrid = document.getElementById('tutorials-grid');
     const trackerLoading = document.getElementById('tracker-loading');
     const tutorialsLoading = document.getElementById('tutorials-loading');
+
+    window.cms.injectSkeletons(trackerLoading, 'compact', 3);
+    window.cms.injectSkeletons(tutorialsLoading, 'compact', 3);
 
     async function init() {
       try {
@@ -117,8 +120,8 @@
         tutorialsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        trackerLoading.textContent = 'Failed to load advocacy tracker.';
-        tutorialsLoading.textContent = 'Failed to load tutorials.';
+        window.cms.showErrorState(trackerLoading, 'advocacy tracker', init, 'compact');
+        window.cms.showErrorState(tutorialsLoading, 'tutorials', init, 'compact');
       }
     }
 

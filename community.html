@@ -40,8 +40,8 @@
         <h1>COMMUNITY</h1>
         <p class="subtitle">Search and join the communities that fit your programme, college, level or hall</p>
       </div>
-      <input class="searchbar" id="group-search" type="text" placeholder="Search by category, group name, or notes" />
-      <div class="loading" id="groups-loading">Loading groups...</div>
+      <input class="searchbar" id="group-search" type="text" placeholder="Search by category, group name, or notes" aria-label="Search WhatsApp groups" />
+      <div id="groups-loading" aria-live="polite" aria-label="Loading groups"></div>
       <div class="wa-grid" id="groups-grid"></div>
     </div>
   </section>
@@ -62,8 +62,8 @@
     const groupsGrid = document.getElementById('groups-grid');
     const groupSearch = document.getElementById('group-search');
     const groupsLoading = document.getElementById('groups-loading');
-
     let allGroups = [];
+    window.cms.injectSkeletons(groupsLoading, 'compact', 6);
 
     function renderGroups(groups) {
       const grouped = groups.reduce((acc, group) => {
@@ -114,7 +114,7 @@
         groupsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        groupsLoading.textContent = 'Failed to load community groups.';
+        window.cms.showErrorState(groupsLoading, 'community groups', init, 'compact');
       }
     }
 

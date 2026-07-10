@@ -69,47 +69,7 @@
       </div>
 
       <!-- Tip #6: Skeleton screen for resources section -->
-      <div id="resources-loading" aria-live="polite" aria-label="Loading resources">
-        <div class="skeleton-grid skeleton-grid--compact" aria-hidden="true">
-          <!-- Skeleton card repeats — mimics course-card (no thumbnail, text lines only) -->
-          <div class="skeleton-card skeleton-card--compact">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block"></div>
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-          <div class="skeleton-card skeleton-card--compact">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block"></div>
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-          <div class="skeleton-card skeleton-card--compact">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block"></div>
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-          <div class="skeleton-card skeleton-card--compact">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block"></div>
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="resources-loading" aria-live="polite" aria-label="Loading resources"></div>
       <div class="courses-grid" id="resources-grid"></div>
     </div>
   </section>
@@ -122,34 +82,7 @@
       </div>
 
       <!-- Tip #6: Skeleton screen for recordings section -->
-      <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings">
-        <div class="skeleton-grid skeleton-grid--compact skeleton-grid--dark" aria-hidden="true">
-          <div class="skeleton-card skeleton-card--compact skeleton-card--dark">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block skeleton-icon-block--dark"></div>
-              <div class="skeleton-line skeleton-line--short skeleton-line--dark"></div>
-              <div class="skeleton-line skeleton-line--title skeleton-line--dark"></div>
-              <div class="skeleton-line skeleton-line--long skeleton-line--dark"></div>
-            </div>
-          </div>
-          <div class="skeleton-card skeleton-card--compact skeleton-card--dark">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block skeleton-icon-block--dark"></div>
-              <div class="skeleton-line skeleton-line--short skeleton-line--dark"></div>
-              <div class="skeleton-line skeleton-line--title skeleton-line--dark"></div>
-              <div class="skeleton-line skeleton-line--long skeleton-line--dark"></div>
-            </div>
-          </div>
-          <div class="skeleton-card skeleton-card--compact skeleton-card--dark">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block skeleton-icon-block--dark"></div>
-              <div class="skeleton-line skeleton-line--short skeleton-line--dark"></div>
-              <div class="skeleton-line skeleton-line--title skeleton-line--dark"></div>
-              <div class="skeleton-line skeleton-line--long skeleton-line--dark"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings"></div>
       <div class="recordings-grid" id="recordings-grid"></div>
     </div>
   </section>
@@ -194,6 +127,9 @@
     let allResources  = [];
     let allRecordings = [];
     let activeFilter  = 'All';
+
+    window.cms.injectSkeletons(resourcesLoading, 'compact', 4);
+    window.cms.injectSkeletons(recordingsLoading, 'compact-dark', 3);
 
     function normalizeSearchText(value) {
       return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -371,42 +307,7 @@
       renderResources(allResources);
     });
 
-    /* Tip #4: Per-section error state with individual retry buttons */
-    function showSectionError(loadingEl, sectionLabel, retryCallback) {
-      loadingEl.innerHTML = `
-        <div class="error-state" role="alert">
-          <div class="error-state__icon">⚠️</div>
-          <p class="error-state__message">Could not load ${sectionLabel}</p>
-          <p class="error-state__sub">Check your internet connection and try again.</p>
-          <button class="error-state__retry" data-retry="${sectionLabel}">↺ Retry</button>
-        </div>`;
-      loadingEl.querySelector('.error-state__retry').addEventListener('click', () => {
-        loadingEl.innerHTML = buildSkeletonHTML(sectionLabel === 'recordings');
-        retryCallback();
-      });
-    }
 
-    function buildSkeletonHTML(isDark = false) {
-      const darkMod = isDark ? 'skeleton-grid--dark' : '';
-      const cardMod = isDark ? 'skeleton-card--dark' : '';
-      const lineMod = isDark ? 'skeleton-line--dark' : '';
-      const iconMod = isDark ? 'skeleton-icon-block--dark' : '';
-      const count   = isDark ? 3 : 4;
-      let cards = '';
-      for (let i = 0; i < count; i++) {
-        cards += `
-          <div class="skeleton-card skeleton-card--compact ${cardMod}">
-            <div class="skeleton-body">
-              <div class="skeleton-icon-block ${iconMod}"></div>
-              <div class="skeleton-line skeleton-line--short ${lineMod}"></div>
-              <div class="skeleton-line skeleton-line--title ${lineMod}"></div>
-              <div class="skeleton-line skeleton-line--long ${lineMod}"></div>
-              <div class="skeleton-line skeleton-line--medium ${lineMod}"></div>
-            </div>
-          </div>`;
-      }
-      return `<div class="skeleton-grid skeleton-grid--compact ${darkMod}" aria-hidden="true">${cards}</div>`;
-    }
 
     async function loadResources() {
       try {
@@ -423,7 +324,7 @@
         resourcesLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        showSectionError(resourcesLoading, 'resources', loadResources);
+        window.cms.showErrorState(resourcesLoading, 'resources', loadResources, 'compact');
       }
     }
 
@@ -441,7 +342,7 @@
         recordingsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        showSectionError(recordingsLoading, 'recordings', loadRecordings);
+        window.cms.showErrorState(recordingsLoading, 'recordings', loadRecordings, 'compact-dark');
       }
     }
 

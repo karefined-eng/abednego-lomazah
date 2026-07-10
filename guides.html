@@ -51,40 +51,7 @@
       />
 
       <!-- Tip #6: Skeleton screen — replaced plain "Loading..." text -->
-      <div id="guides-loading" aria-live="polite" aria-label="Loading guides">
-        <div class="skeleton-grid" aria-hidden="true">
-          <!-- Card 1 -->
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-          <!-- Card 2 -->
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="guides-loading" aria-live="polite" aria-label="Loading guides"></div>
 
       <div class="gallery-grid" id="guides-list"></div>
     </div>
@@ -123,6 +90,7 @@
     const guideSearch   = document.getElementById('guide-search');
     const guidesLoading = document.getElementById('guides-loading');
     let allGuides = [];
+    window.cms.injectSkeletons(guidesLoading, 'gallery', 6);
 
     function getGuideImage(title) {
       const imageMap = {
@@ -208,40 +176,7 @@
       }
     });
 
-    /* Tip #4: Robust error state with retry button */
-    function showErrorState() {
-      guidesLoading.innerHTML = `
-        <div class="error-state" role="alert">
-          <div class="error-state__icon">⚠️</div>
-          <p class="error-state__message">Could not load guides</p>
-          <p class="error-state__sub">There was a problem connecting to the guides database.<br>Check your internet connection and try again.</p>
-          <button class="error-state__retry" id="guides-retry">↺ Retry</button>
-        </div>`;
-      document.getElementById('guides-retry').addEventListener('click', () => {
-        guidesLoading.innerHTML = '';
-        guidesLoading.appendChild(buildSkeletonGrid());
-        init();
-      });
-    }
 
-    function buildSkeletonGrid() {
-      const grid = document.createElement('div');
-      grid.className = 'skeleton-grid';
-      grid.setAttribute('aria-hidden', 'true');
-      for (let i = 0; i < 3; i++) {
-        grid.innerHTML += `
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--short"></div>
-              <div class="skeleton-line skeleton-line--title"></div>
-              <div class="skeleton-line skeleton-line--long"></div>
-              <div class="skeleton-line skeleton-line--medium"></div>
-            </div>
-          </div>`;
-      }
-      return grid;
-    }
 
     async function init() {
       try {
@@ -258,7 +193,7 @@
         guidesLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        showErrorState();
+        window.cms.showErrorState(guidesLoading, 'guides', init, 'gallery');
       }
     }
 
