@@ -107,7 +107,8 @@
   </div>
 
   <script src="assets/js/cms.js" defer></script>
-  <script defer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
     const guidesList = document.getElementById('guides-list');
     const guideSearch = document.getElementById('guide-search');
@@ -231,6 +232,7 @@
     }
 
     init();
+    });
   </script>
 </body>
 

@@ -73,7 +73,8 @@
   </footer>
 
   <script src="assets/js/cms.js" defer></script>
-  <script defer>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
     const TUTORIALS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=508134725&single=true&output=csv';
     const trackerGrid = document.getElementById('tracker-grid');
@@ -141,6 +142,7 @@
     }
 
     init();
+    });
   </script>
 </body>
 
