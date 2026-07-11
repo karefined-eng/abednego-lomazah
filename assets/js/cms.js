@@ -4,32 +4,58 @@
   }
 
   function parseCSV(text) {
-    // This regex handles three cases for each field:
-    // 1. Quoted fields: "..." (allows commas and newlines inside)
-    // 2. Quoted fields with escaped quotes: "..." "..." -> "..."
-    // 3. Unquoted fields
-    const fieldRegex = /"((?:[^"]|"")*)"|([^,^\n\r]*)/g;
-
     const rows = [];
-    const lines = text.trim().split(/\r?\n/);
+    let row = [];
+    let cell = '';
+    let inQuotes = false;
 
-    for (const line of lines) {
-      if (!line.trim()) continue; // Skip empty lines
-
-      const row = [];
-      let match;
-      // Use the regex to find all fields in the current line.
-      while ((match = fieldRegex.exec(line))) {
-        // If it's a quoted field (group 1), un-escape the double quotes.
-        // Otherwise, it's an unquoted field (group 2).
-        const value = match[1] !== undefined ? match[1].replace(/""/g, '"') : match[2];
-        row.push(normalizeCell(value));
-        // If the next character is not a comma, we've reached the end of the line.
-        if (line[fieldRegex.lastIndex] !== ',') break;
-        fieldRegex.lastIndex++; // Move past the comma.
-      }
-      rows.push(row);
+    function commitCell() {
+      row.push(normalizeCell(cell));
+      cell = '';
     }
+
+    function commitRow() {
+      if (row.length || cell.trim()) {
+        commitCell();
+        rows.push(row);
+      }
+      row = [];
+    }
+
+    for (let i = 0; i < text.length; i++) {
+      const char = text[i];
+      const next = text[i + 1];
+
+      if (char === '"') {
+        if (inQuotes && next === '"') {
+          cell += '"';
+          i++;
+        } else {
+          inQuotes = !inQuotes;
+        }
+        continue;
+      }
+
+      if (char === ',' && !inQuotes) {
+        commitCell();
+        continue;
+      }
+
+      if ((char === '\n' || char === '\r') && !inQuotes) {
+        commitRow();
+        if (char === '\r' && next === '\n') {
+          i++;
+        }
+        continue;
+      }
+
+      cell += char;
+    }
+
+    if (row.length || cell.trim()) {
+      commitRow();
+    }
+
     return rows;
   }
 
@@ -287,19 +313,6 @@
     window.closeDriveModal = closeModal;
   }
 
-  function setupMobileMenu() {
-    const toggle = document.querySelector('.mobile-menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-
-    if (toggle && navLinks) {
-      toggle.addEventListener('click', () => {
-        const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', !isExpanded);
-        navLinks.classList.toggle('active');
-      });
-    }
-  }
-
   /**
    * Creates a debounced function that delays invoking `func` until after `wait`
    * milliseconds have elapsed since the last time the debounced function was
@@ -319,7 +332,6 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     setupDriveModal();
-    setupMobileMenu();
   });
 
   window.cms = {
