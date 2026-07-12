@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://abednego-lomazah.github.io/sitemap.xml
+Sitemap: https://abednego-lomazah-site.vercel.app/sitemap.xml

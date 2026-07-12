@@ -1,39 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
   <title>Guides | Abednego Lomazah</title>
+  <meta name="description"
+    content="Step-by-step academic and advocacy guides compiled by Abednego Lomazah for University of Ghana students." />
+  <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/guides.html" />
+  <meta property="og:title" content="Guides | Abednego Lomazah" />
+  <meta property="og:description"
+    content="Step-by-step academic and advocacy guides compiled by Abednego Lomazah for University of Ghana students." />
+  <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
+  <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+  <meta name="msapplication-TileColor" content="#3d1f0d" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <meta property="og:url" content="https://abednego-lomazah-site.vercel.app/guides.html" />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
+  <script src="assets/js/mobile-menu.js" defer></script>
   <link rel="stylesheet" href="assets/css/site.css" />
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
+
 <body>
-  <nav class="navbar">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <ul class="nav-links">
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Open menu">☰</button>
+    <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html">Resources</a></li>
       <li><a href="community.html">Community</a></li>
-      <li><a href="guides.html" class="active">Guides</a></li>
+      <li><a href="guides.html" class="active" aria-current="page">Guides</a></li>
       <li><a href="updates.html">Updates</a></li>
     </ul>
   </nav>
 
-  <section class="page-section-top">
-    <div class="container">
-      <div class="page-header">
-        <h2>HOW-TO GUIDES</h2>
-        <p class="subtitle">Search the latest step-by-step guides from the live Google Sheet data.</p>
+  <main id="main-content">
+
+    <section class="page-section-top">
+      <div class="container">
+        <div class="page-header">
+          <h1>HOW-TO GUIDES</h1>
+          <p class="subtitle">Search the latest step-by-step guides from Abednego Lomazah.</p>
+        </div>
+
+        <!-- Tip #2: aria-label added for screen-reader clarity -->
+        <input class="searchbar" id="guide-search" type="text" aria-label="Search academic guides"
+          placeholder="Search by title, summary, or type" />
+        <p class="search-summary" id="guide-summary" aria-live="polite"></p>
+
+        <!-- Tip #6: Skeleton screen — replaced plain "Loading..." text -->
+        <div id="guides-loading" role="status" aria-live="polite" aria-label="Loading guides"></div>
+
+        <div class="gallery-grid" id="guides-list"></div>
       </div>
-      <input class="searchbar" id="guide-search" type="text" placeholder="Search by title, summary, or type" />
-      <div class="loading" id="guides-loading">Loading guides...</div>
-      <div class="gallery-grid" id="guides-list"></div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="footer">
     <span class="footer-brand">ABEDNEGO LOMAZAH</span>
@@ -44,38 +88,138 @@
     </ul>
   </footer>
 
-  <script src="assets/js/cms.js"></script>
+  <div class="image-lightbox" id="image-lightbox">
+    <div class="lightbox-topbar">
+      <button class="lightbox-btn" id="lightbox-share" aria-label="Share Image">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        Share
+      </button>
+      <button class="lightbox-btn" id="lightbox-close" aria-label="Close Lightbox">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        Close
+      </button>
+    </div>
+    <div class="lightbox-image-container">
+      <img src="" alt="Full view" class="lightbox-image" id="lightbox-img" />
+    </div>
+  </div>
+
+  <script src="assets/js/cms.js" defer></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
     const guidesList = document.getElementById('guides-list');
     const guideSearch = document.getElementById('guide-search');
     const guidesLoading = document.getElementById('guides-loading');
     let allGuides = [];
+    window.cms.injectSkeletons(guidesLoading, 'gallery', 6);
+
+    function getGuideImage(title) {
+      const imageMap = {
+        'WiFi Connectivity on Campus': 'assets/petitions/2026-06-19 petition for the improvement of wifi connectivity in the traditional halls.jpg',
+        'Course Registration Deadline Extension': 'assets/petitions/2026-06-16 petition for course registration deadline extension.jpg',
+        'Exam Hall Belongings Security': 'assets/petitions/2026-06-30 petition on the inadequate security measures for students valuables at examiniation centers.jpg',
+        'Transportation Fares On Campus': 'assets/petitions/2026.06.30 address on transportation fares.jpg',
+        'Supplementary Resit Timetable Distribution': 'assets/guides/notice on suplementary resit registration.jpg',
+        'Student Data / Internet Connectivity': 'assets/petitions/2026-06-19 request for the immediate attention to the poor wifi connectivity issues in the 24hr reading room.jpg',
+        'How to Prepare for Science Course Finals (CHEM113 / PHYS143 / ABCS101 / MATH101)': 'assets/petitions/2026.07.02 organic chemistry pre ia tutorials on teams.jpg',
+        'How to Prepare for Your UGRC IA': 'assets/petitions/2026.07.04 african studies pre-ia tutorial on zoom.jpg',
+        'Free Tutorial Sessions (Zoom / Teams)': 'assets/petitions/2026.07.04  african studies pre ai tutorial on teams.jpg'
+      };
+      return imageMap[title];
+    }
 
     function renderGuides(guides) {
       guidesList.innerHTML = guides.length
-        ? guides.map((guide) => `
+        ? guides.map((guide) => {
+          const guideImage = getGuideImage(guide.title);
+          const encodedImagePath = guideImage ? guideImage.split('/').map(p => encodeURIComponent(p)).join('/') : null;
+          return `
           <article class="gallery-item" data-search="${(guide.title + ' ' + guide.type + ' ' + guide.summary + ' ' + guide.status).toLowerCase()}">
-            <div class="course-icon">📝</div>
+            ${encodedImagePath ? `<img src="${encodedImagePath}" alt="${guide.title}" class="guide-thumbnail">` : `<div class="course-icon">📝</div>`}
             <div class="course-code">${guide.type || 'Guide'}</div>
             <h4>${guide.title || 'Guide'}</h4>
             <p>${guide.summary || 'No summary provided.'}</p>
             <p style="margin-top: 0.6rem;"><strong>Status:</strong> ${guide.status || 'Unknown'}</p>
             ${guide.date && !window.cms.isPlaceholderValue(guide.date) ? `<p style="margin-top: 0.3rem;"><strong>Date:</strong> ${guide.date}</p>` : ''}
-          </article>`).join('')
-        : '<div class="empty-state">No guides match your search.</div>';
+          </article>`;
+        }).join('')
+        /* Tip #4: Improved "no results" empty state */
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">🔍</div>
+             <strong>No guides match your search.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:var(--brown-mid);">Try a different keyword or clear the search field.</p>
+           </div>`;
+
+      const summary = document.getElementById('guide-summary');
+      if (summary) {
+        const query = guideSearch.value.trim();
+        const count = guides.length;
+        summary.textContent = query
+          ? `${count} ${count === 1 ? 'guide' : 'guides'} match "${query}".`
+          : `${allGuides.length} ${allGuides.length === 1 ? 'guide is' : 'guides are'} available.`;
+      }
     }
 
     function applySearch(query) {
       const normalized = query.toLowerCase();
       const filtered = allGuides.filter((guide) => {
         const haystack = `${guide.title} ${guide.type} ${guide.summary} ${guide.status}`.toLowerCase();
-        return haystack.includes(normalized);
+        const keywords = normalized.split(' ').filter(Boolean);
+        return keywords.every(keyword => haystack.includes(keyword));
       });
       renderGuides(filtered);
     }
 
-    guideSearch.addEventListener('input', (event) => applySearch(event.target.value));
+    guideSearch.addEventListener('input', window.cms.debounce((event) => applySearch(event.target.value), 300));
+
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxShare = document.getElementById('lightbox-share');
+
+    guidesList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('guide-thumbnail')) {
+        lightboxImg.src = e.target.getAttribute('src');
+        lightboxImg.alt = e.target.getAttribute('alt');
+        lightboxImg.classList.remove('zoomed');
+        lightbox.classList.add('active');
+      }
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightboxImg.addEventListener('click', () => {
+      lightboxImg.classList.toggle('zoomed');
+    });
+
+    lightboxShare.addEventListener('click', async () => {
+      try {
+        if (navigator.share) {
+          const url = new URL(lightboxImg.getAttribute('src'), window.location.origin).href;
+          await navigator.share({ title: lightboxImg.alt, url: url });
+        } else {
+          alert('Sharing is not supported on this browser.');
+        }
+      } catch (err) {
+        console.error('Share failed:', err);
+      }
+    });
+
+
 
     async function init() {
       try {
@@ -92,11 +236,13 @@
         guidesLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        guidesLoading.textContent = 'Failed to load guides.';
+        window.cms.showErrorState(guidesLoading, 'guides', init, 'gallery');
       }
     }
 
     init();
+    });
   </script>
 </body>
+
 </html>

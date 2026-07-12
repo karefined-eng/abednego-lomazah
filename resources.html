@@ -1,63 +1,113 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
-  <title>Resources | Abednego Lomazah</title>
+  <title>Academic Resources | Compiled by Abednego Lomazah</title>
+  <meta name="description"
+    content="Access a comprehensive library of academic resources and study materials for University of Ghana courses." />
+  <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/resources.html" />
+  <meta property="og:title" content="Academic Resources | Compiled by Abednego Lomazah" />
+  <meta property="og:description"
+    content="Access a comprehensive library of academic resources and study materials for University of Ghana courses." />
+  <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
+  <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+  <meta name="msapplication-TileColor" content="#3d1f0d" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <meta property="og:url" content="https://abednego-lomazah-site.vercel.app/resources.html" />
+  <meta property="og:type" content="website" />
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+  <link rel="dns-prefetch" href="https://docs.google.com" />
+  <link rel="dns-prefetch" href="https://drive.google.com" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://docs.google.com" />
+  <link rel="preconnect" href="https://drive.google.com" />
+  <link rel="preload" href="assets/css/site.css" as="style" />
+  <link rel="preload" href="assets/js/cms.js" as="script" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
+  <script src="assets/js/mobile-menu.js" defer></script>
   <link rel="stylesheet" href="assets/css/site.css" />
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
+
 <body>
-  <nav class="navbar">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <ul class="nav-links">
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Open menu">☰</button>
+    <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
-      <li><a href="resources.html" class="active">Resources</a></li>
+      <li><a href="resources.html" class="active" aria-current="page">Resources</a></li>
       <li><a href="community.html">Community</a></li>
       <li><a href="guides.html">Guides</a></li>
       <li><a href="updates.html">Updates</a></li>
     </ul>
   </nav>
 
-  <section class="page-section-top">
-    <div class="container">
-      <div class="page-header">
-        <h2>COURSE LIBRARY</h2>
-        <p class="subtitle">Browse student resources assembled from the live Google Sheet CMS.</p>
-      </div>
+  <main id="main-content">
 
-      <input class="searchbar" id="resource-search" type="text" placeholder="Search by college, programme, semester, or notes" aria-label="Search student resources and Drive folders" />
-      <p class="search-help">Search for a course or college to find the matching Google Drive folder.</p>
-      <p class="search-summary" id="search-summary" aria-live="polite"></p>
-      <div class="filters" id="resource-filters"></div>
-      <div class="filters">
-        <select class="filter-select" id="semester-filter" title="Filter by semester" aria-label="Filter by semester">
-          <option value="All">All semesters</option>
-          <option value="1st">1st Semester</option>
-          <option value="2nd">2nd Semester</option>
-          <option value="Both">Both</option>
-        </select>
-      </div>
+    <section class="page-section-top">
+      <div class="container">
+        <div class="page-header">
+          <h1>COURSE LIBRARY</h1>
+          <p class="subtitle">Browse student resources assembled by Abednego Lomazah.</p>
+        </div>
 
-      <div class="loading" id="resources-loading">Loading resources...</div>
-      <div class="courses-grid" id="resources-grid"></div>
-    </div>
-  </section>
+        <input class="searchbar" id="resource-search" type="text"
+          placeholder="Search by college, programme, semester, or course code"
+          aria-label="Search student resources and Google Drive folders" />
+        <p class="search-help">Search for a course or college to find the matching Google Drive folder.</p>
+        <p class="search-summary" id="search-summary" aria-live="polite"></p>
+        <div class="filters" id="resource-filters" role="group" aria-label="Filter by college"></div>
+        <div class="filters">
+          <select class="filter-select" id="semester-filter" title="Filter by Semester" aria-label="Filter by Semester">
+            <option value="All">All Semesters</option>
+            <option value="1st">1st Semester</option>
+            <option value="2nd">2nd Semester</option>
+            <option value="Both">Both</option>
+          </select>
+        </div>
 
-  <section class="section-dark page-section-dark">
-    <div class="container">
-      <div class="page-header">
-        <h2>RECORDINGS</h2>
-        <p class="subtitle">Tutorial recordings and revision sessions curated from the CMS.</p>
+        <!-- Tip #6: Skeleton screen for resources section -->
+        <div id="resources-loading" aria-live="polite" aria-label="Loading resources"></div>
+        <div class="courses-grid" id="resources-grid"></div>
       </div>
-      <div class="loading" id="recordings-loading">Loading recordings...</div>
-      <div class="recordings-grid" id="recordings-grid"></div>
-    </div>
-  </section>
+    </section>
+
+    <section class="section-dark page-section-dark">
+      <div class="container">
+        <div class="page-header">
+          <h2>TUTORIAL RECORDINGS</h2>
+          <p class="subtitle">Tutorial recordings and revision sessions curated by Abednego Lomazah.</p>
+        </div>
+
+        <!-- Tip #6: Skeleton screen for recordings section -->
+        <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings"></div>
+        <div class="recordings-grid" id="recordings-grid"></div>
+      </div>
+    </section>
+  </main>
 
   <footer class="footer">
     <span class="footer-brand">ABEDNEGO LOMAZAH</span>
@@ -72,9 +122,15 @@
     <div class="modal-box">
       <div class="modal-header">
         <span class="modal-title" id="modalTitle">Drive Folder</span>
-        <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        <div class="modal-actions">
+          <a class="modal-open-link" id="modalOpenLink" href="#" target="_blank" rel="noopener noreferrer">Open in Drive
+            ↗</a>
+          <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+        </div>
       </div>
-      <iframe class="modal-frame" id="modalFrame" title="Drive Folder" loading="lazy"></iframe>
+      <div class="modal-body">
+        <iframe class="modal-frame" id="modalFrame" title="Drive Folder" loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 
@@ -91,16 +147,57 @@
     const recordingsLoading = document.getElementById('recordings-loading');
 
     let allResources = [];
+    let allRecordings = [];
     let activeFilter = 'All';
+
+    window.cms.injectSkeletons(resourcesLoading, 'compact', 4);
+    window.cms.injectSkeletons(recordingsLoading, 'compact-dark', 3);
+
+    function normalizeSearchText(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    }
+
+    function extractCourseCodes(text) {
+      return [...String(text || '').matchAll(/([a-z]+)(\d+)/gi)].map((match) => ({
+        subject: match[1].toLowerCase(),
+        number: Number(match[2])
+      }));
+    }
+
+    function matchesCourseQuery(query, haystack) {
+      const normalizedQuery = normalizeSearchText(query);
+      const normalizedHaystack = normalizeSearchText(haystack);
+
+      if (!normalizedQuery) return true;
+      if (normalizedHaystack.includes(normalizedQuery)) return true;
+
+      const queryParts = normalizedQuery.split(/\s+/).filter(Boolean);
+      const subject = queryParts.find((part) => part.length > 2 && !/^\d+$/.test(part));
+      const number = queryParts.find((part) => /^\d+$/.test(part));
+
+      if (!subject) return normalizedHaystack.includes(normalizedQuery);
+
+      const codes = extractCourseCodes(haystack);
+      if (!codes.length) return normalizedHaystack.includes(subject);
+
+      if (number) {
+        const targetNumber = Number(number);
+        return codes.some(({ subject: codeSubject, number: codeNumber }) =>
+          codeSubject === subject && Math.abs(codeNumber - targetNumber) <= 1
+        );
+      }
+
+      return codes.some(({ subject: codeSubject }) => codeSubject === subject);
+    }
 
     function createCardMarkup(item, kind) {
       if (kind === 'resource') {
         return `
-          <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0">
+          <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0" aria-label="Open ${item.programme || 'resource'} folder">
             <div class="course-icon">📂</div>
             <div class="course-code">${item.college || 'UNIVERSAL'}</div>
             <h3 class="course-name">${item.programme || 'Untitled resource'}</h3>
-            <p class="course-desc">${item.notes || 'Live resource folder from the campaign CMS.'}</p>
+            <p class="course-desc">${item.notes || 'Course materials and resources'}</p>
             <div class="course-open">Open Folder</div>
           </article>`;
       }
@@ -125,12 +222,20 @@
       const filtered = resources.filter((item) => {
         const collegeMatch = activeFilter === 'All' || item.college === activeFilter;
         const semesterValue = String(item.semester || '').toLowerCase();
-        const semesterMatch = semesterFilter === 'All' || semesterValue === semesterFilter.toLowerCase() || (semesterFilter === 'Both' && semesterValue === 'both');
+        const semesterMatch = semesterFilter === 'All'
+          || semesterValue === semesterFilter.toLowerCase()
+          || (semesterFilter === 'Both' && semesterValue === 'both');
         return collegeMatch && semesterMatch;
       });
+
+      /* Tip #4: Rich empty state with icon + helper text */
       resourcesGrid.innerHTML = filtered.length
         ? filtered.map((item) => createCardMarkup(item, 'resource')).join('')
-        : '<div class="empty-state">No resources match your search yet. Try a different college, programme, or semester.</div>';
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">📂</div>
+             <strong>No matching folders found.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:var(--brown-mid);">Try searching by your college first, then open the folder to browse courses available there.</p>
+           </div>`;
 
       resourcesGrid.querySelectorAll('.course-card').forEach((card) => {
         card.addEventListener('click', () => openResourceFolder(card));
@@ -145,18 +250,21 @@
       const summary = document.getElementById('search-summary');
       if (summary) {
         const query = resourceSearch.value.trim();
-        if (query) {
-          summary.textContent = `${filtered.length} ${filtered.length === 1 ? 'folder' : 'folders'} match “${query}”.`;
-        } else {
-          summary.textContent = `${filtered.length} resource ${filtered.length === 1 ? 'folder is' : 'folders are'} available.`;
-        }
+        summary.textContent = query
+          ? `${filtered.length} ${filtered.length === 1 ? 'folder' : 'folders'} match "${query}".`
+          : `${filtered.length} resource ${filtered.length === 1 ? 'folder is' : 'folders are'} available.`;
       }
     }
 
     function renderRecordings(recordings) {
+      /* Tip #4: Rich empty state */
       recordingsGrid.innerHTML = recordings.length
         ? recordings.map((item) => createCardMarkup(item, 'recording')).join('')
-        : '<div class="empty-state">No recordings are available right now.</div>';
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">🎥</div>
+             <strong>No recordings available right now.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:rgba(245,240,232,0.6);">Check back soon — new tutorial sessions are added regularly.</p>
+           </div>`;
 
       recordingsGrid.querySelectorAll('.recording-card').forEach((card) => {
         card.addEventListener('click', () => {
@@ -170,9 +278,10 @@
 
     function renderFilters(resources) {
       const colleges = ['All', ...new Set(resources.map((item) => item.college).filter(Boolean))];
-      resourceFilters.innerHTML = colleges.map((college) => `
-        <button class="filter-chip ${college === activeFilter ? 'active' : ''}" data-college="${college}">${college}</button>
-      `).join('');
+      resourceFilters.innerHTML = colleges.map((college) =>
+        /* Tip #2: aria-pressed communicates active filter state to screen readers */
+        `<button class="filter-chip ${college === activeFilter ? 'active' : ''}" data-college="${college}" aria-pressed="${college === activeFilter}">${college}</button>`
+      ).join('');
 
       resourceFilters.querySelectorAll('.filter-chip').forEach((button) => {
         button.addEventListener('click', () => {
@@ -186,20 +295,20 @@
     function applySearch(query, resources, recordings) {
       const normalized = query.toLowerCase();
       const filteredResources = resources.filter((item) => {
-        const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`.toLowerCase();
-        return haystack.includes(normalized);
+        const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`;
+        return matchesCourseQuery(normalized, haystack);
       });
       const filteredRecordings = recordings.filter((item) => {
-        const haystack = `${item.course} ${item.type} ${item.level} ${item.description}`.toLowerCase();
-        return haystack.includes(normalized);
+        const haystack = `${item.course} ${item.type} ${item.level} ${item.description}`;
+        return matchesCourseQuery(normalized, haystack);
       });
       renderResources(filteredResources);
       renderRecordings(filteredRecordings);
     }
 
-    resourceSearch.addEventListener('input', (event) => {
+    resourceSearch.addEventListener('input', window.cms.debounce((event) => {
       applySearch(event.target.value, allResources, allRecordings);
-    });
+    }, 300));
 
     resourceSearch.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
@@ -207,8 +316,8 @@
         const query = resourceSearch.value.trim().toLowerCase();
         if (!query) return;
         const matches = allResources.filter((item) => {
-          const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`.toLowerCase();
-          return haystack.includes(query);
+          const haystack = `${item.college} ${item.programme} ${item.semester} ${item.notes}`;
+          return matchesCourseQuery(query, haystack);
         });
         if (matches.length === 1 && matches[0].folderId) {
           window.openDriveModal(matches[0].programme || 'Resource', matches[0].folderId);
@@ -220,42 +329,49 @@
       renderResources(allResources);
     });
 
-    let allRecordings = [];
 
-    async function init() {
+
+    async function loadResources() {
       try {
-        const resources = await window.cms.fetchCSV(RESOURCE_CSV);
-        const recordings = await window.cms.fetchCSV(RECORDINGS_CSV);
-
-        allResources = resources.map((row) => ({
+        const rows = await window.cms.fetchCSV(RESOURCE_CSV);
+        allResources = rows.map((row) => ({
           college: row[0] || 'Universal',
           programme: row[1] || '',
           semester: row[2] || '',
           folderId: row[3] || '',
           notes: row[4] || ''
         })).filter((item) => item.folderId && item.programme);
+        renderResources(allResources);
+        renderFilters(allResources);
+        resourcesLoading.style.display = 'none';
+      } catch (error) {
+        console.error(error);
+        window.cms.showErrorState(resourcesLoading, 'resources', loadResources, 'compact');
+      }
+    }
 
-        allRecordings = recordings.map((row) => ({
+    async function loadRecordings() {
+      try {
+        const rows = await window.cms.fetchCSV(RECORDINGS_CSV);
+        allRecordings = rows.map((row) => ({
           course: row[0] || '',
           type: row[1] || '',
           level: row[2] || '',
           description: row[3] || '',
           folderId: row[4] || ''
         })).filter((item) => item.folderId && item.course);
-
-        renderResources(allResources);
         renderRecordings(allRecordings);
-        renderFilters(allResources);
-        resourcesLoading.style.display = 'none';
         recordingsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        resourcesLoading.textContent = 'Failed to load resources.';
-        recordingsLoading.textContent = 'Failed to load recordings.';
+        window.cms.showErrorState(recordingsLoading, 'recordings', loadRecordings, 'compact-dark');
       }
     }
 
-    init();
+    /* Fire both fetches independently — one failing doesn't block the other */
+    loadResources();
+    loadRecordings();
   </script>
 </body>
+
 </html>

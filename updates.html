@@ -1,40 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
   <title>Updates | Abednego Lomazah</title>
+  <meta name="description" content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
+  <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/updates.html" />
+  <meta property="og:title" content="Updates | Abednego Lomazah" />
+  <meta property="og:description"
+    content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
+  <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
+  <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png" />
+  <link rel="manifest" href="/assets/favicon/site.webmanifest" />
+  <meta name="msapplication-TileColor" content="#3d1f0d" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <meta property="og:url" content="https://abednego-lomazah-site.vercel.app/updates.html" />
+  <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@1,700&display=swap"
+    rel="stylesheet" />
+  <script src="assets/js/mobile-menu.js" defer></script>
   <link rel="stylesheet" href="assets/css/site.css" />
+  <script>
+    window.si = window.si || function () { (window.siq = window.siq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/speed-insights/script.js"></script>
+  <!-- Vercel Web Analytics -->
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
+
 <body>
-  <nav class="navbar">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav class="navbar" aria-label="Primary navigation">
     <a href="index.html" class="nav-logo">Abednego Lomazah</a>
-    <ul class="nav-links">
+    <button class="mobile-menu-toggle" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Open menu">☰</button>
+    <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html">Resources</a></li>
       <li><a href="community.html">Community</a></li>
       <li><a href="guides.html">Guides</a></li>
-      <li><a href="updates.html" class="active">Updates</a></li>
+      <li><a href="updates.html" class="active" aria-current="page">Updates</a></li>
     </ul>
   </nav>
 
-  <section class="page-section-top">
-    <div class="container">
-      <div class="page-header">
-        <h2>ADVOCACY TRACKER</h2>
-        <p class="subtitle">Track campaign updates and upcoming tutorials from the live CMS.</p>
+  <main id="main-content">
+
+    <section class="page-section-top">
+      <div class="container">
+        <div class="page-header">
+          <h1>ADVOCACY TRACKER</h1>
+          <p class="subtitle">Get informed about updates and upcoming tutorials.</p>
+        </div>
+        <div id="tracker-loading" role="status" aria-live="polite" aria-label="Loading tracker"></div>
+        <div class="cards-grid" id="tracker-grid"></div>
+        <div id="tutorials-loading" role="status" aria-live="polite" aria-label="Loading tutorials"></div>
+        <div class="cards-grid" id="tutorials-grid"></div>
       </div>
-      <div class="loading" id="tracker-loading">Loading tracker...</div>
-      <div class="cards-grid" id="tracker-grid"></div>
-      <div class="loading" id="tutorials-loading">Loading tutorials...</div>
-      <div class="cards-grid" id="tutorials-grid"></div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <footer class="footer">
     <span class="footer-brand">ABEDNEGO LOMAZAH</span>
@@ -45,14 +81,18 @@
     </ul>
   </footer>
 
-  <script src="assets/js/cms.js"></script>
+  <script src="assets/js/cms.js" defer></script>
   <script>
+    document.addEventListener('DOMContentLoaded', function () {
     const GUIDES_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=618976969&single=true&output=csv';
     const TUTORIALS_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSanJxg3Q83z1Cr0PpY2rSAY9yUNc3YWYmrpj3v-hNQmDyd1TYLlDYiYKVRGAohiM1kkChDLIkmfooI/pub?gid=508134725&single=true&output=csv';
     const trackerGrid = document.getElementById('tracker-grid');
     const tutorialsGrid = document.getElementById('tutorials-grid');
     const trackerLoading = document.getElementById('tracker-loading');
     const tutorialsLoading = document.getElementById('tutorials-loading');
+
+    window.cms.injectSkeletons(trackerLoading, 'compact', 3);
+    window.cms.injectSkeletons(tutorialsLoading, 'compact', 3);
 
     async function init() {
       try {
@@ -105,12 +145,14 @@
         tutorialsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        trackerLoading.textContent = 'Failed to load advocacy tracker.';
-        tutorialsLoading.textContent = 'Failed to load tutorials.';
+        window.cms.showErrorState(trackerLoading, 'advocacy tracker', init, 'compact');
+        window.cms.showErrorState(tutorialsLoading, 'tutorials', init, 'compact');
       }
     }
 
     init();
+    });
   </script>
 </body>
+
 </html>
