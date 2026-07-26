@@ -106,11 +106,45 @@
     <section class="section-dark page-section-dark">
       <div class="container">
         <div class="page-header">
-          <h2>TUTORIAL RECORDINGS</h2>
-          <p class="subtitle">Tutorial recordings and revision sessions curated by Abednego Lomazah.</p>
+          <h2>FEATURED TUTORIALS & STUDY PACKS</h2>
+          <p class="subtitle">Featured YouTube revision sessions, Scribd slides, and Studocu study guides curated by Abednego Lomazah.</p>
         </div>
 
-        <!-- Tip #6: Skeleton screen for recordings section -->
+        <div class="cards-grid cards-grid-compact" style="margin-bottom: 2rem;">
+          <a href="https://www.youtube.com/watch?v=bVMtr44nq5U" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+            <div class="card compact-card compact-card--bright">
+              <div class="course-code" style="color:var(--gold); font-weight:bold;">YOUTUBE REVISION</div>
+              <h3 class="course-name" style="margin-top:0.3rem;">UGRC 150 Critical Thinking</h3>
+              <p class="course-desc">Full exam revision session and notes review.</p>
+              <div style="margin-top:0.6rem; font-weight:bold; color:var(--gold);">Watch Video ↗</div>
+            </div>
+          </a>
+          <a href="https://www.scribd.com/document/1029190257/Abednego-everlasting-chem113-Slides-Combined" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+            <div class="card compact-card-inner compact-card-inner--light">
+              <div class="course-code" style="color:var(--gold); font-weight:bold;">SCRIBD SLIDES</div>
+              <h3 class="course-name" style="margin-top:0.3rem;">CHEM 113 Combined Slides</h3>
+              <p class="course-desc">Comprehensive chemistry study pack.</p>
+              <div style="margin-top:0.6rem; font-weight:bold; color:var(--gold);">View Document ↗</div>
+            </div>
+          </a>
+          <a href="https://www.scribd.com/document/990193784/Abednego-Math123-Combined-Slides" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+            <div class="card compact-card-inner compact-card-inner--light">
+              <div class="course-code" style="color:var(--gold); font-weight:bold;">SCRIBD SLIDES</div>
+              <h3 class="course-name" style="margin-top:0.3rem;">MATH 123 Combined Slides</h3>
+              <p class="course-desc">Complete math slide deck for UG students.</p>
+              <div style="margin-top:0.6rem; font-weight:bold; color:var(--gold);">View Document ↗</div>
+            </div>
+          </a>
+          <a href="https://www.studocu.com/row/document/sd-dombo-university-of-business-and-integrated-development-studies-sdd-ubids/hotel-restaurant-management/abednego-lomazah-cgpa-fgpa-calculation-guide-0535831056/161630179" target="_blank" rel="noopener" style="text-decoration:none; color:inherit;">
+            <div class="card compact-card-inner compact-card-inner--light">
+              <div class="course-code" style="color:var(--gold); font-weight:bold;">STUDOCU GUIDE</div>
+              <h3 class="course-name" style="margin-top:0.3rem;">CGPA & FGPA Calculation</h3>
+              <p class="course-desc">Step-by-step academic grading guide.</p>
+              <div style="margin-top:0.6rem; font-weight:bold; color:var(--gold);">Read Guide ↗</div>
+            </div>
+          </a>
+        </div>
+
         <div id="recordings-loading" aria-live="polite" aria-label="Loading recordings"></div>
         <div class="recordings-grid" id="recordings-grid"></div>
       </div>
@@ -221,7 +255,6 @@
       if (kind === 'resource') {
         return `
           <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0" aria-label="Open ${item.programme || 'resource'} folder">
-          <article class="course-card" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0" aria-label="Open ${item.programme || 'resource'} folder">
             <div class="course-icon">📂</div>
             <div class="course-code">${item.college || 'UNIVERSAL'}</div>
             <h3 class="course-name">${item.programme || 'Untitled resource'}</h3>
@@ -231,7 +264,6 @@
       }
       return `
         <article class="recording-card" data-search="${(item.course + ' ' + item.type + ' ' + item.level + ' ' + item.description).toLowerCase()}" data-folder-id="${item.folderId || ''}">
-        <article class="recording-card" data-folder-id="${item.folderId || ''}">
           <div class="rec-icon">🎥</div>
           <div class="rec-label">${item.type || 'Recording'}</div>
           <h3 class="rec-title">${item.course || 'Recording'}</h3>
