@@ -6,12 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="sitemap" type="application/xml" title="Sitemap" href="sitemap.xml" />
   <link rel="robots" href="robots.txt" />
-  <title>Updates | Abednego Lomazah</title>
-  <meta name="description" content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
+  <title>Updates & Guides | Abednego Lomazah</title>
+  <meta name="description" content="Track the latest advocacy updates, upcoming tutorials, and step-by-step academic guides from Abednego Lomazah." />
   <link rel="canonical" href="https://abednego-lomazah-site.vercel.app/updates.html" />
-  <meta property="og:title" content="Updates | Abednego Lomazah" />
+  <meta property="og:title" content="Updates & Guides | Abednego Lomazah" />
   <meta property="og:description"
-    content="Track the latest advocacy updates and upcoming tutorials from Abednego Lomazah." />
+    content="Track the latest advocacy updates, upcoming tutorials, and step-by-step academic guides from Abednego Lomazah." />
   <meta property="og:image" content="https://abednego-lomazah-site.vercel.app/assets/hero/poster-optimized.jpg" />
   <link rel="icon" href="/assets/favicon/favicon.ico" sizes="any" />
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png" />
@@ -50,7 +50,6 @@
     <ul class="nav-links" id="primary-navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="resources.html">Resources</a></li>
-      <li><a href="guides.html">Guides</a></li>
       <li><a href="updates.html" class="active" aria-current="page">Updates</a></li>
     </ul>
   </nav>
@@ -69,15 +68,59 @@
         <div class="cards-grid" id="tutorials-grid"></div>
       </div>
     </section>
+
+    <section class="section-dark page-section-dark" id="guides">
+      <div class="container">
+        <div class="page-header">
+          <h2>HOW-TO GUIDES</h2>
+          <p class="subtitle">Search the latest step-by-step guides from Abednego Lomazah.</p>
+        </div>
+
+        <input class="searchbar" id="guide-search" type="text" aria-label="Search academic guides"
+          placeholder="Search by title, summary, or type" />
+        <p class="search-summary" id="guide-summary" aria-live="polite"></p>
+
+        <div id="guides-loading" role="status" aria-live="polite" aria-label="Loading guides"></div>
+
+        <div class="gallery-grid" id="guides-list"></div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
     <span class="footer-brand">ABEDNEGO LOMAZAH</span>
     <ul class="footer-links">
       <li><a href="resources.html">Resources</a></li>
-      <li><a href="guides.html">Guides</a></li>
+      <li><a href="updates.html">Updates</a></li>
     </ul>
   </footer>
+
+  <div class="image-lightbox" id="image-lightbox">
+    <div class="lightbox-topbar">
+      <button class="lightbox-btn" id="lightbox-share" aria-label="Share Image">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        Share
+      </button>
+      <button class="lightbox-btn" id="lightbox-close" aria-label="Close Lightbox">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        Close
+      </button>
+    </div>
+    <div class="lightbox-image-container">
+      <img src="" alt="Full view" class="lightbox-image" id="lightbox-img" />
+    </div>
+  </div>
 
   <script src="assets/js/cms.js" defer></script>
   <script>
@@ -89,8 +132,107 @@
     const trackerLoading = document.getElementById('tracker-loading');
     const tutorialsLoading = document.getElementById('tutorials-loading');
 
+    const guidesList = document.getElementById('guides-list');
+    const guideSearch = document.getElementById('guide-search');
+    const guidesLoading = document.getElementById('guides-loading');
+    let allGuides = [];
+
     window.cms.injectSkeletons(trackerLoading, 'compact', 3);
     window.cms.injectSkeletons(tutorialsLoading, 'compact', 3);
+    window.cms.injectSkeletons(guidesLoading, 'gallery', 6);
+
+    function getGuideImage(title) {
+      const imageMap = {
+        'WiFi Connectivity on Campus': 'assets/petitions/2026-06-19 petition for the improvement of wifi connectivity in the traditional halls.jpg',
+        'Course Registration Deadline Extension': 'assets/petitions/2026-06-16 petition for course registration deadline extension.jpg',
+        'Exam Hall Belongings Security': 'assets/petitions/2026-06-30 petition on the inadequate security measures for students valuables at examiniation centers.jpg',
+        'Transportation Fares On Campus': 'assets/petitions/2026.06.30 address on transportation fares.jpg',
+        'Supplementary Resit Timetable Distribution': 'assets/guides/notice on suplementary resit registration.jpg',
+        'Student Data / Internet Connectivity': 'assets/petitions/2026-06-19 request for the immediate attention to the poor wifi connectivity issues in the 24hr reading room.jpg',
+        'How to Prepare for Science Course Finals (CHEM113 / PHYS143 / ABCS101 / MATH101)': 'assets/petitions/2026.07.02 organic chemistry pre ia tutorials on teams.jpg',
+        'How to Prepare for Your UGRC IA': 'assets/petitions/2026.07.04 african studies pre-ia tutorial on zoom.jpg',
+        'Free Tutorial Sessions (Zoom / Teams)': 'assets/petitions/2026.07.04  african studies pre ai tutorial on teams.jpg'
+      };
+      return imageMap[title];
+    }
+
+    function renderGuides(guides) {
+      guidesList.innerHTML = guides.length
+        ? guides.map((guide) => {
+          const guideImage = getGuideImage(guide.title);
+          const encodedImagePath = guideImage ? guideImage.split('/').map(p => encodeURIComponent(p)).join('/') : null;
+          return `
+          <article class="gallery-item" data-search="${(guide.title + ' ' + guide.type + ' ' + guide.summary + ' ' + guide.status).toLowerCase()}">
+            ${encodedImagePath ? `<img src="${encodedImagePath}" alt="${guide.title}" class="guide-thumbnail">` : `<div class="course-icon">📝</div>`}
+            <div class="course-code">${guide.type || 'Guide'}</div>
+            <h4>${guide.title || 'Guide'}</h4>
+            <p>${guide.summary || 'No summary provided.'}</p>
+            <p style="margin-top: 0.6rem;"><strong>Status:</strong> ${guide.status || 'Unknown'}</p>
+            ${guide.date && !window.cms.isPlaceholderValue(guide.date) ? `<p style="margin-top: 0.3rem;"><strong>Date:</strong> ${guide.date}</p>` : ''}
+          </article>`;
+        }).join('')
+        : `<div class="empty-state" role="status">
+             <div style="font-size:1.6rem;margin-bottom:0.4rem;">🔍</div>
+             <strong>No guides match your search.</strong>
+             <p style="margin-top:0.3rem;font-size:0.85rem;color:var(--brown-mid);">Try a different keyword or clear the search field.</p>
+           </div>`;
+
+      const summary = document.getElementById('guide-summary');
+      if (summary) {
+        const query = guideSearch.value.trim();
+        const count = guides.length;
+        summary.textContent = query
+          ? `${count} ${count === 1 ? 'guide' : 'guides'} match "${query}".`
+          : `${allGuides.length} ${allGuides.length === 1 ? 'guide is' : 'guides are'} available.`;
+      }
+    }
+
+    function applyGuideSearch(query) {
+      const normalized = query.toLowerCase();
+      const filtered = allGuides.filter((guide) => {
+        const haystack = `${guide.title} ${guide.type} ${guide.summary} ${guide.status}`.toLowerCase();
+        const keywords = normalized.split(' ').filter(Boolean);
+        return keywords.every(keyword => haystack.includes(keyword));
+      });
+      renderGuides(filtered);
+    }
+
+    guideSearch.addEventListener('input', window.cms.debounce((event) => applyGuideSearch(event.target.value), 300));
+
+    const lightbox = document.getElementById('image-lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const lightboxClose = document.getElementById('lightbox-close');
+    const lightboxShare = document.getElementById('lightbox-share');
+
+    guidesList.addEventListener('click', (e) => {
+      if (e.target.classList.contains('guide-thumbnail')) {
+        lightboxImg.src = e.target.getAttribute('src');
+        lightboxImg.alt = e.target.getAttribute('alt');
+        lightboxImg.classList.remove('zoomed');
+        lightbox.classList.add('active');
+      }
+    });
+
+    lightboxClose.addEventListener('click', () => {
+      lightbox.classList.remove('active');
+    });
+
+    lightboxImg.addEventListener('click', () => {
+      lightboxImg.classList.toggle('zoomed');
+    });
+
+    lightboxShare.addEventListener('click', async () => {
+      try {
+        if (navigator.share) {
+          const url = new URL(lightboxImg.getAttribute('src'), window.location.origin).href;
+          await navigator.share({ title: lightboxImg.alt, url: url });
+        } else {
+          alert('Sharing is not supported on this browser.');
+        }
+      } catch (err) {
+        console.error('Share failed:', err);
+      }
+    });
 
     async function init() {
       try {
@@ -105,6 +247,10 @@
           status: row[4] || '',
           sourceLink: row[5] || ''
         })).filter((item) => item.title && !window.cms.isPlaceholderValue(item.title));
+
+        allGuides = tracker;
+        renderGuides(allGuides);
+        guidesLoading.style.display = 'none';
 
         const tutorials = tutorialRows.map((row) => ({
           date: row[0] || '',
@@ -145,6 +291,7 @@
         console.error(error);
         window.cms.showErrorState(trackerLoading, 'advocacy tracker', init, 'compact');
         window.cms.showErrorState(tutorialsLoading, 'tutorials', init, 'compact');
+        window.cms.showErrorState(guidesLoading, 'guides', init, 'gallery');
       }
     }
 

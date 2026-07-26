@@ -2,7 +2,22 @@
   "redirects": [
     {
       "source": "/community.html",
-      "destination": "/",
+      "destination": "/updates.html",
+      "permanent": true
+    },
+    {
+      "source": "/community",
+      "destination": "/updates.html",
+      "permanent": true
+    },
+    {
+      "source": "/guides.html",
+      "destination": "/updates.html#guides",
+      "permanent": true
+    },
+    {
+      "source": "/guides",
+      "destination": "/updates.html#guides",
       "permanent": true
     }
   ]
