@@ -18,3 +18,5 @@ __pycache__/
 # Retired unpublished pages
 community.html
 guides.html
+.vercel
+.env*
