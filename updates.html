@@ -246,20 +246,14 @@
           if (apiRes.ok) {
             const apiData = await apiRes.json();
             if (apiData.success && Array.isArray(apiData.updates)) {
-              liveUpdates = apiData.updates.map(item => ({
-                date: item.date || '',
-                type: item.category || 'WhatsApp Live',
-                title: item.title || 'WhatsApp Update',
-                summary: item.summary || '',
-                status: item.status || 'ONGOING',
-                sourceLink: ''
-              }));
+              liveUpdates = apiData.updates;
             }
           }
         } catch (apiErr) {
           console.log('Live updates API fallback to CSV:', apiErr);
         }
 
+        // 1. Process ADVOCACY (Tracker)
         const csvTracker = guideRows.map((row) => ({
           date: row[0] || '',
           type: row[1] || '',
@@ -269,13 +263,37 @@
           sourceLink: row[5] || ''
         })).filter((item) => item.title && !window.cms.isPlaceholderValue(item.title));
 
-        const tracker = [...liveUpdates, ...csvTracker];
+        const liveAdvocacy = liveUpdates
+          .filter(u => u.category === 'ADVOCACY')
+          .map(item => ({
+            date: item.date || '',
+            type: 'Advocacy',
+            title: item.title || 'WhatsApp Update',
+            summary: item.summary || '',
+            status: item.status || 'ONGOING',
+            sourceLink: item.links?.[0] || ''
+          }));
+        const tracker = [...liveAdvocacy, ...csvTracker];
 
-        allGuides = csvTracker;
+        // 2. Process HOW-TO GUIDES (Gallery)
+        const liveGuides = liveUpdates
+          .filter(u => u.category === 'HOW-TO GUIDE')
+          .map(item => ({
+            date: item.date || '',
+            type: 'How-To Guide',
+            title: item.title || '',
+            summary: item.summary || '',
+            status: item.status || 'RESOLVED',
+            sourceLink: item.links?.[0] || '',
+            imageUrl: item.imageUrl || null
+          }));
+        
+        allGuides = [...liveGuides, ...csvTracker];
         renderGuides(allGuides);
         guidesLoading.style.display = 'none';
 
-        const tutorials = tutorialRows.map((row) => ({
+        // 3. Process INITIATIVES / TUTORIALS
+        const csvTutorials = tutorialRows.map((row) => ({
           date: row[0] || '',
           time: row[1] || '',
           title: row[2] || '',
@@ -284,6 +302,20 @@
           whatsappLink: row[5] || '',
           notes: row[6] || ''
         })).filter((tutorial) => tutorial.title && !window.cms.isPlaceholderValue(tutorial.title));
+
+        const liveTutorials = liveUpdates
+          .filter(u => ['INITIATIVE', 'DATE TO BE ANNOUNCED'].includes(u.category))
+          .map(item => ({
+            date: item.date || 'Date to be announced',
+            time: '',
+            title: item.title || '',
+            platform: 'WhatsApp Live',
+            platformLink: item.links?.[0] || '',
+            whatsappLink: '',
+            notes: item.summary || ''
+          }));
+        
+        const tutorials = [...liveTutorials, ...csvTutorials];
 
         trackerGrid.innerHTML = tracker.length
           ? tracker.map((item) => `
