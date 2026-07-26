@@ -194,6 +194,7 @@
       if (kind === 'resource') {
         return `
           <article class="course-card" data-search="${(item.college + ' ' + item.programme + ' ' + item.semester + ' ' + item.notes).toLowerCase()}" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0" aria-label="Open ${item.programme || 'resource'} folder">
+          <article class="course-card" data-college="${item.college}" data-folder-id="${item.folderId || ''}" role="button" tabindex="0" aria-label="Open ${item.programme || 'resource'} folder">
             <div class="course-icon">📂</div>
             <div class="course-code">${item.college || 'UNIVERSAL'}</div>
             <h3 class="course-name">${item.programme || 'Untitled resource'}</h3>
@@ -203,6 +204,7 @@
       }
       return `
         <article class="recording-card" data-search="${(item.course + ' ' + item.type + ' ' + item.level + ' ' + item.description).toLowerCase()}" data-folder-id="${item.folderId || ''}">
+        <article class="recording-card" data-folder-id="${item.folderId || ''}">
           <div class="rec-icon">🎥</div>
           <div class="rec-label">${item.type || 'Recording'}</div>
           <h3 class="rec-title">${item.course || 'Recording'}</h3>
@@ -288,6 +290,7 @@
           activeFilter = button.dataset.college;
           renderFilters(resources);
           renderResources(resources);
+          applySearch(resourceSearch.value, allResources, allRecordings);
         });
       });
     }
@@ -327,6 +330,7 @@
 
     document.getElementById('semester-filter').addEventListener('change', () => {
       renderResources(allResources);
+      applySearch(resourceSearch.value, allResources, allRecordings);
     });
 
 
