@@ -1,5 +1,7 @@
 // api/whatsapp-webhook.js
-// Vercel Serverless Function for WhatsApp Channel Ingestion & AI Categorization
+// Vercel Serverless Function for Green API & WhatsApp Channel Ingestion to Vercel KV
+
+import { kv } from '@vercel/kv';
 
 const SYSTEM_PROMPT = `You are an AI assistant parsing public WhatsApp channel updates for a University student advocacy platform.
 Your task is to take an incoming raw WhatsApp post and extract structured fields conforming strictly to the requested JSON schema.
@@ -54,10 +56,16 @@ export default async function handler(req, res) {
   try {
     const payload = req.body || {};
 
-    // Adapt payload parsing across common gateways (WAHA, Green API, Ultramsg, Evolution API)
-    const rawText = payload?.body || payload?.message?.text || payload?.text || payload?.caption;
-    const messageId = payload?.id || payload?.message?.id || `wa_${Date.now()}`;
-    const mediaUrl = payload?.mediaUrl || payload?.message?.mediaUrl || payload?.url;
+    // Green API / Standard webhook extraction
+    const msgData = payload?.messageData || {};
+    const rawText = 
+      msgData?.textMessageData?.textMessage || 
+      msgData?.extendedTextMessageData?.text || 
+      msgData?.fileMessageData?.caption || 
+      payload?.body || payload?.message?.text || payload?.text || payload?.caption;
+
+    const messageId = payload?.idMessage || payload?.id || `wa_${Date.now()}`;
+    const mediaUrl = msgData?.fileMessageData?.downloadUrl || payload?.mediaUrl || payload?.url;
 
     if (!rawText && !mediaUrl) {
       return res.status(200).json({ message: 'Ignored: No text or media found in payload' });
@@ -174,11 +182,19 @@ export default async function handler(req, res) {
       timestamp: new Date().toISOString()
     };
 
+    // 6. Save to Vercel KV Database (if connected)
+    try {
+      await kv.lpush('channel_updates', JSON.stringify(record));
+      await kv.ltrim('channel_updates', 0, 99); // Keep latest 100 updates
+    } catch (kvErr) {
+      console.warn('Vercel KV Save warning:', kvErr.message);
+    }
+
     console.log('Processed Channel Update Record:', record);
 
     return res.status(200).json({
       success: true,
-      message: 'Channel message ingested and categorized successfully',
+      message: 'Green API channel message ingested successfully',
       data: record
     });
 

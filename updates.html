@@ -239,7 +239,28 @@
         const guideRows = await window.cms.fetchCSV(GUIDES_CSV);
         const tutorialRows = await window.cms.fetchCSV(TUTORIALS_CSV);
 
-        const tracker = guideRows.map((row) => ({
+        // Fetch live WhatsApp channel updates from Vercel KV API endpoint
+        let liveUpdates = [];
+        try {
+          const apiRes = await fetch('/api/updates');
+          if (apiRes.ok) {
+            const apiData = await apiRes.json();
+            if (apiData.success && Array.isArray(apiData.updates)) {
+              liveUpdates = apiData.updates.map(item => ({
+                date: item.date || '',
+                type: item.category || 'WhatsApp Live',
+                title: item.title || 'WhatsApp Update',
+                summary: item.summary || '',
+                status: item.status || 'ONGOING',
+                sourceLink: ''
+              }));
+            }
+          }
+        } catch (apiErr) {
+          console.log('Live updates API fallback to CSV:', apiErr);
+        }
+
+        const csvTracker = guideRows.map((row) => ({
           date: row[0] || '',
           type: row[1] || '',
           title: row[2] || '',
@@ -248,7 +269,9 @@
           sourceLink: row[5] || ''
         })).filter((item) => item.title && !window.cms.isPlaceholderValue(item.title));
 
-        allGuides = tracker;
+        const tracker = [...liveUpdates, ...csvTracker];
+
+        allGuides = csvTracker;
         renderGuides(allGuides);
         guidesLoading.style.display = 'none';
 
