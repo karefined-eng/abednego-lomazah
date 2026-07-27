@@ -1262,3 +1262,66 @@ section { padding: 5rem 5vw; }
   align-items: center;
   gap: 4px;
 }
+
+/* Chronological Vertical Timeline Ledger */
+.timeline-ledger {
+  position: relative;
+  padding-left: 36px;
+  margin-top: 2rem;
+}
+.timeline-ledger::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
+  background: linear-gradient(180deg, var(--gold) 0%, rgba(200, 135, 10, 0.2) 100%);
+  border-radius: 2px;
+}
+.timeline-item-container {
+  position: relative;
+  margin-bottom: 2.2rem;
+}
+.timeline-node {
+  position: absolute;
+  left: -33px;
+  top: 18px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 3px solid var(--brown);
+  box-shadow: 0 0 12px rgba(200, 135, 10, 0.7);
+  z-index: 2;
+  transition: all 0.25s ease;
+}
+.timeline-item-container:hover .timeline-node {
+  transform: scale(1.35);
+  background: #ffffff;
+  box-shadow: 0 0 18px var(--gold-light);
+}
+.timeline-date-marker {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+@media (max-width: 600px) {
+  .timeline-ledger {
+    padding-left: 26px;
+  }
+  .timeline-ledger::before {
+    left: 7px;
+  }
+  .timeline-node {
+    left: -25px;
+    width: 12px;
+    height: 12px;
+  }
+}
