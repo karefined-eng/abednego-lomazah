@@ -351,8 +351,9 @@
     const trackerGrid = document.getElementById('tracker-grid');
     const tutorialsGrid = document.getElementById('tutorials-grid');
     const trackerLoading = document.getElementById('tracker-loading');
-    window.cms.injectSkeletons(trackerLoading, 'compact', 3);
-    window.cms.injectSkeletons(tutorialsLoading, 'compact', 3);
+    const tutorialsLoading = document.getElementById('tutorials-loading');
+    if (trackerLoading) window.cms.injectSkeletons(trackerLoading, 'compact', 3);
+    if (tutorialsLoading) window.cms.injectSkeletons(tutorialsLoading, 'compact', 3);
 
     const lightbox = document.getElementById('image-lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
@@ -504,12 +505,12 @@
             </article>`).join('')
           : '<div class="empty-state">No tutorials are currently published.</div>';
 
-        trackerLoading.style.display = 'none';
-        tutorialsLoading.style.display = 'none';
+        if (trackerLoading) trackerLoading.style.display = 'none';
+        if (tutorialsLoading) tutorialsLoading.style.display = 'none';
       } catch (error) {
         console.error(error);
-        window.cms.showErrorState(trackerLoading, 'advocacy tracker', init, 'compact');
-        window.cms.showErrorState(tutorialsLoading, 'tutorials', init, 'compact');
+        if (trackerLoading) window.cms.showErrorState(trackerLoading, 'advocacy tracker', init, 'compact');
+        if (tutorialsLoading) window.cms.showErrorState(tutorialsLoading, 'tutorials', init, 'compact');
       }
     }
 
