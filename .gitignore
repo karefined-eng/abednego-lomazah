@@ -20,3 +20,4 @@ community.html
 guides.html
 .vercel
 .env*
+.agents/
