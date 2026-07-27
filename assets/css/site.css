@@ -1168,3 +1168,97 @@ section { padding: 5rem 5vw; }
     max-width: calc(100% - 40px);
   }
 }
+
+/* Advocacy & Petition Ledger Grid & Filter Controls */
+.ledger-filter-bar {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin: 1.5rem 0 2rem 0;
+}
+.ledger-filter-btn {
+  background: rgba(245, 240, 232, 0.08);
+  color: var(--cream);
+  border: 1px solid rgba(245, 240, 232, 0.2);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-family: Inter, sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.ledger-filter-btn:hover, .ledger-filter-btn.active {
+  background: var(--gold);
+  color: var(--brown);
+  border-color: var(--gold);
+}
+
+.petition-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.petition-item {
+  display: flex;
+  flex-direction: column;
+  background: rgba(61, 31, 13, 0.4);
+  border: 1px solid rgba(200, 135, 10, 0.25);
+  border-radius: var(--radius);
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--cream);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+.petition-item:hover, .petition-item:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+}
+.petition-item img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: top center;
+  background: #110601;
+  transition: opacity 0.2s ease;
+}
+.petition-item:hover img {
+  opacity: 0.92;
+}
+.petition-item-content {
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+.petition-badge {
+  display: inline-block;
+  align-self: flex-start;
+  background: rgba(200, 135, 10, 0.15);
+  color: var(--gold-light);
+  border: 1px solid rgba(200, 135, 10, 0.3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.petition-item-caption {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--cream);
+  opacity: 0.95;
+}
+.petition-view-btn {
+  margin-top: 0.8rem;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--gold);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

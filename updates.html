@@ -83,39 +83,134 @@
     <section class="section-dark page-section-dark" id="petitions" style="margin-top: 2rem;">
       <div class="container">
         <div class="static-seo-section">
-          <h2>Advocacy Track Record: Delivered Petitions & Official Interventions</h2>
+          <h2>Official Advocacy Ledger: Delivered Petitions & Intervention Records</h2>
           <p>
-            True student leadership is measured by verifiable actions and relentless advocacy. Over the past three years, Abednego Lomazah and his dedicated team have drafted, formally signed, and hand-delivered over 13 official letters and petitions to university executives, administrative directors, and campus stakeholders. These interventions address critical student challenges across the University of Ghana, ranging from academic grading anomalies and shuttle transportation deficits to campus Wi-Fi infrastructure and fee payment deadlines.
+            True student leadership is measured by verifiable actions and relentless advocacy. Over the past three years, Abednego Lomazah and his dedicated team have drafted, formally signed, and hand-delivered over 13 official letters and petitions to university executives, administrative directors, and campus stakeholders. This page serves as the <strong>Sole Official Ledger</strong> for tracking all advocacy initiatives, petition records, and academic tutorial broadcasts across the University of Ghana community.
           </p>
-          <h3>Verified Petition Gallery & Documentation</h3>
-          <p>
-            Transparency is a core tenet of our platform. Below is a curated selection of our official correspondence and intervention logs. Click on any document title or image to view the verified archive in high resolution:
-          </p>
-          
-          <div class="petition-gallery">
-            <a href="assets/petitions/abednego-lomazah-petition-cbas-practical-fees.jpg" target="_blank" rel="noopener" class="petition-item">
+
+          <div class="ledger-filter-bar" id="ledger-filter-bar">
+            <button class="ledger-filter-btn active" data-category="all">All Documents (13)</button>
+            <button class="ledger-filter-btn" data-category="petition">Petitions & Letters (6)</button>
+            <button class="ledger-filter-btn" data-category="infrastructure">Campus Infrastructure (4)</button>
+            <button class="ledger-filter-btn" data-category="tutorial">Tutorials & Prep (3)</button>
+          </div>
+
+          <div class="petition-gallery" id="petition-ledger-grid">
+            <a href="assets/petitions/abednego-lomazah-petition-cbas-practical-fees.jpg" target="_blank" rel="noopener" class="petition-item" data-category="petition">
               <img src="assets/petitions/abednego-lomazah-petition-cbas-practical-fees.jpg" alt="Petition on Examination Grading and Evaluation in CBAS" loading="lazy" />
-              <div class="petition-item-caption"><strong>CBAS Grading Petition:</strong> Official intervention requesting transparent evaluation and review of grading anomalies for Basic and Applied Sciences students.</div>
+              <div class="petition-item-content">
+                <span class="petition-badge">PETITION DELIVERED</span>
+                <div class="petition-item-caption"><strong>CBAS Grading & Practical Fees Petition:</strong> Formal intervention requesting transparent evaluation and review of grading anomalies for Basic and Applied Sciences students.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
             </a>
-            <a href="assets/petitions/abednego-lomazah-petition-reading-room-wifi.jpg" target="_blank" rel="noopener" class="petition-item">
+
+            <a href="assets/petitions/abednego-lomazah-petition-reading-room-wifi.jpg" target="_blank" rel="noopener" class="petition-item" data-category="infrastructure">
               <img src="assets/petitions/abednego-lomazah-petition-reading-room-wifi.jpg" alt="Petition on Campus Wi-Fi Connectivity and Network Access" loading="lazy" />
-              <div class="petition-item-caption"><strong>Campus Wi-Fi Infrastructure:</strong> Formal letter to UGCS and management urging immediate expansion of router bandwidth in student residences and lecture halls.</div>
+              <div class="petition-item-content">
+                <span class="petition-badge">INFRASTRUCTURE</span>
+                <div class="petition-item-caption"><strong>Reading Rooms Wi-Fi Infrastructure:</strong> Formal letter to UGCS and management urging immediate expansion of router bandwidth in 24/7 student reading rooms.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
             </a>
-            <a href="assets/petitions/abednego-lomazah-petition-transportation-fares.jpg" target="_blank" rel="noopener" class="petition-item">
-              <img src="assets/petitions/abednego-lomazah-petition-transportation-fares.jpg" alt="Petition on Shuttle Transportation Services and Schedule Optimization" loading="lazy" />
-              <div class="petition-item-caption"><strong>Shuttle Transport Optimization:</strong> Proposals delivered to estate management for increased bus frequency during peak morning and evening lecture hours.</div>
+
+            <a href="assets/petitions/abednego-lomazah-petition-traditional-halls-wifi.jpg" target="_blank" rel="noopener" class="petition-item" data-category="infrastructure">
+              <img src="assets/petitions/abednego-lomazah-petition-traditional-halls-wifi.jpg" alt="Petition on Traditional Halls Wi-Fi Network Expansion" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">INFRASTRUCTURE</span>
+                <div class="petition-item-caption"><strong>Traditional Halls Wi-Fi Expansion:</strong> Advocacy request for installing high-density wireless access points across traditional residential halls.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
             </a>
-            <a href="assets/petitions/abednego-lomazah-petition-course-registration-extension-accepted.jpg" target="_blank" rel="noopener" class="petition-item">
-              <img src="assets/petitions/abednego-lomazah-petition-course-registration-extension-accepted.jpg" alt="Petition on Academic Fee Payment Deadline Extensions" loading="lazy" />
-              <div class="petition-item-caption"><strong>Fee Deadline Extensions:</strong> Advocating for flexible installment structures and deadline extensions for students facing temporary financial hardship.</div>
+
+            <a href="assets/petitions/abednego-lomazah-petition-transportation-fares.jpg" target="_blank" rel="noopener" class="petition-item" data-category="infrastructure">
+              <img src="assets/petitions/abednego-lomazah-petition-transportation-fares.jpg" alt="Petition on Shuttle Transportation Fares and Bus Frequency" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">TRANSPORTATION</span>
+                <div class="petition-item-caption"><strong>Shuttle Fares & Bus Scheduling:</strong> Proposals delivered to Estate Management for regulated bus fares and increased shuttle frequency during peak hours.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
             </a>
-            <a href="assets/petitions/abednego-lomazah-tutorial-organic-chemistry-teams.jpg" target="_blank" rel="noopener" class="petition-item">
+
+            <a href="assets/petitions/abednego-lomazah-petition-sbahs-transportation.jpg" target="_blank" rel="noopener" class="petition-item" data-category="infrastructure">
+              <img src="assets/petitions/abednego-lomazah-petition-sbahs-transportation.jpg" alt="Petition on SBAHS Shuttle Transportation Services" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">TRANSPORTATION</span>
+                <div class="petition-item-caption"><strong>SBAHS Korle-Bu Shuttle Support:</strong> Formal petition requesting dedicated bus transit connecting SBAHS allied health students to main campus.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-petition-course-registration-extension.jpg" target="_blank" rel="noopener" class="petition-item" data-category="petition">
+              <img src="assets/petitions/abednego-lomazah-petition-course-registration-extension.jpg" alt="Petition for Course Registration Extension" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">ACADEMIC PETITION</span>
+                <div class="petition-item-caption"><strong>Course Registration Deadline Extension:</strong> Request submitted to Academic Affairs for extending online registration deadlines due to portal glitches.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-petition-course-registration-extension-accepted.jpg" target="_blank" rel="noopener" class="petition-item" data-category="petition">
+              <img src="assets/petitions/abednego-lomazah-petition-course-registration-extension-accepted.jpg" alt="Official Acceptance of Registration Extension" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">VERIFIED SUCCESS</span>
+                <div class="petition-item-caption"><strong>Registration Extension Approval Notice:</strong> Official administrative letter confirming the extension of course registration following student advocacy.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-petition-accra-city-campus-welfare.jpg" target="_blank" rel="noopener" class="petition-item" data-category="petition">
+              <img src="assets/petitions/abednego-lomazah-petition-accra-city-campus-welfare.jpg" alt="Petition on Accra City Campus Student Welfare" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">WELFARE PETITION</span>
+                <div class="petition-item-caption"><strong>Accra City Campus Welfare & Facilities:</strong> Formal advocacy letter addressing resource allocation, library facilities, and welfare support for City Campus.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-petition-exam-centers-security.jpg" target="_blank" rel="noopener" class="petition-item" data-category="petition">
+              <img src="assets/petitions/abednego-lomazah-petition-exam-centers-security.jpg" alt="Petition on Exam Centers Campus Security and Lighting" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">CAMPUS SAFETY</span>
+                <div class="petition-item-caption"><strong>Exam Centers Safety & Security Lighting:</strong> Urgent petition requesting emergency street lighting and security patrols around late-night exam centers.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-petition-sbahs-lecture-venues.jpg" target="_blank" rel="noopener" class="petition-item" data-category="petition">
+              <img src="assets/petitions/abednego-lomazah-petition-sbahs-lecture-venues.jpg" alt="Petition on SBAHS Lecture Venues Scheduling" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">FACILITIES PETITION</span>
+                <div class="petition-item-caption"><strong>SBAHS Lecture Venues Allocation:</strong> Request for larger, air-conditioned lecture venues to accommodate growing medical student cohorts.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-tutorial-organic-chemistry-teams.jpg" target="_blank" rel="noopener" class="petition-item" data-category="tutorial">
               <img src="assets/petitions/abednego-lomazah-tutorial-organic-chemistry-teams.jpg" alt="Level 100 Organic Chemistry Tutorial Teams Announcement" loading="lazy" />
-              <div class="petition-item-caption"><strong>Academic Intervention — CHEM 113:</strong> Organizing campus-wide study groups and tutorial sessions led by experienced medical students and tutors.</div>
+              <div class="petition-item-content">
+                <span class="petition-badge">TUTORIAL ANNOUNCEMENT</span>
+                <div class="petition-item-caption"><strong>CHEM 113 Organic Chemistry Revision:</strong> Announcement poster for campus-wide Microsoft Teams tutorial sessions led by medical student tutors.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
             </a>
-            <a href="assets/petitions/abednego-lomazah-tutorial-african-studies-teams.jpg" target="_blank" rel="noopener" class="petition-item">
+
+            <a href="assets/petitions/abednego-lomazah-tutorial-african-studies-teams.jpg" target="_blank" rel="noopener" class="petition-item" data-category="tutorial">
               <img src="assets/petitions/abednego-lomazah-tutorial-african-studies-teams.jpg" alt="African Studies Comprehensive Revision Session" loading="lazy" />
-              <div class="petition-item-caption"><strong>UGRC Revision Prep:</strong> Intensive exam preparation sessions covering African Studies, Critical Thinking, and Academic Writing for Level 100s.</div>
+              <div class="petition-item-content">
+                <span class="petition-badge">TUTORIAL ANNOUNCEMENT</span>
+                <div class="petition-item-caption"><strong>UGRC African Studies Teams Prep:</strong> Intensive exam preparation session covering UGRC past questions, critical thinking, and essay writing.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
+            </a>
+
+            <a href="assets/petitions/abednego-lomazah-tutorial-african-studies-zoom.jpg" target="_blank" rel="noopener" class="petition-item" data-category="tutorial">
+              <img src="assets/petitions/abednego-lomazah-tutorial-african-studies-zoom.jpg" alt="African Studies Zoom Live Lecture Announcement" loading="lazy" />
+              <div class="petition-item-content">
+                <span class="petition-badge">TUTORIAL ANNOUNCEMENT</span>
+                <div class="petition-item-caption"><strong>UGRC African Studies Zoom Live Series:</strong> Interactive online revision and Q&A series for Level 100 students across all colleges.</div>
+                <span class="petition-view-btn">🔍 View High-Res Document</span>
+              </div>
             </a>
           </div>
         </div>
@@ -200,6 +295,24 @@
     const lightboxShare = document.getElementById('lightbox-share');
 
     const petitionsGallery = document.querySelector('.petition-gallery');
+    const filterBar = document.getElementById('ledger-filter-bar');
+    if (filterBar) {
+      filterBar.addEventListener('click', (e) => {
+        const btn = e.target.closest('.ledger-filter-btn');
+        if (!btn) return;
+        filterBar.querySelectorAll('.ledger-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const category = btn.dataset.category;
+        document.querySelectorAll('#petition-ledger-grid .petition-item').forEach(item => {
+          if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'flex';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    }
+
     if (petitionsGallery) {
       petitionsGallery.addEventListener('click', (e) => {
         const item = e.target.closest('.petition-item');
