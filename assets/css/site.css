@@ -793,6 +793,59 @@ section { padding: 5rem 5vw; }
 }
 
 /* ── Dynamic Philosophy & Quote Showcase ─────────────────────────────────── */
+.auto-quote-marquee {
+  margin: 1.5rem 0 2rem;
+  overflow: hidden;
+  width: 100%;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid var(--cream-dark);
+  box-shadow: 0 12px 36px rgba(61, 31, 13, 0.08);
+}
+.auto-quote-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(280px, 1fr);
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  animation: quote-scroll 24s linear infinite;
+  align-items: center;
+}
+.auto-quote-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-width: 280px;
+  padding: 1rem 1.25rem;
+  border-radius: 14px;
+  background: var(--cream);
+  border: 1px solid rgba(61, 31, 13, 0.08);
+  box-shadow: 0 8px 18px rgba(61, 31, 13, 0.08);
+}
+.quote-category {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.auto-quote-card p {
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--brown);
+  margin: 0;
+}
+@keyframes quote-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.auto-quote-track.pause,
+.auto-quote-marquee:hover .auto-quote-track {
+  animation-play-state: paused;
+}
+
 .philosophy-showcase {
   margin-top: 1.5rem;
 }

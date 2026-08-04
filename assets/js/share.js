@@ -83,4 +83,19 @@ document.addEventListener('DOMContentLoaded', () => {
       window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
   });
+
+  const marquee = document.querySelector('.auto-quote-marquee');
+  const track = marquee?.querySelector('.auto-quote-track');
+  if (track) {
+    const pauseTrack = () => track.classList.add('pause');
+    const resumeTrack = () => track.classList.remove('pause');
+
+    marquee.addEventListener('pointerenter', pauseTrack);
+    marquee.addEventListener('pointerleave', resumeTrack);
+    marquee.addEventListener('pointerdown', pauseTrack);
+    document.addEventListener('pointerup', resumeTrack);
+    marquee.addEventListener('touchstart', pauseTrack, { passive: true });
+    document.addEventListener('touchend', resumeTrack);
+    document.addEventListener('touchcancel', resumeTrack);
+  }
 });
