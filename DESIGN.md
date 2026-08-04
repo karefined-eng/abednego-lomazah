@@ -1,135 +1,98 @@
----
-version: "alpha"
-name: "Everlasting Executive"
-description: "A mature, visionary leadership design system for Abednego Lomazah rooted in warm executive browns, antique limestone cream, and metallic antique gold accents."
-colors:
-  primary: "#3D1F0D"
-  secondary: "#5C2E10"
-  tertiary: "#C8870A"
-  tertiary-light: "#D4A843"
-  neutral: "#F5F0E8"
-  neutral-dark: "#EDE6D6"
-  on-primary: "#FFFFFF"
-  on-tertiary: "#1A0A00"
-  ink: "#1A0A00"
-typography:
-  h1:
-    fontFamily: "'Bebas Neue', sans-serif"
-    fontSize: "3.5rem"
-    fontWeight: 700
-    lineHeight: "1.1"
-    letterSpacing: "0.05em"
-  h2:
-    fontFamily: "'Bebas Neue', sans-serif"
-    fontSize: "2.5rem"
-    fontWeight: 700
-    lineHeight: "1.15"
-    letterSpacing: "0.04em"
-  body-md:
-    fontFamily: "Inter, 'Segoe UI', Roboto, Arial, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 400
-    lineHeight: "1.6"
-  label-caps:
-    fontFamily: "Inter, 'Segoe UI', Roboto, Arial, sans-serif"
-    fontSize: "0.8rem"
-    fontWeight: 600
-    letterSpacing: "0.06em"
-rounded:
-  sm: "4px"
-  md: "8px"
-  lg: "12px"
-spacing:
-  sm: "8px"
-  md: "16px"
-  lg: "32px"
-components:
-  navbar:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.neutral}"
-    typography: "{typography.label-caps}"
-  navbar-link-hover:
-    textColor: "{colors.tertiary}"
-  button-primary:
-    backgroundColor: "{colors.tertiary}"
-    textColor: "{colors.on-tertiary}"
-    rounded: "{rounded.lg}"
-    padding: "12px"
-    typography: "{typography.label-caps}"
-  button-primary-hover:
-    backgroundColor: "{colors.tertiary-light}"
-  card:
-    backgroundColor: "{colors.neutral}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.lg}"
-    typography: "{typography.body-md}"
-  card-border:
-    backgroundColor: "{colors.neutral-dark}"
-  footer:
-    backgroundColor: "{colors.secondary}"
-    textColor: "{colors.on-primary}"
----
+# Design System: Abednego Lomazah
 
-## Overview
+## 1. Visual Theme & Atmosphere
 
-Architectural Warmth meets Executive Gravitas. The visual identity of Abednego Lomazah has evolved from conventional student politics branding into a mature, transformational leadership platform centered around the "Everlasting" era and a call to action: "A New Era Starts Now." 
+A polished executive editorial system rooted in warm stone and antique gold. The interface feels composed and authoritative with a softly asymmetrical structure — a leadership platform that is grounded, intentional, and decidedly premium.
 
-The design evokes an executive editorial feel—combining deep, warm timber browns inspired by professional suiting, soft limestone cream backgrounds, and metallic antique gold highlights.
+- Density: Daily App Balanced.
+- Variance: Offset Asymmetric.
+- Motion: Fluid CSS with spring-based cadence.
+- Tone: Warm, deliberate, confident.
 
-## Colors
+## 2. Color Palette & Roles
 
-The color palette is rooted in warm earth tones and high-contrast editorial pairing, purposefully avoiding cold digital whites or generic primary colors.
+- **Canvas Limestone** (#F5F0E8) — Primary page background and broad surface.
+- **Pure Surface** (#FFFFFF) — Elevated cards, panels, and form containers.
+- **Charcoal Ink** (#1A0A00) — Primary text, strong labels, and high-contrast content.
+- **Muted Bronze** (#5C2E10) — Secondary text, section support, muted structural accents.
+- **Whisper Border** (rgba(237, 230, 214, 0.55)) — Dividers, input borders, subtle separations.
+- **Antique Gold** (#C8870A) — Single accent for CTAs, focus states, active markers, and interactive highlights.
 
-- **Primary (#3D1F0D):** Deep executive timber brown. Serves as the primary anchor for headers, navigation bars, and authoritative hero sections.
-- **Secondary (#5C2E10):** Medium warm brown. Used for supporting structural elements, secondary sections, and footers.
-- **Tertiary (#C8870A):** Antique metallic gold. The primary interactive accent, symbolizing excellence, aspiration, and high-impact focal points.
-- **Tertiary Light (#D4A843):** Brushed gold. Applied to hover states and active interactive elements.
-- **Neutral (#F5F0E8):** Warm limestone cream foundation. Provides a organic, premium reading experience across all main content pages.
-- **Neutral Dark (#EDE6D6):** Darker limestone limestone shade for subtle card borders, dividers, and secondary card containers.
-- **On Primary (#FFFFFF):** Crisp white text for clear legibility over dark timber brown backgrounds.
-- **On Tertiary (#1A0A00):** Deep ink text placed over gold call-to-action buttons to ensure maximum WCAG AA/AAA contrast.
-- **Ink (#1A0A00):** Near-black warm charcoal for primary body text, ensuring effortless readability against cream foundations.
+## 3. Typography Rules
 
-## Typography
+- **Display:** Geist — Track-tight, controlled headline scale. Use weight and color to establish hierarchy instead of oversize type.
+- **Body:** Geist — Relaxed leading, `line-height: 1.65`, `max-width: 65ch` for long-form readability.
+- **Mono:** Geist Mono — For numeric calls, metadata, and any high-density system text.
+- **Banned:** Inter, generic serif fonts, pure black. Serif fonts are banned in dashboard-like interfaces and core navigation.
 
-The typographic pairing balances monumental impact with modern accessibility.
+## 4. Component Stylings
 
-- **Headlines ('Bebas Neue', sans-serif):** Bold, condensed uppercase typography used for H1 and H2 elements to project confidence, strength, and unwavering purpose.
-- **Body & UI ('Inter', sans-serif):** Clean, geometric sans-serif typography providing optimal legibility for long-form updates, resource descriptions, and navigation labels.
+- **Buttons:** Primary buttons are Antique Gold with deep charcoal text. Secondary actions use a clean ghost or outline style with warm cream boundaries. Active state is tactile with `transform: translateY(-1px)` and subtle depth. No neon glows.
+- **Cards:** Use only when elevation adds hierarchy. Surface is Pure Surface with `2.5rem` rounded corners and a soft warm shadow. For denser sections, replace repetitive cards with border-top dividers or asymmetric spacing.
+- **Inputs:** Label above field, helper text optional beneath, error text below input. Field border is Whisper Border with Antique Gold focus rings. No floating labels.
+- **Loaders:** Skeleton screens sized to content frames, using warm gradient shimmer. No circular spinners.
+- **Empty States:** Composed with contextual illustration or symbolic tone, plus a clear next-step prompt.
+- **Error States:** Inline text below controls, accent border on invalid fields, and a calm supporting explanation.
 
-## Layout & Spacing
+## 5. Layout Principles
 
-Layouts prioritize clarity and breathing room, mirroring an editorial publication or executive portfolio.
+- Grid-first responsive architecture. Prefer CSS Grid over flexbox math and avoid `calc()` hacks.
+- Contain page width to `max-width: 1400px` with centered horizontal margins.
+- Full-height sections use `min-height: 100dvh`; do not use `h-screen`.
+- Hero sections should be split-screen or left-aligned with asymmetric whitespace. Centered hero layouts are banned at higher variance.
+- No overlapping elements. Every visual block occupies its own clear spatial zone.
+- No generic three equal cards horizontally. Use asymmetric feature rows, zig-zag grids, or horizontal scroll.
 
-- Content containers utilize responsive padding (`8px`, `16px`, `32px`) to ensure visual hierarchy without crowding.
-- Sections are distinctly separated by alternating between warm limestone cream and deep timber brown backgrounds, creating a rhythmic, engaging scrolling experience.
+## 6. Motion & Interaction
 
-## Elevation & Depth
+- Default spring physics: `stiffness: 100`, `damping: 20`.
+- Animate only `transform` and `opacity`; not `top`, `left`, `width`, or `height`.
+- Add subtle perpetual micro-interactions: soft pulse on active buttons, slow shimmer on highlight bars, and gentle float on hero assets.
+- Reveal content with staggered cascade delays rather than instant mounts.
 
-Shadows and depth are subtle and warm, reinforcing the tangible, premium feel of the interface.
+## 7. Responsive Rules
 
-- Interactive cards and elevated containers use a soft, tinted warm shadow (`rgba(61, 31, 13, 0.10)`) rather than harsh gray or black drop-shadows.
-- Hover states elevate elements slightly while transitioning background colors smoothly.
+- Mobile-first collapse below `768px` to single-column layouts with no exceptions.
+- Zero horizontal overflow on mobile.
+- Headlines scale with `clamp()`; body text minimum `1rem` / `14px`.
+- Interactive elements have a minimum `44px` tap target.
+- Inline headline imagery stacks beneath the text on mobile; it never overlaps type.
+- Desktop navigation collapses to a clean mobile menu with visible toggle state.
+- Section spacing reduces proportionally on smaller screens while preserving breathing room.
 
-## Shapes
+## 8. Anti-Patterns (Banned)
 
-Geometry is approachable yet structured.
+- No emojis anywhere.
+- No `Inter` font.
+- No pure black (`#000000`). Use warm charcoal or off-black instead.
+- No neon, outer glow shadows, or purple/blue neon styling.
+- No oversaturated accents.
+- No excessive gradient text on large headers.
+- No custom mouse cursors.
+- No overlapping elements or absolute-position stacking.
+- No 3-column equal card layouts.
+- No generic placeholder names such as “John Doe”, “Acme”, or “Nexus”.
+- No fake round numbers or invented metrics.
+- No fabricated data sections like “SYSTEM PERFORMANCE METRICS” or “KEY STATISTICS”.
+- No `LABEL // YEAR` formatting.
+- No AI copywriting clichés: “Elevate”, “Seamless”, “Unleash”, “Next-Gen”.
+- No filler microcopy: “Scroll to explore”, “Swipe down”, or bouncing chevrons.
+- No broken image links; use properly hosted assets.
+- No centered hero when variance exceeds 4.
 
-- Standard cards, interactive buttons, and media containers use a generous `12px` border radius (`lg`) for a modern, tactile feel.
-- Smaller UI badges and tags utilize a tight `4px` radius (`sm`) to maintain crisp alignment.
+## 9. System Tokens
 
-## Components
+- **Primary Brand:** #3D1F0D
+- **Accent:** #C8870A
+- **Surface:** #FFFFFF
+- **Background:** #F5F0E8
+- **Text:** #1A0A00
+- **Secondary Text:** #5C2E10
+- **Border:** rgba(237, 230, 214, 0.55)
 
-The core components of the platform adhere strictly to these defined tokens across `index.html`, `resources.html`, and `updates.html`:
+## Implementation Notes
 
-- **Navigation Bar:** Deep primary brown background with limestone cream uppercase navigation links that transition to antique gold on hover.
-- **Hero Banner:** Immersive display featuring professional headshot photography and the "Everlasting" branding, supported by bold uppercase headlines.
-- **Quote Cards & Flyers:** Visual showcases displaying inspirational leadership quotes ("Leadership is not being noticed, it is being useful") framed within limestone cards.
-- **Call-to-Action Buttons:** High-visibility antique gold buttons with deep ink text and smooth brushed gold hover transitions.
-
-## Do's and Don'ts
-
-- **Do** always use warm limestone cream (`#F5F0E8`) for general page backgrounds instead of pure digital white (`#FFFFFF`).
-- **Do** ensure all text on dark brown backgrounds uses `#FFFFFF` or `#F5F0E8` for optimal accessibility.
-- **Don't** introduce cool blues, harsh reds, or neon greens that clash with the warm, executive brown and gold color system.
-- **Don't** use generic placeholder graphics or stock icons when authentic brand assets, quote cards, and professional photography are available.
+- Use `Geist` for the core brand font and `Geist Mono` for numeric or system styling.
+- Keep hero CTA count to one primary action. Avoid a secondary “Learn more” link.
+- Use real photographic assets hosted under `assets/` rather than placeholder external images.
+- Keep all text and visuals intentional and non-generic; every section should feel authored and purposeful.
