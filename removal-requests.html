@@ -66,8 +66,8 @@
         <h3>Use the Google Form</h3>
         <p>If the form includes file uploads it cannot be embedded here — open it in a new tab to submit attachments.</p>
         <div style="display:flex; gap:0.75rem; align-items:center; margin-top:1rem;">
-          <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSef4KRn-xfwDQTQ9brdUM5f7xQPZ8PwhkUXqRg8yt31TWGjRA/viewform?usp=sharing&ouid=101592217087441596474" target="_blank" rel="noopener noreferrer">Open Google Form (new tab)</a>
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSef4KRn-xfwDQTQ9brdUM5f7xQPZ8PwhkUXqRg8yt31TWGjRA/viewform?usp=sharing&ouid=101592217087441596474" class="link-secondary" target="_blank" rel="noopener noreferrer" style="font-size:0.95rem;">Or open the form in a new tab</a>
+          <a class="btn-primary" href="https://docs.google.com/forms/d/e/1FAIpQLSef4KRn-xfwDQTQ9brdUM5f7xQPZ8PwhkUXqRg8yt31TWGjRA/viewform?usp=header" target="_blank" rel="noopener noreferrer">Open Google Form (new tab)</a>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSef4KRn-xfwDQTQ9brdUM5f7xQPZ8PwhkUXqRg8yt31TWGjRA/viewform?usp=header" class="link-secondary" target="_blank" rel="noopener noreferrer" style="font-size:0.95rem;">Or open the form in a new tab</a>
         </div>
       </div>
     </section>
@@ -204,17 +204,22 @@
       return false;
     }
 
-    document.getElementById('copyCsvBtn').addEventListener('click', async () => {
-      const text = document.getElementById('csvPreview').value;
-      try {
-        await navigator.clipboard.writeText(text);
-        const btn = document.getElementById('copyCsvBtn');
-        btn.textContent = 'Copied';
-        setTimeout(() => btn.textContent = 'Copy CSV row', 2000);
-      } catch (e) {
-        alert('Copy failed. Select and copy manually.');
-      }
-    });
+    (function attachCopyHandler() {
+      const copyBtn = document.getElementById('copyCsvBtn');
+      const csvPreview = document.getElementById('csvPreview');
+      if (!copyBtn || !csvPreview) return;
+
+      copyBtn.addEventListener('click', async () => {
+        const text = csvPreview.value;
+        try {
+          await navigator.clipboard.writeText(text);
+          copyBtn.textContent = 'Copied';
+          setTimeout(() => copyBtn.textContent = 'Copy CSV row', 2000);
+        } catch (e) {
+          alert('Copy failed. Select and copy manually.');
+        }
+      });
+    })();
     </script>
 
   <footer class="footer">
