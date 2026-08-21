@@ -1,6 +1,6 @@
 :root {
-  --brown: #3D1F0D;
-  --brown-mid: #5C2E10;
+  --brown: #1a1a1a;
+  --brown-mid: #404040;
   --gold: #C8870A;
   --gold-light: #D4A843;
   --cream: #F5F0E8;
@@ -396,7 +396,7 @@ section { padding: 5rem 5vw; }
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
-.course-open::after { content: '→'; }
+.course-open::after { content: '➔'; margin-left: 4px; }
 .campaign-updates-section {
   background: var(--white);
   padding: 4rem 5vw;
@@ -441,23 +441,25 @@ section { padding: 5rem 5vw; }
   grid-template-columns: minmax(0, 1fr) minmax(325px, 605px);
   gap: 2rem;
   align-items: center;
-  background: var(--brown);
-  color: var(--cream);
+  background: var(--white);
+  color: var(--ink);
   border-radius: var(--radius);
   padding: 2rem;
+  border: 1px solid var(--cream-dark);
+  box-shadow: var(--shadow);
 }
 .campaign-media-feature h3 {
-  color: var(--cream);
+  color: var(--brown);
   font-size: clamp(1.6rem, 3vw, 2.3rem);
   line-height: 1.05;
   margin: 0.45rem 0 0.85rem;
 }
 .campaign-media-feature p:not(.section-eyebrow) {
-  color: rgba(245, 240, 232, 0.82);
+  color: var(--brown-mid);
   line-height: 1.65;
   margin-bottom: 1rem;
 }
-.campaign-media-feature .proof-link { color: var(--gold-light); }
+.campaign-media-feature .proof-link { color: var(--gold); }
 .drive-video-section {
   margin-top: 3rem;
   padding-top: 2.5rem;
@@ -492,6 +494,21 @@ section { padding: 5rem 5vw; }
 .campaign-video-card h4 { color: var(--brown); font-size: 1.15rem; margin-top: 0.3rem; }
 .campaign-video-card p { color: var(--ink); font-size: 0.9rem; line-height: 1.55; }
 .campaign-video-card .proof-link { margin-top: auto; }
+
+.native-video-player {
+  width: 100%;
+  border-radius: var(--radius);
+  background: #000;
+  display: block;
+  margin-top: 1rem;
+  aspect-ratio: 16/9;
+  object-fit: contain;
+}
+
+.native-video-player.portrait {
+  aspect-ratio: 9/16;
+  max-height: 70vh;
+}
 .drive-folder-link {
   display: inline-block;
   margin-top: 1.4rem;
@@ -532,10 +549,10 @@ section { padding: 5rem 5vw; }
   min-width: 325px !important;
   width: 100%;
 }
-.section-dark { background: var(--brown); color: var(--cream); }
-.section-dark .section-title { color: var(--cream); }
-.section-dark .section-lead { color: rgba(245, 240, 232, 0.78); }
-.section-dark .section-eyebrow { color: var(--gold-light); }
+.section-dark { background: var(--white); color: var(--ink); border-top: 1px solid var(--cream-dark); }
+.section-dark .section-title { color: var(--brown); }
+.section-dark .section-lead { color: var(--brown-mid); }
+.section-dark .section-eyebrow { color: var(--gold); }
 .page-section-top { padding-top: 4rem; }
 .page-section-dark { padding-top: 0; }
 .cards-grid-compact { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
