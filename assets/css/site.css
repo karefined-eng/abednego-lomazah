@@ -397,6 +397,141 @@ section { padding: 5rem 5vw; }
   letter-spacing: 0.06em;
 }
 .course-open::after { content: '→'; }
+.campaign-updates-section {
+  background: var(--white);
+  padding: 4rem 5vw;
+}
+.campaign-update-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.campaign-update-card {
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--radius);
+  padding: 1.35rem;
+  box-shadow: var(--shadow);
+}
+.campaign-update-card h3 {
+  color: var(--brown);
+  margin: 0.45rem 0 0.65rem;
+  font-size: 1.2rem;
+}
+.campaign-update-card p {
+  color: var(--ink);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
+.campaign-update-label,
+.campaign-video-card__type {
+  display: block;
+  color: var(--gold);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+}
+.campaign-media-layout {
+  margin-top: 3rem;
+}
+.campaign-media-feature {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(325px, 605px);
+  gap: 2rem;
+  align-items: center;
+  background: var(--brown);
+  color: var(--cream);
+  border-radius: var(--radius);
+  padding: 2rem;
+}
+.campaign-media-feature h3 {
+  color: var(--cream);
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  line-height: 1.05;
+  margin: 0.45rem 0 0.85rem;
+}
+.campaign-media-feature p:not(.section-eyebrow) {
+  color: rgba(245, 240, 232, 0.82);
+  line-height: 1.65;
+  margin-bottom: 1rem;
+}
+.campaign-media-feature .proof-link { color: var(--gold-light); }
+.drive-video-section {
+  margin-top: 3rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--cream-dark);
+}
+.page-header--compact { margin-bottom: 1.5rem; }
+.page-header--compact h3 { color: var(--brown); font-size: 1.8rem; margin: 0.4rem 0; }
+.campaign-video-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+}
+.campaign-video-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-height: 205px;
+  padding: 1.35rem;
+  background: var(--cream);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--radius);
+  color: inherit;
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.campaign-video-card:hover,
+.campaign-video-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(61, 31, 13, 0.16);
+}
+.campaign-video-card h4 { color: var(--brown); font-size: 1.15rem; margin-top: 0.3rem; }
+.campaign-video-card p { color: var(--ink); font-size: 0.9rem; line-height: 1.55; }
+.campaign-video-card .proof-link { margin-top: auto; }
+.drive-folder-link {
+  display: inline-block;
+  margin-top: 1.4rem;
+  color: var(--brown);
+  font-weight: 700;
+}
+.campaign-video-section {
+  background: var(--cream);
+  padding: 4.5rem 5vw;
+}
+.campaign-video-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(325px, 605px);
+  gap: 3rem;
+  align-items: center;
+}
+.campaign-video-note {
+  color: var(--ink);
+  line-height: 1.7;
+  margin: 1rem 0 1.2rem;
+  max-width: 58ch;
+}
+.tiktok-embed-shell {
+  width: 100%;
+  min-height: 575px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+.tiktok-embed-shell .tiktok-embed {
+  margin: 0 !important;
+  max-width: 605px !important;
+  min-width: 325px !important;
+  width: 100%;
+}
 .section-dark { background: var(--brown); color: var(--cream); }
 .section-dark .section-title { color: var(--cream); }
 .section-dark .section-lead { color: rgba(245, 240, 232, 0.78); }
@@ -743,6 +878,9 @@ section { padding: 5rem 5vw; }
 }
 
 @media (max-width: 900px) {
+  .campaign-media-feature { grid-template-columns: 1fr; }
+  .campaign-video-grid { grid-template-columns: 1fr; }
+  .tiktok-embed-shell { max-width: 605px; margin: 0 auto; }
   .hero { grid-template-columns: 1fr; text-align: center; }
   .hero-btns { justify-content: center; }
   .hero-quote { margin-left: auto; margin-right: auto; }
