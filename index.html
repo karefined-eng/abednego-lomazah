@@ -81,8 +81,12 @@
   </nav>
 
   <main id="main-content">
-    <section class="hero" id="home">
-      <div class="hero-text">
+    <section class="hero hero-video-bg" id="home">
+      <video class="hero-bg-video" autoplay loop muted playsinline>
+        <source src="assets/videos/VID-20260821-WA0002.mp4" type="video/mp4">
+      </video>
+      <div class="hero-overlay"></div>
+      <div class="hero-text hero-text-light">
         <span class="hero-eyebrow">University of Ghana · Medical Student</span>
         <p class="hero-title-small">A New Era Starts Now</p>
         <div class="hero-title-big">WITH</div>
@@ -93,20 +97,14 @@
           <strong>impact</strong>, not attention.”
         </blockquote>
         <div class="hero-btns">
-          <a href="resources.html" class="btn-primary">Access Study Materials</a>
-          <a href="https://www.whatsapp.com/channel/0029Vb7pSOR4inonbOe5JT0e" target="_blank" rel="noopener" class="btn-outline">Join WhatsApp Channel</a>
-          <a href="#campaign-story" class="btn-outline">Watch Campaign Video</a>
+          <a href="updates.html" class="btn-primary">The Campaign Story</a>
+          <a href="resources.html" class="btn-outline btn-outline-light">Student Resources</a>
         </div>
-      </div>
-      <div class="hero-visual">
-        <img src="assets/headshots/abednego-lomazah-headshot-studio-batik.jpg" alt="Abednego Lomazah Studio Headshot" class="hero-poster"
-          width="840" height="840" loading="eager" fetchpriority="high" decoding="async" />
-
       </div>
     </section>
 
-    <section id="about">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 3rem; align-items: center;">
+    <section id="about" class="container" style="padding: 6rem 2rem;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 4rem; align-items: center;">
         <div class="about-visual">
           <img src="assets/headshots/abednego-lomazah-headshot-fullbody-batik-1.jpg" alt="Abednego Lomazah Full Body Portrait" style="width: 100%; max-width: 400px; margin: 0 auto; display: block; border-radius: var(--radius); box-shadow: var(--shadow); object-fit: cover; aspect-ratio: 4/5; object-position: center top;" />
         </div>
@@ -174,21 +172,18 @@
             </div>
           </div>
           <div class="cards-grid cards-grid-compact" style="grid-template-columns: 1fr; gap: 1rem;">
-            <div class="card compact-card-inner" style="padding: 1.2rem;">
+            <a href="resources.html" class="card compact-card-inner" style="padding: 1.2rem; text-decoration: none; display: block;">
               <h3 class="course-name" style="font-size: 1.1rem; margin-bottom: 0.25rem;">Course Resources Compiler</h3>
-              <p class="course-desc" style="font-size: 0.88rem; line-height: 1.5;">Compiles lecture slides, PASSCO, and study packs across various departments for students who need reliable academic support.</p>
-              <a href="resources.html" class="proof-link">Explore 40+ Compiled Study Packs ↗</a>
-            </div>
-            <div class="card compact-card-inner" style="padding: 1.2rem;">
+              <p class="course-desc" style="font-size: 0.88rem; line-height: 1.5; color: var(--text-dark);">Compiles lecture slides, PASSCO, and study packs across various departments for students who need reliable academic support.</p>
+            </a>
+            <a href="updates.html" class="card compact-card-inner" style="padding: 1.2rem; text-decoration: none; display: block;">
               <h3 class="course-name" style="font-size: 1.1rem; margin-bottom: 0.25rem;">Peer Tutor</h3>
-              <p class="course-desc" style="font-size: 0.88rem; line-height: 1.5;">Runs tutorials and exam prep sessions with a strong focus on first-year students for practical academic preparation.</p>
-              <a href="updates.html#tutorials-grid" class="proof-link">View Level 100 Prep Sessions ↗</a>
-            </div>
-            <div class="card compact-card-inner" style="padding: 1.2rem;">
+              <p class="course-desc" style="font-size: 0.88rem; line-height: 1.5; color: var(--text-dark);">Runs tutorials and exam prep sessions with a strong focus on first-year students for practical academic preparation.</p>
+            </a>
+            <a href="updates.html" class="card compact-card-inner" style="padding: 1.2rem; text-decoration: none; display: block;">
               <h3 class="course-name" style="font-size: 1.1rem; margin-bottom: 0.25rem;">Student Leader</h3>
-              <p class="course-desc" style="font-size: 0.88rem; line-height: 1.5;">UGSRC President 2026 Hopeful running on the belief that leadership means impact, service, and following through on promises made.</p>
-              <a href="updates.html" class="proof-link">Read Leadership Manifesto Summary ↗</a>
-            </div>
+              <p class="course-desc" style="font-size: 0.88rem; line-height: 1.5; color: var(--text-dark);">UGSRC President 2026 Hopeful running on the belief that leadership means impact, service, and following through on promises made.</p>
+            </a>
           </div>
           <div style="margin-top: 2rem; border-top: 1px solid var(--cream-dark); padding-top: 1.5rem;">
             <h3 style="font-size: 1.2rem; color: var(--brown); margin-bottom: 0.5rem;">Why Students Trust Their University Doctor</h3>
@@ -225,37 +220,30 @@
       </div>
     </section>
 
-    <section class="section-dark" id="highlights">
-      <p class="section-eyebrow">Campaign Highlights</p>
-      <h2 class="section-title">STUDENT IMPACT</h2>
-      <div class="cards-grid cards-grid-compact section-spacing-top-tight">
-        <a href="updates.html#petitions" style="text-decoration:none; color:inherit; display:block;">
-          <div class="card compact-card compact-card--bright" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+    <section class="section-dark" id="highlights" style="padding: 4rem 5vw;">
+      <div class="container">
+        <p class="section-eyebrow">Campaign Highlights</p>
+        <h2 class="section-title">STUDENT IMPACT</h2>
+        <div class="cards-grid cards-grid-compact section-spacing-top-tight">
+          <a href="updates.html#petitions" class="card compact-card compact-card--bright" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; justify-content:space-between; height: 100%;">
             <div>
               <h3 class="course-name">13+ Petitions on behalf of the student body</h3>
-              <p class="course-desc">Official letters delivered to relevant offices on student concerns including fees, transport, and Wi-Fi access.</p>
+              <p class="course-desc" style="color: var(--text-dark);">Official letters delivered to relevant offices on student concerns including fees, transport, and Wi-Fi access.</p>
             </div>
-            <span class="proof-link" style="margin-top:1rem; color:var(--gold);">View 13+ Verified Petition Records ↗</span>
-          </div>
-        </a>
-        <a href="https://www.whatsapp.com/channel/0029Vb7pSOR4inonbOe5JT0e" target="_blank" rel="noopener" style="text-decoration:none; color:inherit; display:block;">
-          <div class="card compact-card-inner compact-card-inner--light" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+          </a>
+          <a href="https://www.whatsapp.com/channel/0029Vb7pSOR4inonbOe5JT0e" target="_blank" rel="noopener" class="card compact-card-inner compact-card-inner--light" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; justify-content:space-between; height: 100%;">
             <div>
               <h3 class="course-name">8,000+ Students Reached</h3>
-              <p class="course-desc">Supported through the student community WhatsApp channel, tutorials, and academic updates across campus.</p>
+              <p class="course-desc" style="color: var(--text-dark);">Supported through the student community WhatsApp channel, tutorials, and academic updates across campus.</p>
             </div>
-            <span class="proof-link" style="margin-top:1rem; color:var(--brown);">Verify WhatsApp Community ↗</span>
-          </div>
-        </a>
-        <a href="updates.html#tutorials-grid" style="text-decoration:none; color:inherit; display:block;">
-          <div class="card compact-card-inner compact-card-inner--light" style="height:100%; display:flex; flex-direction:column; justify-content:space-between;">
+          </a>
+          <a href="updates.html" class="card compact-card-inner compact-card-inner--light" style="text-decoration:none; color:inherit; display:flex; flex-direction:column; justify-content:space-between; height: 100%;">
             <div>
               <h3 class="course-name">Free Tutorial & Exam Prep Sessions</h3>
-              <p class="course-desc">Intensive revision sessions and study teams covering Organic Chemistry, Critical Thinking, and African Studies.</p>
+              <p class="course-desc" style="color: var(--text-dark);">Intensive revision sessions and study teams covering Organic Chemistry, Critical Thinking, and African Studies.</p>
             </div>
-            <span class="proof-link" style="margin-top:1rem; color:var(--brown);">Join Prep Sessions ↗</span>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
     </section>
 
