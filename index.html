@@ -82,7 +82,7 @@
 
   <main id="main-content">
     <section class="hero hero-video-bg" id="home">
-      <video class="hero-bg-video" autoplay loop muted playsinline>
+      <video class="hero-bg-video" autoplay loop muted playsinline aria-hidden="true">
         <source src="assets/videos/VID-20260821-WA0002.mp4" type="video/mp4">
       </video>
       <div class="hero-overlay"></div>
@@ -100,6 +100,7 @@
           <a href="updates.html" class="btn-primary">The Campaign Story</a>
           <a href="resources.html" class="btn-outline btn-outline-light">Student Resources</a>
         </div>
+        <button class="hero-video-toggle" type="button" aria-pressed="false">Pause background motion</button>
       </div>
     </section>
 
@@ -220,6 +221,44 @@
       </div>
     </section>
 
+    <section class="campaign-motion-section" id="campaign-motion">
+      <div class="container">
+        <div class="section-heading-row">
+          <div>
+            <p class="section-eyebrow">The campaign in motion</p>
+            <h2 class="section-title">PEOPLE. SERVICE. MOMENTUM.</h2>
+          </div>
+          <a href="updates.html" class="btn-primary">See the full story</a>
+        </div>
+        <div class="campaign-motion-rail" aria-label="Campaign video highlights">
+          <article class="motion-card">
+            <span class="motion-card-tag">STUDENT ENGAGEMENT</span>
+            <h3>Meeting students where they are</h3>
+            <video controls preload="none" poster="assets/flyers/abednego-lomazah-flyer-president-hopeful-26.jpg" class="motion-video">
+              <source src="assets/videos/VID-20260821-WA0001.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </article>
+          <article class="motion-card motion-card-featured">
+            <span class="motion-card-tag">THE VISION REMAINS FIRM</span>
+            <h3>A campaign built on service</h3>
+            <video controls preload="none" poster="assets/flyers/abednego-lomazah-flyer-big-announcement.jpg" class="motion-video">
+              <source src="assets/videos/VID-20260821-WA0057.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </article>
+          <article class="motion-card">
+            <span class="motion-card-tag">NOMINATION MILESTONE</span>
+            <h3>The time has come</h3>
+            <video controls preload="none" poster="assets/flyers/abednego-lomazah-flyer-new-era-starts-now.jpg" class="motion-video">
+              <source src="assets/videos/VID-20260821-WA0060.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section-dark" id="highlights" style="padding: 4rem 5vw;">
       <div class="container">
         <p class="section-eyebrow">Campaign Highlights</p>
@@ -287,6 +326,23 @@
   </footer>
 
   <script async src="https://www.tiktok.com/embed.js"></script>
+  <script>
+    const heroVideo = document.querySelector('.hero-bg-video');
+    const heroVideoToggle = document.querySelector('.hero-video-toggle');
+    if (heroVideo && heroVideoToggle) {
+      heroVideoToggle.addEventListener('click', () => {
+        if (heroVideo.paused) {
+          heroVideo.play();
+          heroVideoToggle.textContent = 'Pause background motion';
+          heroVideoToggle.setAttribute('aria-pressed', 'false');
+        } else {
+          heroVideo.pause();
+          heroVideoToggle.textContent = 'Play background motion';
+          heroVideoToggle.setAttribute('aria-pressed', 'true');
+        }
+      });
+    }
+  </script>
 </body>
 
 </html>

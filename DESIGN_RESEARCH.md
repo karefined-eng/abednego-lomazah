@@ -37,3 +37,63 @@
 ## Next Steps
 1. Inspect the provided flyers/images to see if there's a specific brand color we should adopt beyond the current brown/gold.
 2. Draft the HTML/CSS changes to implement the video hero and carousel.
+
+
+## External Visual Research Notes
+
+### SiteBuilderReport — Politician website examples
+Source: https://www.sitebuilderreport.com/inspiration/politician-websites
+
+The roundup is useful as a visual benchmark because it presents campaign websites as public-facing identity systems rather than document repositories. The page itself uses a strong editorial headline, restrained supporting copy, and a sequence of visual examples. The practical implication for this campaign site is to make the homepage immediately communicative: one strong visual hook, a short message, and a clear next action before deeper content.
+
+### New Media Campaigns — Political web design trends and examples
+Source: https://www.newmediacampaigns.com/political-campaign-website-design/political-web-design-trends-examples
+
+The page did not render usable text in the browser session, so no detailed claims are taken from it. It remains a reference lead only and should not be treated as evidence for implementation decisions.
+
+### Design decision from research so far
+The site needs a more intentional campaign identity: a visual opening, a clear narrative order, visually distinct sections, and interaction patterns that make the whole media card or story block actionable. The design should use motion carefully: muted looping video can create atmosphere in the hero, but speeches and campaign clips should require explicit play. The page should not be a wall of white cards or a repeated list of generic links.
+
+
+## Accessibility and Motion Research
+
+### Section508.gov — Avoid Auto-Playing Content
+Source: https://www.section508.gov/blog/avoid-auto-playing-content/
+
+The guidance explains that automatically playing audio, video, or animations can interfere with assistive technologies, distract users, and make navigation difficult. Its practical recommendations are to let users choose when media starts; if automatic playback is used, keep it muted and provide visible, keyboard-accessible pause/stop/hide controls. Moving content lasting more than five seconds should be controllable. For this site, the correct pattern is a **muted, short ambient hero preview with an obvious pause control**, while speeches and campaign clips use explicit play controls and never start with sound.
+
+### W3C — Web Content Accessibility Guidelines 2.1
+Source: https://www.w3.org/TR/WCAG21/
+
+WCAG 2.1 identifies time-based media, captions, audio control, contrast, resize, reflow, keyboard access, and meaningful sequence as relevant accessibility areas. The campaign experience should therefore preserve a readable narrative order even when media is unavailable, keep controls keyboard accessible, avoid using color alone to communicate a status, and make the layout reflow cleanly on mobile.
+
+## Revised Implementation Direction
+The next visual pass should not be a plain white card wall. It should use a **campaign identity system**: a bold visual hero, dark/colored story bands used intentionally, real flyer imagery as editorial texture, a featured speech or clip with a large play surface, a horizontal media rail on mobile, and clear primary buttons such as “Watch the campaign story,” “Join the WhatsApp channel,” “Read the advocacy record,” and “Browse student resources.”
+
+
+## Supplied Flyer Visual Analysis
+
+The supplied flyers provide a much stronger campaign identity than the current site was using. The recurring visual language is a **dark espresso/brown field**, **warm ochre-gold typography**, **large white condensed display lettering**, and **high-contrast portrait photography**. The graphics use subtle circular or stamped emblems, University of Ghana and SRC marks, thin gold rules, curved white cutouts, and the recurring campaign phrase **“#THAT TIME HAS COME.”**
+
+The “President Hopeful ’26” flyer is especially clear: the candidate portrait is large and close-cropped, the name is split between gold and white, the institutional marks sit above the name, and the bottom is intentionally white for supporting logos and the campaign phrase. The “BIG! ANNOUNCEMENT” flyer uses a warm brown photographic texture, oversized white display type, gold punctuation and rules, and an oversized initial “A” as a visual anchor.
+
+### Design direction inferred from the actual campaign materials
+The website should use the flyers as its source of truth rather than inventing a new palette. The best direction is a **campaign editorial system**: espresso, coffee brown, ochre gold, white, and portrait-led imagery; condensed display headlines; short high-impact copy; gold rule separators; and photo/video blocks that feel like campaign posters translated into a responsive interface. White should remain as a deliberate highlight and reading surface, not the entire page background.
+
+
+## Visual Reference Search
+
+Image references for political campaign websites consistently show a strong, immediately legible hero: candidate imagery or video, short headline, and a highly visible action button. They also use color blocks, full-bleed photography, asymmetric composition, and compact navigation rather than presenting all content as equally weighted white cards. These references support using the candidate’s own flyers as the primary art direction instead of copying a generic campaign template.
+
+## Palette to Use in the Next Pass
+
+| Role | Direction | Approximate value |
+|---|---|---|
+| Campaign field | Espresso / near-black brown | #24170F |
+| Secondary field | Warm coffee brown | #5B3B28 |
+| Accent | Ochre / antique gold | #C8870A |
+| Type on dark | Warm white | #F5F0E8 |
+| Reading surface | Soft ivory | #FBF8F2 |
+| Structural line | Muted warm beige | #D8C8B3 |
+
+The design should use dark brown for campaign-intensity sections, warm ivory for readable archive sections, and ochre gold for active states and primary buttons. The candidate’s portrait, flyer textures, circular emblem, large condensed typography, and curved white edge should be treated as recurring motifs.
