@@ -1004,11 +1004,27 @@ section { padding: 5rem 5vw; }
 
 @media (max-width: 900px) {
   .section-heading-row { align-items: start; flex-direction: column; }
-  .campaign-motion-rail { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 0.8rem; }
-  .motion-card { flex: 0 0 min(82vw, 330px); scroll-snap-align: start; }
-  .campaign-media-feature { grid-template-columns: 1fr; }
+  .campaign-motion-rail,
+  .horizontal-scroll-rail,
+  .campaign-tiktok-block .campaign-media-feature { 
+    display: flex; 
+    overflow-x: auto; 
+    scroll-snap-type: x mandatory; 
+    padding-bottom: 1.2rem; 
+    gap: 1.5rem;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -5vw;
+    padding-left: 5vw;
+    padding-right: 5vw;
+  }
+  .motion-card,
+  .horizontal-scroll-rail .campaign-video-card,
+  .campaign-tiktok-block .campaign-media-feature > div { 
+    flex: 0 0 min(85vw, 360px); 
+    scroll-snap-align: start; 
+  }
   .campaign-video-grid { grid-template-columns: 1fr; }
-  .tiktok-embed-shell { max-width: 605px; margin: 0 auto; }
+  .tiktok-embed-shell { max-width: 100%; margin: 0; }
   .hero { grid-template-columns: 1fr; text-align: center; }
   .hero-btns { justify-content: center; }
   .hero-quote { margin-left: auto; margin-right: auto; }
