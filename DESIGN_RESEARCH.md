@@ -97,3 +97,10 @@ Image references for political campaign websites consistently show a strong, imm
 | Structural line | Muted warm beige | #D8C8B3 |
 
 The design should use dark brown for campaign-intensity sections, warm ivory for readable archive sections, and ochre gold for active states and primary buttons. The candidate’s portrait, flyer textures, circular emblem, large condensed typography, and curved white edge should be treated as recurring motifs.
+
+
+## Live Validation Notes
+
+The deployed homepage now visibly renders a campaign video hero with a dark espresso field, gold navigation accents, large display typography, and two clear primary actions. The motion is muted, inline, and has a visible pause control, which matches the accessibility research.
+
+The deployed Updates page is now visibly separated into an advocacy/petition area, a recent WhatsApp campaign story, how-to guides, TikTok feature, and direct campaign video archive. The top of the page still begins with the older advocacy tracker skeleton/loading block and petition ledger, so the next polish pass should improve the order and reduce the initial “dashboard” feeling by leading with the campaign-story hero before the older ledger. The page also confirms that the repeated generic arrow-link issue has been reduced in the new campaign sections, while some legacy petition controls remain and should be retained only where they help visitors understand the document interaction.

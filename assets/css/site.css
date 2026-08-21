@@ -494,10 +494,21 @@ section { padding: 5rem 5vw; }
 }
 .motion-card-featured .motion-video { aspect-ratio: 16 / 10; }
 
+.updates-page-main .campaign-updates-section { order: 1; }
+.updates-page-main > .page-section-top { order: 2; }
+.updates-page-main > .section-dark { order: 3; }
+.updates-page-main { display: flex; flex-direction: column; }
 .campaign-updates-section {
   background: var(--white);
   padding: 4rem 5vw;
 }
+.campaign-updates-section > .container { display: flex; flex-direction: column; }
+.campaign-updates-section > .container > .page-header:first-child { order: 1; }
+.campaign-updates-grid { order: 2; }
+.campaign-tiktok-block { order: 3; }
+.campaign-video-block { order: 4; }
+.tutorial-section-header { order: 5; }
+.tutorial-grid { order: 6; }
 .campaign-update-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
