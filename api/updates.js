@@ -11,7 +11,25 @@ export default async function handler(req, res) {
 
   try {
     const rawList = await kv.lrange('channel_updates', 0, 49);
-    const updates = (rawList || []).map((item) => (typeof item === 'string' ? JSON.parse(item) : item));
+    const allowedCategories = new Set(['INITIATIVE', 'DATE TO BE ANNOUNCED']);
+    const parsedUpdates = (rawList || []).flatMap((item) => {
+      try {
+        const parsed = typeof item === 'string' ? JSON.parse(item) : item;
+        const category = String(parsed?.category || '').trim().toUpperCase();
+        return allowedCategories.has(category) ? [{ ...parsed, category }] : [];
+      } catch {
+        return [];
+      }
+    });
+
+    // Purge legacy advocacy/how-to records from the active app database.
+    if (parsedUpdates.length !== (rawList || []).length) {
+      await kv.del('channel_updates');
+      if (parsedUpdates.length) {
+        await kv.rpush('channel_updates', ...parsedUpdates.map((item) => JSON.stringify(item)));
+      }
+    }
+    const updates = parsedUpdates;
 
     // Cache responses for 60 seconds on CDN
     res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=120');
@@ -27,7 +45,7 @@ export default async function handler(req, res) {
       success: false,
       count: 0,
       updates: [],
-      error: 'Vercel KV not configured yet'
+      error: 'Campaign story data is not configured yet'
     });
   }
 }

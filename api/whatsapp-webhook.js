@@ -3,11 +3,11 @@
 
 import { kv } from '@vercel/kv';
 
-const SYSTEM_PROMPT = `You are an AI assistant parsing public WhatsApp channel updates for a University student advocacy platform.
+const SYSTEM_PROMPT = `You are an AI assistant parsing public WhatsApp channel updates for a University student campaign story platform.
 Your task is to take an incoming raw WhatsApp post and extract structured fields conforming strictly to the requested JSON schema.
 
 Field Rules:
-1. "category": Must be one of ["ADVOCACY", "HOW-TO GUIDE", "INITIATIVE", "DATE TO BE ANNOUNCED"].
+1. "category": Must be one of ["INITIATIVE", "DATE TO BE ANNOUNCED"]. Advocacy and how-to-guide messages are not retained in the app database.
 2. "status": Analyze message sentiment/progress and classify as one of ["RESOLVED", "IN PROGRESS", "ONGOING"].
 3. "title": Generate a short, punchy, professional title (under 60 characters).
 4. "summary": Create a concise 1–2 sentence description summarizing the announcement or guide.
@@ -22,7 +22,7 @@ const JSON_SCHEMA = {
     title: { type: "string" },
     category: { 
       type: "string", 
-      enum: ["ADVOCACY", "HOW-TO GUIDE", "INITIATIVE", "DATE TO BE ANNOUNCED"] 
+      enum: ["INITIATIVE", "DATE TO BE ANNOUNCED"]
     },
     status: { 
       type: "string", 
@@ -75,7 +75,7 @@ export default async function handler(req, res) {
     const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY;
     let parsedData = {
       title: "WhatsApp Update",
-      category: "ADVOCACY",
+      category: "INITIATIVE",
       status: "ONGOING",
       summary: rawText || "New update shared on WhatsApp channel.",
       date: "",
@@ -132,6 +132,17 @@ export default async function handler(req, res) {
         console.error('AI Categorization warning:', aiErr);
       }
     }
+
+    const allowedCategories = new Set(['INITIATIVE', 'DATE TO BE ANNOUNCED']);
+    const normalizedCategory = String(parsedData.category || '').trim().toUpperCase();
+    if (!allowedCategories.has(normalizedCategory)) {
+      return res.status(200).json({
+        success: false,
+        ignored: true,
+        message: 'Ignored: only campaign story initiatives are retained.'
+      });
+    }
+    parsedData.category = normalizedCategory;
 
     // 4. Handle Media Upload to GitHub CDN (if image attached)
     let cdnImageUrl = null;
@@ -194,7 +205,7 @@ export default async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: 'Green API channel message ingested successfully',
+      message: 'Campaign story update ingested successfully',
       data: record
     });
 
