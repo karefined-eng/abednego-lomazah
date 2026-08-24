@@ -1864,3 +1864,10 @@ section { padding: 5rem 5vw; }
   .tribute-note { transition: none; }
   .tribute-note:hover, .tribute-note.is-visible { transform: none; }
 }
+
+.tribute-note--image { grid-column: span 4; background: #fffdf9; color: var(--ink); padding: 0.5rem 0.5rem 1rem; text-align: center; }
+.tribute-note--image img { width: 100%; height: 220px; object-fit: cover; margin-bottom: 0.8rem; border-radius: 2px; }
+.tribute-note--image p { font-size: 0.82rem; font-style: italic; opacity: 0.75; margin: 0; }
+@media (max-width: 800px) {
+  .tribute-note--image { flex: 0 0 min(82vw, 310px); scroll-snap-align: start; }
+}
