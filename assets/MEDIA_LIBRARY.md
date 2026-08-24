@@ -29,3 +29,7 @@ The original Drive-supplied clips remain under `assets/videos/` and are playable
 ## Ownership and review notes
 
 All files referenced by the public HTML pages are stored in this repository’s `assets/` tree. New tribute submissions are stored separately in the protected pending queue; they do not become public media or public wall content until reviewed and approved.
+
+## Latest withdrawal communiqué
+
+The latest Team Abednego statement is stored at `updates/abednego-withdrawal-statement.jpg` and is presented beneath the written statement on `updates.html`. It is treated as a supplied statement from the campaign team, not as an independently verified institutional finding.

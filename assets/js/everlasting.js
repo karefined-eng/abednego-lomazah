@@ -57,7 +57,7 @@ function renderWall(extraTributes = []) {
     if (tribute.kind === 'ARCHIVE' && tribute.image) {
       return `
         <article class="tribute-note tribute-note--image" style="--note-tilt: ${tilt}deg; --note-delay: ${delay}ms">
-          <img src="${escapeHTML(tribute.image)}" alt="${escapeHTML(tribute.message)}" loading="lazy" />
+          <img src="${escapeHTML(tribute.image)}" alt="${escapeHTML(tribute.message)}" loading="eager" decoding="async" />
           <p>${escapeHTML(tribute.message)}</p>
         </article>
       `;

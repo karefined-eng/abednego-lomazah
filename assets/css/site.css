@@ -1866,8 +1866,68 @@ section { padding: 5rem 5vw; }
 }
 
 .tribute-note--image { grid-column: span 4; background: #fffdf9; color: var(--ink); padding: 0.5rem 0.5rem 1rem; text-align: center; }
-.tribute-note--image img { width: 100%; height: 220px; object-fit: cover; margin-bottom: 0.8rem; border-radius: 2px; }
+.tribute-note--image img { width: 100%; height: 300px; object-fit: contain; object-position: center; background: #c99d68; margin-bottom: 0.8rem; border-radius: 2px; }
 .tribute-note--image p { font-size: 0.82rem; font-style: italic; opacity: 0.75; margin: 0; }
 @media (max-width: 800px) {
   .tribute-note--image { flex: 0 0 min(82vw, 310px); scroll-snap-align: start; }
+  .tribute-note--image img { height: min(74vw, 360px); }
+}
+
+/* Campaign story restoration: dark, visual-first Updates page */
+.updates-story-body { background: var(--cream); color: var(--ink); }
+.updates-story-main { background: var(--cream); }
+.updates-story-hero { min-height: 68vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 0.4fr); align-items: center; gap: 2rem; padding: 7rem 8vw 5rem; background: radial-gradient(circle at 80% 24%, rgba(200, 135, 10, .2), transparent 28%), linear-gradient(125deg, #17100d 0%, #2d190e 62%, #503019 100%); color: var(--cream); }
+.updates-story-hero__inner { max-width: 900px; }
+.updates-story-hero h1 { color: var(--white); font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 11vw, 9rem); line-height: .82; letter-spacing: .03em; margin: .5rem 0 1.5rem; }
+.updates-story-hero h1 em { color: var(--gold-light); font-family: 'Playfair Display', serif; font-size: .55em; letter-spacing: 0; }
+.updates-story-hero .section-eyebrow { color: var(--gold-light); }
+.updates-story-hero__lead { max-width: 44ch; color: rgba(245, 240, 232, .82); font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.7; margin-bottom: 1.5rem; }
+.updates-story-hero__mark { width: min(28vw, 260px); aspect-ratio: 1; border: 1px solid rgba(212, 168, 67, .55); border-radius: 50%; display: grid; place-items: center; text-align: center; color: var(--gold-light); font: clamp(4rem, 8vw, 7rem)/.72 'Bebas Neue', sans-serif; transform: rotate(8deg); justify-self: center; }
+.updates-story-hero__mark span { display: block; color: var(--white); font: 700 .9rem/1.05 Inter, sans-serif; letter-spacing: .16em; }
+.campaign-reel { background: #17100d; color: var(--cream); padding: 5.5rem 0 2.5rem; overflow: hidden; }
+.campaign-reel__heading { padding: 0 5vw; }
+.campaign-reel .section-eyebrow { color: var(--gold-light); }
+.campaign-reel .section-title { color: var(--white); font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.2rem, 7vw, 6rem); line-height: .84; margin: .4rem 0 0; }
+.campaign-reel .section-title span { color: var(--gold); }
+.campaign-reel__hint { max-width: 24ch; text-align: right; color: rgba(245, 240, 232, .64); line-height: 1.6; }
+.campaign-video-rail-wrap { overflow: hidden; }
+.updates-story-main .campaign-video-card-grid { gap: 1rem; padding: 1rem 5vw 1.5rem; scroll-snap-type: none; }
+.updates-story-main .campaign-video-card { flex: 0 0 clamp(220px, 25vw, 330px); min-height: 0; padding: .45rem; border: 1px solid rgba(212, 168, 67, .32); border-radius: 12px; background: #332019; box-shadow: 0 1rem 2rem rgba(0, 0, 0, .28); }
+.updates-story-main .campaign-video-card:hover { transform: translateY(-4px); border-color: var(--gold-light); }
+.updates-story-main .native-video-player { margin: 0; border-radius: 8px; aspect-ratio: 9 / 16; object-fit: cover; background: #0d0907; }
+.withdrawal-update { background: var(--cream); color: var(--ink); padding: 6.5rem 0; }
+.withdrawal-update__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, .62fr); align-items: center; gap: 5rem; }
+.withdrawal-update__copy h2 { color: var(--brown); font-family: 'Bebas Neue', sans-serif; font-size: clamp(3.4rem, 7vw, 7rem); line-height: .84; margin: .5rem 0 1.7rem; }
+.withdrawal-update__copy h2 em { color: var(--gold-dark); font-family: 'Playfair Display', serif; font-size: .58em; letter-spacing: 0; }
+.withdrawal-update__copy blockquote { max-width: 42ch; border-left: 3px solid var(--gold); padding-left: 1.25rem; font-family: 'Playfair Display', serif; font-size: clamp(1.15rem, 2.2vw, 1.55rem); line-height: 1.6; margin: 0; }
+.withdrawal-update .section-eyebrow { color: var(--gold-dark); }
+.withdrawal-update__signoff { margin-top: 1.5rem; color: var(--brown); font-size: .8rem; font-weight: 800; letter-spacing: .12em; line-height: 1.6; }
+.withdrawal-update__image { margin: 0; padding: .7rem; background: var(--white); box-shadow: 1rem 1rem 0 rgba(61, 31, 13, .16); }
+.withdrawal-update__image img { width: 100%; height: auto; display: block; object-fit: contain; }
+.withdrawal-update__image figcaption { color: #745c4d; font-size: .75rem; font-style: italic; padding: .7rem .25rem 0; }
+
+/* Resource surfaces: keep the campaign palette instead of default white blocks */
+.resources-body { background: var(--cream); }
+.resources-body .page-section-top { background: var(--cream); }
+.resources-body .resource-hero-art img { height: 350px; object-fit: contain; object-position: center; background: #c99d68; padding: .35rem; }
+.resources-body .resource-detail-section { background: #2b180f; color: var(--cream); padding: 5rem 0; margin-top: 1rem; }
+.resources-body .resource-detail-section .static-seo-section { background: transparent; color: var(--cream); border: 0; box-shadow: none; padding: 0 5vw; }
+.resources-body .resource-detail-section .static-seo-section h2, .resources-body .resource-detail-section .static-seo-section h3 { color: var(--white); }
+.resources-body .resource-detail-section .static-seo-section p { color: rgba(245, 240, 232, .82); }
+.resources-body .resource-detail-section .seo-keyword-table { color: var(--cream); }
+.resources-body .resource-detail-section .seo-keyword-table th { background: rgba(200, 135, 10, .22); color: var(--gold-light); }
+.resources-body .resource-detail-section .seo-keyword-table td { border-color: rgba(245, 240, 232, .16); }
+.resources-body .courses-grid { padding-bottom: 1rem; }
+
+@media (max-width: 800px) {
+  .updates-story-hero { min-height: auto; grid-template-columns: 1fr; padding: 6rem 6vw 4rem; }
+  .updates-story-hero__mark { width: min(50vw, 220px); justify-self: start; }
+  .campaign-reel { padding-top: 4rem; }
+  .campaign-reel__heading { display: block; }
+  .campaign-reel__hint { margin-top: 1.25rem; text-align: left; }
+  .updates-story-main .campaign-video-card-grid { padding-left: 6vw; padding-right: 6vw; }
+  .withdrawal-update { padding: 4.5rem 0; }
+  .withdrawal-update__grid { grid-template-columns: 1fr; gap: 3rem; }
+  .withdrawal-update__copy blockquote { font-size: 1.12rem; }
+  .resources-body .resource-hero-art img { height: 330px; }
 }
