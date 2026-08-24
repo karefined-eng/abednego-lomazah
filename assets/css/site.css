@@ -1033,17 +1033,31 @@ section { padding: 5rem 5vw; }
   .mobile-menu-toggle { display: block; }
   .nav-links {
     display: none;
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 4rem; /* Below navbar */
     left: 0;
     width: 100%;
+    height: calc(100vh - 4rem);
     background: var(--brown);
     flex-direction: column;
-    padding: 1.5rem 5vw;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border-top: 1px solid rgba(255,255,255,0.1);
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 5vw;
+    z-index: 999;
+    overflow-y: auto;
   }
   .nav-links.expanded { display: flex; }
+  .nav-links li { margin-bottom: 1.5rem; }
+  .nav-links a { font-size: 1.5rem; }
+  .nav-links .nav-cta {
+    margin-top: 2rem;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
   .hero { padding-top: 5rem; }
   .hero-video-bg { min-height: 82vh; padding: 7rem 5vw 4rem; }
   .hero-overlay { background: rgba(36, 23, 15, 0.76); }

@@ -10,6 +10,12 @@ document.addEventListener('DOMContentLoaded', () => {
     menuToggle.setAttribute('aria-expanded', String(isOpen));
     menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
     navLinks.classList.toggle('expanded', isOpen);
+    
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
   }
 
   menuToggle.addEventListener('click', () => {
