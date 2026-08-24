@@ -10,6 +10,7 @@ const seedTributes = [
   { message: 'He worked even when he was not given a leadership role. He served the student body diligently.', author: 'A course rep', kind: 'WITHOUT A TITLE' },
   { message: 'Who would have thought that even without a formal leadership role, you could still be a leader and serve your people? Nobody. Abednego thought of it.', author: 'A classmate', kind: 'THE IDEA' },
   { message: 'I will never forget all the toil and sacrifices we put in from January 2024. Thank you for the time, courage, and commitment you brought to the team.', author: 'Abednego Lomazah', kind: 'TO MY RUNNING MATE' },
+  { message: 'Much appreciation to you brother SAMUEL ESPAN BISSAH. I will never forget all the toil and sacrifices we put in this from January 2024. Stepping in just a few minutes before the deadline... means a great deal to me and the entire team.', author: 'Abednego Lomazah', kind: 'BROTHERHOOD' },
   { message: 'You gave your all to the student body. I am so proud to have served under your leadership. I will forever be proud of you.', author: 'A proud teammate', kind: 'A WORD FOR ABEDNEGO' },
   { message: 'Tomorrow, before you CLICK that link to vote, pause for a moment. Ask yourself one simple question: Did we really choose to have only one option, or was that choice made for us?', author: 'kwadwocode', kind: 'THE CHOICE' },
   { message: 'An election is supposed to give students a voice. But what happens when the system leaves you with only one person to choose from?', author: 'kwadwocode', kind: 'THE SYSTEM' },

@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tribute Review | #EVERLASTING</title>
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    .review-main { min-height: 75vh; padding: 7rem 0 5rem; background: var(--cream); color: var(--espresso); }
+    .review-shell { max-width: 920px; margin: 0 auto; padding: 0 1.25rem; }
+    .review-header { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2rem; }
+    .review-header h1 { margin: .25rem 0 0; font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 9vw, 6rem); line-height: .9; letter-spacing: .02em; }
+    .review-panel { background: #fff; border: 1px solid rgba(36, 23, 15, .12); padding: 1.25rem; box-shadow: 10px 10px 0 rgba(200, 135, 10, .18); }
+    .review-login { max-width: 560px; }
+    .review-login label, .review-card label { display: block; margin: .8rem 0 .35rem; font-weight: 700; font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; }
+    .review-login input, .review-card input, .review-card textarea { width: 100%; border: 1px solid rgba(36, 23, 15, .24); padding: .8rem .9rem; font: inherit; color: var(--espresso); background: #fffdf9; }
+    .review-login input { margin-bottom: .8rem; }
+    .review-status { min-height: 1.5rem; margin: .8rem 0 0; font-weight: 600; }
+    .review-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+    .review-toolbar h2 { margin: 0; font-size: 1.45rem; }
+    .review-card { margin: 1rem 0; padding: 1rem; border-left: 4px solid var(--gold); background: #fff; }
+    .review-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; color: #6d5a4a; font-size: .85rem; }
+    .review-card textarea { min-height: 130px; resize: vertical; }
+    .review-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1rem; }
+    .review-actions button { border: 0; padding: .7rem .9rem; font: inherit; font-weight: 700; cursor: pointer; }
+    .review-actions .save { background: var(--espresso); color: var(--cream); }
+    .review-actions .approve { background: var(--gold); color: var(--espresso); }
+    .review-actions .reject { background: #eaded5; color: var(--espresso); }
+    .review-actions button:disabled { opacity: .55; cursor: wait; }
+    .review-empty { padding: 2rem 0; color: #6d5a4a; }
+    @media (max-width: 640px) {
+      .review-main { padding-top: 5.5rem; }
+      .review-header { display: block; }
+      .review-toolbar { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="review-main">
+    <div class="review-shell">
+      <header class="review-header">
+        <div>
+          <p class="section-eyebrow">Private review space</p>
+          <h1>#EVERLASTING<br />TRIBUTES</h1>
+        </div>
+        <a href="everlasting.html" class="everlasting-text-link">View public wall ↗</a>
+      </header>
+
+      <section id="login-panel" class="review-panel review-login" aria-labelledby="login-title">
+        <h2 id="login-title">Sign in to review</h2>
+        <p>Use the private review token configured for this deployment. It is kept only in this browser session and is never displayed in the page.</p>
+        <form id="login-form">
+          <label for="admin-token">Review token</label>
+          <input id="admin-token" type="password" autocomplete="current-password" required />
+          <button class="btn-primary" type="submit">Load pending words</button>
+        </form>
+        <p id="login-status" class="review-status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section id="review-panel" class="review-panel" hidden aria-labelledby="review-title">
+        <div class="review-toolbar">
+          <div>
+            <p class="section-eyebrow">Pending publication</p>
+            <h2 id="review-title">Review each word before it goes live</h2>
+          </div>
+          <button id="refresh-button" class="wall-control" type="button">Refresh list ↻</button>
+        </div>
+        <p id="review-status" class="review-status" role="status" aria-live="polite"></p>
+        <div id="pending-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const loginPanel = document.querySelector('#login-panel');
+      const reviewPanel = document.querySelector('#review-panel');
+      const loginForm = document.querySelector('#login-form');
+      const tokenInput = document.querySelector('#admin-token');
+      const loginStatus = document.querySelector('#login-status');
+      const reviewStatus = document.querySelector('#review-status');
+      const list = document.querySelector('#pending-list');
+      const refreshButton = document.querySelector('#refresh-button');
+      let token = sessionStorage.getItem('everlasting-review-token') || '';
+
+      function setStatus(element, message, isError = false) {
+        element.textContent = message;
+        element.style.color = isError ? '#9d2d20' : '';
+      }
+
+      function requestOptions(method = 'GET', body) {
+        const options = { method, headers: { Accept: 'application/json', Authorization: `Bearer ${token}` } };
+        if (body) {
+          options.headers['Content-Type'] = 'application/json';
+          options.body = JSON.stringify(body);
+        }
+        return options;
+      }
+
+      function button(label, className, handler) {
+        const element = document.createElement('button');
+        element.type = 'button';
+        element.className = className;
+        element.textContent = label;
+        element.addEventListener('click', handler);
+        return element;
+      }
+
+      function renderPending(tributes) {
+        list.replaceChildren();
+        if (!tributes.length) {
+          const empty = document.createElement('p');
+          empty.className = 'review-empty';
+          empty.textContent = 'No pending words right now. New submissions will appear here after you refresh.';
+          list.appendChild(empty);
+          return;
+        }
+
+        tributes.forEach((tribute) => {
+          const card = document.createElement('article');
+          card.className = 'review-card';
+          card.dataset.id = tribute.id;
+
+          const meta = document.createElement('div');
+          meta.className = 'review-meta';
+          const submitted = tribute.submittedAt ? new Date(tribute.submittedAt).toLocaleString() : 'Submission time unavailable';
+          meta.textContent = `${submitted} · ${tribute.kind || 'NEW VOICE'}`;
+
+          const nameLabel = document.createElement('label');
+          nameLabel.textContent = 'Name or initials';
+          const nameInput = document.createElement('input');
+          nameInput.value = tribute.author || '';
+          nameInput.maxLength = 60;
+
+          const messageLabel = document.createElement('label');
+          messageLabel.textContent = 'Message';
+          const messageInput = document.createElement('textarea');
+          messageInput.maxLength = 600;
+          messageInput.value = tribute.message || '';
+
+          const actions = document.createElement('div');
+          actions.className = 'review-actions';
+          const save = button('Save edit', 'save', () => moderate(card, 'edit', nameInput, messageInput));
+          const approve = button('Approve & publish', 'approve', () => moderate(card, 'approve', nameInput, messageInput));
+          const reject = button('Reject & archive', 'reject', () => moderate(card, 'reject', nameInput, messageInput));
+          actions.append(save, approve, reject);
+
+          card.append(meta, nameLabel, nameInput, messageLabel, messageInput, actions);
+          list.appendChild(card);
+        });
+      }
+
+      async function loadPending(showLoading = true) {
+        if (showLoading) setStatus(reviewStatus, 'Loading pending words…');
+        try {
+          const response = await fetch('/api/tributes?admin=1', requestOptions());
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Authorization failed.');
+          loginPanel.hidden = true;
+          reviewPanel.hidden = false;
+          renderPending(Array.isArray(data.pending) ? data.pending : []);
+          setStatus(reviewStatus, `${data.pending.length} pending word${data.pending.length === 1 ? '' : 's'}.`);
+        } catch (error) {
+          sessionStorage.removeItem('everlasting-review-token');
+          token = '';
+          reviewPanel.hidden = true;
+          loginPanel.hidden = false;
+          setStatus(loginStatus, error.message, true);
+        }
+      }
+
+      async function moderate(card, action, nameInput, messageInput) {
+        card.querySelectorAll('button').forEach((control) => { control.disabled = true; });
+        setStatus(reviewStatus, action === 'approve' ? 'Publishing…' : action === 'reject' ? 'Archiving…' : 'Saving edit…');
+        try {
+          const response = await fetch('/api/tributes?admin=1', requestOptions('POST', {
+            action,
+            id: card.dataset.id,
+            author: nameInput.value.trim(),
+            message: messageInput.value.trim()
+          }));
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.error || 'Could not complete this action.');
+          if (action !== 'edit') card.remove();
+          if (!list.children.length) renderPending([]);
+          setStatus(reviewStatus, action === 'approve' ? 'Published to the public wall.' : action === 'reject' ? 'Archived outside the public wall.' : 'Edit saved. Review it again before publishing.');
+        } catch (error) {
+          card.querySelectorAll('button').forEach((control) => { control.disabled = false; });
+          setStatus(reviewStatus, error.message, true);
+        }
+      }
+
+      loginForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        token = tokenInput.value.trim();
+        if (!token) return;
+        sessionStorage.setItem('everlasting-review-token', token);
+        loadPending();
+      });
+      refreshButton.addEventListener('click', () => loadPending());
+      if (token) loadPending(false);
+    })();
+  </script>
+</body>
+</html>
