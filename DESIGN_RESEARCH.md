@@ -104,3 +104,22 @@ The design should use dark brown for campaign-intensity sections, warm ivory for
 The deployed homepage now visibly renders a campaign video hero with a dark espresso field, gold navigation accents, large display typography, and two clear primary actions. The motion is muted, inline, and has a visible pause control, which matches the accessibility research.
 
 The deployed Updates page is now visibly separated into an advocacy/petition area, a recent WhatsApp campaign story, how-to guides, TikTok feature, and direct campaign video archive. The top of the page still begins with the older advocacy tracker skeleton/loading block and petition ledger, so the next polish pass should improve the order and reduce the initial “dashboard” feeling by leading with the campaign-story hero before the older ledger. The page also confirms that the repeated generic arrow-link issue has been reduced in the new campaign sections, while some legacy petition controls remain and should be retained only where they help visitors understand the document interaction.
+
+
+## Second Live Validation
+
+The homepage visually reflects the research direction: the hero is now a full-bleed moving campaign scene with dark overlay, gold accent, large headline treatment, and clear actions. The Updates page also contains the new content categories and campaign language.
+
+The live Updates screenshot still visually opens on the legacy advocacy tracker rather than the campaign story. This indicates that the story-first CSS ordering is not producing the intended visual order in the deployed page, even though the new content exists. The next correction should make the story order explicit in the HTML itself instead of relying only on flex `order`, then validate again. The page also still exposes the older tracker data before the new campaign story, which creates duplication and weakens the narrative.
+
+
+## Deployment Debug Note
+
+The live stylesheet is serving the latest story-order CSS, but the live HTML currently does not include the newest `updates-page-main` class, so the computed flex ordering remains `0` and the legacy advocacy tracker still appears first. This is a deployment/version mismatch rather than a design decision. The local repository contains the newer class names, but the live site should be checked against the latest commit before further visual conclusions are drawn.
+
+
+## Final Live Validation
+
+After cache-busting the production URL, the Updates page now opens with the campaign story cards, followed by the academic guide section and campaign media blocks, while the older advocacy tracker and petition ledger remain available below. This HTML order is now visibly closer to the intended campaign narrative.
+
+The Resources page now has a brown-and-gold campaign banner with the supplied flyer artwork, a clear “Browse the library” action, and the existing searchable resource archive beneath it. The page is no longer a plain white opening, while the resource cards remain readable and functional.
