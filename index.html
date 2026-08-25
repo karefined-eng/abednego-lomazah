@@ -84,10 +84,14 @@
   </nav>
 
   <main id="main-content">
-    <section class="hero hero-video-bg" id="home">
-      <video class="hero-bg-video" autoplay loop muted playsinline preload="metadata" poster="assets/videos/posters/abednego-hero-upper-body.jpg" aria-hidden="true">
-        <source src="assets/videos/abednego-hero-upper-body.mp4" type="video/mp4">
-      </video>
+    <section class="hero home-hero" id="home">
+      <div class="hero-portrait-slideshow" data-hero-gallery aria-hidden="true">
+        <img class="hero-portrait-slide is-active" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-dark-brown-suit.jpg" alt="" />
+        <img class="hero-portrait-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-fullbody-batik-1.jpg" alt="" />
+        <img class="hero-portrait-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-fullbody-batik-2.jpg" alt="" />
+        <img class="hero-portrait-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-white-shirt.jpg" alt="" />
+        <img class="hero-portrait-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-studio-batik.jpg" alt="" />
+      </div>
       <div class="hero-overlay"></div>
       <div class="hero-text hero-text-light">
         <span class="hero-eyebrow">University of Ghana · Medical Student</span>
@@ -102,32 +106,7 @@
         <div class="hero-btns">
           <a href="updates.html" class="btn-primary" style="font-size: 1.1rem; padding: 16px 36px;">Watch the Campaign Story</a>
         </div>
-        <button class="hero-video-toggle" type="button" aria-pressed="false">Pause background motion</button>
-      </div>
-      <div class="hero-gallery" data-hero-gallery aria-label="Rotating portraits of Abednego Lomazah">
-        <div class="hero-gallery-frame">
-          <img class="hero-gallery-slide is-active" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-dark-brown-suit.jpg" alt="Abednego Lomazah in a dark brown suit" aria-hidden="false" />
-          <img class="hero-gallery-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-fullbody-batik-1.jpg" alt="Abednego Lomazah in a batik shirt" aria-hidden="true" />
-          <img class="hero-gallery-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-fullbody-batik-2.jpg" alt="Abednego Lomazah standing in a batik shirt" aria-hidden="true" />
-          <img class="hero-gallery-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-white-shirt.jpg" alt="Abednego Lomazah in a white shirt" aria-hidden="true" />
-          <img class="hero-gallery-slide" data-hero-slide src="assets/headshots/abednego-lomazah-headshot-studio-batik.jpg" alt="Abednego Lomazah in a studio portrait" aria-hidden="true" />
-          <img class="hero-gallery-slide hero-gallery-slide--raised" data-hero-slide src="assets/headshots/abednego-raised-hand-sticker.jpg" alt="Abednego Lomazah raising both hands" aria-hidden="true" />
-          <div class="hero-gallery-controls" aria-label="Portrait controls">
-            <button type="button" class="hero-gallery-button" data-hero-previous aria-label="Previous portrait">←</button>
-            <button type="button" class="hero-gallery-button" data-hero-next aria-label="Next portrait">→</button>
-          </div>
-        </div>
-        <div class="hero-gallery-meta">
-          <span>Portraits of service</span>
-          <div class="hero-gallery-dots" role="tablist" aria-label="Choose a portrait">
-            <button type="button" data-hero-dot="0" class="is-active" aria-label="Show portrait 1" aria-current="true"></button>
-            <button type="button" data-hero-dot="1" aria-label="Show portrait 2" aria-current="false"></button>
-            <button type="button" data-hero-dot="2" aria-label="Show portrait 3" aria-current="false"></button>
-            <button type="button" data-hero-dot="3" aria-label="Show portrait 4" aria-current="false"></button>
-            <button type="button" data-hero-dot="4" aria-label="Show portrait 5" aria-current="false"></button>
-            <button type="button" data-hero-dot="5" aria-label="Show portrait 6" aria-current="false"></button>
-          </div>
-        </div>
+        <button class="hero-slideshow-toggle" data-hero-toggle type="button" aria-pressed="false">Pause portrait rotation</button>
       </div>
     </section>
 
@@ -354,23 +333,6 @@
 
   <script async src="https://www.tiktok.com/embed.js"></script>
   <script src="assets/js/hero-gallery.js?v=1" defer></script>
-  <script>
-    const heroVideo = document.querySelector('.hero-bg-video');
-    const heroVideoToggle = document.querySelector('.hero-video-toggle');
-    if (heroVideo && heroVideoToggle) {
-      heroVideoToggle.addEventListener('click', () => {
-        if (heroVideo.paused) {
-          heroVideo.play();
-          heroVideoToggle.textContent = 'Pause background motion';
-          heroVideoToggle.setAttribute('aria-pressed', 'false');
-        } else {
-          heroVideo.pause();
-          heroVideoToggle.textContent = 'Play background motion';
-          heroVideoToggle.setAttribute('aria-pressed', 'true');
-        }
-      });
-    }
-  </script>
 </body>
 
 </html>
