@@ -22,6 +22,8 @@
     .review-status { min-height: 1.5rem; margin: .8rem 0 0; font-weight: 600; }
     .review-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
     .review-toolbar h2 { margin: 0; font-size: 1.45rem; }
+    .review-toolbar-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .5rem; }
+    .review-toolbar-actions .wall-control { font-size: .78rem; }
     .review-card { margin: 1rem 0; padding: 1rem; border-left: 4px solid var(--gold); background: #fff; }
     .review-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; color: #6d5a4a; font-size: .85rem; }
     .review-card textarea { min-height: 130px; resize: vertical; }
@@ -67,7 +69,11 @@
             <p class="section-eyebrow">Pending publication</p>
             <h2 id="review-title">Review each word before it goes live</h2>
           </div>
-          <button id="refresh-button" class="wall-control" type="button">Refresh list ↻</button>
+          <div class="review-toolbar-actions">
+            <button id="export-csv-button" class="wall-control" type="button">Download approved CSV ↓</button>
+            <button id="export-json-button" class="wall-control" type="button">Backup approved JSON ↓</button>
+            <button id="refresh-button" class="wall-control" type="button">Refresh list ↻</button>
+          </div>
         </div>
         <p id="review-status" class="review-status" role="status" aria-live="polite"></p>
         <div id="pending-list"></div>
@@ -85,6 +91,8 @@
       const reviewStatus = document.querySelector('#review-status');
       const list = document.querySelector('#pending-list');
       const refreshButton = document.querySelector('#refresh-button');
+      const exportCsvButton = document.querySelector('#export-csv-button');
+      const exportJsonButton = document.querySelector('#export-json-button');
       let token = sessionStorage.getItem('everlasting-review-token') || '';
 
       function setStatus(element, message, isError = false) {
@@ -173,6 +181,35 @@
         }
       }
 
+      async function downloadApproved(format) {
+        const button = format === 'csv' ? exportCsvButton : exportJsonButton;
+        button.disabled = true;
+        setStatus(reviewStatus, `Preparing approved-message ${format.toUpperCase()} export…`);
+        try {
+          const response = await fetch(`/api/tributes?admin=1&export=approved&format=${format}`, requestOptions());
+          if (!response.ok) {
+            const data = await response.json().catch(() => ({}));
+            throw new Error(data.error || 'Could not export approved messages.');
+          }
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = format === 'csv'
+            ? 'abednego-lomazah-approved-tributes.csv'
+            : 'abednego-lomazah-approved-tributes.json';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+          setStatus(reviewStatus, `Approved-message ${format.toUpperCase()} export downloaded.`);
+        } catch (error) {
+          setStatus(reviewStatus, error.message, true);
+        } finally {
+          button.disabled = false;
+        }
+      }
+
       async function moderate(card, action, nameInput, messageInput) {
         card.querySelectorAll('button').forEach((control) => { control.disabled = true; });
         setStatus(reviewStatus, action === 'approve' ? 'Publishing…' : action === 'reject' ? 'Archiving…' : 'Saving edit…');
@@ -202,6 +239,8 @@
         loadPending();
       });
       refreshButton.addEventListener('click', () => loadPending());
+      exportCsvButton.addEventListener('click', () => downloadApproved('csv'));
+      exportJsonButton.addEventListener('click', () => downloadApproved('json'));
       if (token) loadPending(false);
     })();
   </script>

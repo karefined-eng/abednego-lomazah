@@ -62,13 +62,32 @@ function reviewRecord(item) {
     status: clean(item.status || 'pending', 24),
     submittedAt: clean(item.submittedAt, 40),
     updatedAt: clean(item.updatedAt, 40),
-    moderatedAt: clean(item.moderatedAt, 40)
+    moderatedAt: clean(item.moderatedAt, 40),
+    publishedAt: clean(item.publishedAt, 40)
   };
 }
 
 async function pendingRecords() {
   const records = await kv.lrange(PENDING_KEY, 0, MAX_RECORDS - 1);
   return (records || []).map(parseItem).filter((item) => item && item.id && item.message && item.author);
+}
+
+async function approvedRecords() {
+  const records = await kv.lrange(PUBLIC_KEY, 0, MAX_RECORDS - 1);
+  return (records || []).map(parseItem).filter((item) => item && item.id && item.message && item.author);
+}
+
+function csvCell(value) {
+  return `"${String(value || '').replace(/"/g, '""').replace(/\r?\n/g, ' ')}"`;
+}
+
+function approvedCsv(records) {
+  const columns = ['id', 'author', 'message', 'kind', 'status', 'submittedAt', 'updatedAt', 'moderatedAt', 'publishedAt'];
+  const rows = records.map((record) => {
+    const item = reviewRecord({ ...record, status: 'published' });
+    return columns.map((column) => csvCell(item[column])).join(',');
+  });
+  return [columns.join(','), ...rows].join('\n');
 }
 
 async function updatePendingAt(index, record) {
@@ -85,6 +104,25 @@ async function handleAdmin(req, res) {
   }
 
   if (req.method === 'GET') {
+    const exportFormat = String(req.query?.format || '').toLowerCase();
+    const exportScope = String(req.query?.export || '').toLowerCase();
+    if (exportScope === 'approved') {
+      const approved = await approvedRecords();
+      if (exportFormat === 'csv') {
+        res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+        res.setHeader('Content-Disposition', 'attachment; filename="abednego-lomazah-approved-tributes.csv"');
+        return res.status(200).send(approvedCsv(approved));
+      }
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.setHeader('Content-Disposition', 'attachment; filename="abednego-lomazah-approved-tributes.json"');
+      return res.status(200).json({
+        success: true,
+        exportedAt: new Date().toISOString(),
+        count: approved.length,
+        approved: approved.map((item) => reviewRecord({ ...item, status: 'published' }))
+      });
+    }
+
     const records = await pendingRecords();
     const pending = records.filter((item) => item.status === 'pending').map(reviewRecord);
     return res.status(200).json({ success: true, pending, archived: records.length - pending.length });

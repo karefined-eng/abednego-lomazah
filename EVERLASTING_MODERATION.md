@@ -13,6 +13,10 @@ The public form sends the visitor’s name and message to `/api/tributes`. The s
 5. Select **Approve & publish** to copy the reviewed record to `everlasting_tributes_public`. It will appear on the public wall on the next fetch, subject to the public cache window.
 6. Select **Reject & archive** for a submission that should not be published. The record is retained in the KV list `everlasting_tributes_rejected` and is marked rejected in the pending list; it is not permanently deleted.
 
+## Exporting approved messages
+
+After signing in on the review page, use **Download approved CSV** for a spreadsheet-friendly copy or **Backup approved JSON** for a complete machine-readable backup. Both downloads are authenticated by the server-side review token and include all approved records retained by the application, including the submission id, author, message, category, and moderation timestamps. Save the downloaded files in a private location because they contain user-submitted messages. The application currently retains up to 200 approved records.
+
 ## Security boundaries
 
 The admin page is marked `noindex`, but that is not authentication. The real protection is the server-side `TRIBUTE_ADMIN_TOKEN` check. Do not put the token in HTML, JavaScript, Git, a query string, a screenshot, or a shared public document. If the token is exposed, rotate it in Vercel and redeploy.
