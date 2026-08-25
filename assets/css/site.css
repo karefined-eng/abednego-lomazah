@@ -1931,3 +1931,6 @@ section { padding: 5rem 5vw; }
   .withdrawal-update__copy blockquote { font-size: 1.12rem; }
   .resources-body .resource-hero-art img { height: 330px; }
 }
+
+/* Keep the hero subject face-first on every viewport. */
+.hero-bg-video { object-position: center top; }

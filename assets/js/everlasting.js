@@ -16,7 +16,10 @@ const seedTributes = [
   { message: 'An election is supposed to give students a voice. But what happens when the system leaves you with only one person to choose from?', author: 'kwadwocode', kind: 'THE SYSTEM' },
   { message: 'If you believe the process was unfair, you have every right to let your vote reflect that conviction. Don’t vote out of pressure. Think for yourself.', author: 'kwadwocode', kind: 'YOUR VOICE' },
   { message: 'The campaign journey in focus.', image: 'assets/headshots/abednego-lomazah-headshot-fullbody-batik-1.jpg', kind: 'ARCHIVE' },
-  { message: 'Serving the student body from the beginning.', image: 'assets/headshots/abednego-lomazah-headshot-studio-batik.jpg', kind: 'ARCHIVE' }
+  { message: 'Serving the student body from the beginning.', image: 'assets/headshots/abednego-lomazah-headshot-studio-batik.jpg', kind: 'ARCHIVE' },
+  { message: 'The person behind the work.', image: 'assets/headshots/abednego-lomazah-headshot-dark-brown-suit.jpg', kind: 'ARCHIVE' },
+  { message: 'Showing up for students, one moment at a time.', image: 'assets/headshots/abednego-lomazah-headshot-fullbody-batik-2.jpg', kind: 'ARCHIVE' },
+  { message: 'A student leader remembered in full.', image: 'assets/headshots/abednego-lomazah-headshot-white-shirt.jpg', kind: 'ARCHIVE' }
 ];
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

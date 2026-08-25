@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const continueScroll = () => {
       if (pausedByUser || prefersReducedMotion || !hasOverflow()) return;
-      scrollPos += 0.55;
+      scrollPos += 0.95;
       if (scrollPos >= rail.scrollWidth - rail.clientWidth - 1) scrollPos = 0;
       rail.scrollLeft = scrollPos;
       animationId = requestAnimationFrame(continueScroll);
