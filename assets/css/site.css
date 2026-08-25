@@ -1876,7 +1876,7 @@ section { padding: 5rem 5vw; }
 /* Campaign story restoration: dark, visual-first Updates page */
 .updates-story-body { background: var(--cream); color: var(--ink); }
 .updates-story-main { background: var(--cream); }
-.updates-story-hero { min-height: 68vh; display: grid; grid-template-columns: minmax(0, 1fr) minmax(180px, 0.4fr); align-items: center; gap: 2rem; padding: 7rem 8vw 5rem; background: radial-gradient(circle at 80% 24%, rgba(200, 135, 10, .2), transparent 28%), linear-gradient(125deg, #17100d 0%, #2d190e 62%, #503019 100%); color: var(--cream); }
+.updates-story-hero { min-height: 68vh; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 2rem; padding: 7rem 8vw 5rem; background: radial-gradient(circle at 80% 24%, rgba(200, 135, 10, .2), transparent 28%), linear-gradient(125deg, #17100d 0%, #2d190e 62%, #503019 100%); color: var(--cream); }
 .updates-story-hero__inner { max-width: 900px; }
 .updates-story-hero h1 { color: var(--white); font-family: 'Bebas Neue', sans-serif; font-size: clamp(4rem, 11vw, 9rem); line-height: .82; letter-spacing: .03em; margin: .5rem 0 1.5rem; }
 .updates-story-hero h1 em { color: var(--gold-light); font-family: 'Playfair Display', serif; font-size: .55em; letter-spacing: 0; }
