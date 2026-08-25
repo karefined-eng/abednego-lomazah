@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    .review-main { min-height: 75vh; padding: 7rem 0 5rem; background: var(--cream); color: var(--espresso); }
+    .review-main { min-height: 75vh; padding: 7rem 0 5rem; background: var(--cream); color: var(--ink); }
     .review-shell { max-width: 920px; margin: 0 auto; padding: 0 1.25rem; }
     .review-header { display: flex; justify-content: space-between; align-items: end; gap: 1rem; margin-bottom: 2rem; }
     .review-header h1 { margin: .25rem 0 0; font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 9vw, 6rem); line-height: .9; letter-spacing: .02em; }
     .review-panel { background: #fff; border: 1px solid rgba(36, 23, 15, .12); padding: 1.25rem; box-shadow: 10px 10px 0 rgba(200, 135, 10, .18); }
     .review-login { max-width: 560px; }
     .review-login label, .review-card label { display: block; margin: .8rem 0 .35rem; font-weight: 700; font-size: .82rem; text-transform: uppercase; letter-spacing: .08em; }
-    .review-login input, .review-card input, .review-card textarea { width: 100%; border: 1px solid rgba(36, 23, 15, .24); padding: .8rem .9rem; font: inherit; color: var(--espresso); background: #fffdf9; }
+    .review-login input, .review-card input, .review-card textarea { width: 100%; border: 1px solid rgba(36, 23, 15, .24); padding: .8rem .9rem; font: inherit; color: var(--ink); background: #fffdf9; }
     .review-login input { margin-bottom: .8rem; }
     .review-status { min-height: 1.5rem; margin: .8rem 0 0; font-weight: 600; }
     .review-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
@@ -26,12 +26,12 @@
     .review-toolbar-actions .wall-control { font-size: .78rem; }
     .review-card { margin: 1rem 0; padding: 1rem; border-left: 4px solid var(--gold); background: #fff; }
     .review-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; color: #6d5a4a; font-size: .85rem; }
-    .review-card textarea { min-height: 130px; resize: vertical; }
+    .review-card textarea { min-height: 180px; max-height: 420px; resize: vertical; overflow-y: auto; color: var(--ink); background: #fffdf9; caret-color: var(--gold); line-height: 1.6; white-space: pre-wrap; }
     .review-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1rem; }
     .review-actions button { border: 0; padding: .7rem .9rem; font: inherit; font-weight: 700; cursor: pointer; }
-    .review-actions .save { background: var(--espresso); color: var(--cream); }
-    .review-actions .approve { background: var(--gold); color: var(--espresso); }
-    .review-actions .reject { background: #eaded5; color: var(--espresso); }
+    .review-actions .save { background: var(--ink); color: var(--cream); }
+    .review-actions .approve { background: var(--gold); color: var(--ink); }
+    .review-actions .reject { background: #eaded5; color: var(--ink); }
     .review-actions button:disabled { opacity: .55; cursor: wait; }
     .review-empty { padding: 2rem 0; color: #6d5a4a; }
     @media (max-width: 640px) {
