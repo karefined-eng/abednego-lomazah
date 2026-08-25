@@ -2384,3 +2384,43 @@ section { padding: 5rem 5vw; }
     white-space: nowrap;
   }
 }
+
+/* Portrait visibility refinement: show the face and upper body instead of an enlarged crop. */
+.home-hero .hero-portrait-slide {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-position: 74% 14%;
+  opacity: 0;
+  transform: none;
+  transition: opacity 1.2s ease-in-out;
+}
+.home-hero .hero-portrait-slide.is-active {
+  opacity: 0.58;
+  transform: none;
+}
+.home-hero .hero-overlay {
+  background: linear-gradient(90deg, rgba(36, 23, 15, 0.94) 0%, rgba(36, 23, 15, 0.76) 43%, rgba(36, 23, 15, 0.34) 76%, rgba(36, 23, 15, 0.2) 100%);
+}
+@media (max-width: 900px) {
+  .home-hero .hero-portrait-slide {
+    object-position: 78% 14%;
+  }
+  .home-hero .hero-portrait-slide.is-active {
+    opacity: 0.48;
+  }
+  .home-hero .hero-overlay {
+    background: linear-gradient(90deg, rgba(36, 23, 15, 0.95) 0%, rgba(36, 23, 15, 0.8) 54%, rgba(36, 23, 15, 0.42) 100%);
+  }
+}
+@media (max-width: 520px) {
+  .home-hero .hero-portrait-slide {
+    object-position: 82% 12%;
+  }
+  .home-hero .hero-portrait-slide.is-active {
+    opacity: 0.42;
+  }
+  .home-hero .hero-overlay {
+    background: linear-gradient(90deg, rgba(36, 23, 15, 0.95) 0%, rgba(36, 23, 15, 0.78) 58%, rgba(36, 23, 15, 0.38) 100%);
+  }
+}
