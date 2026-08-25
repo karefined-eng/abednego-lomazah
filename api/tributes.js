@@ -52,7 +52,7 @@ function adminAuthorized(req) {
 
 function publicRecord(item) {
   return {
-    message: clean(item.message, 600),
+    message: clean(item.message, 2000),
     author: clean(item.author, 60),
     kind: clean(item.kind || 'FROM THE WALL', 32)
   };
@@ -62,7 +62,7 @@ function reviewRecord(item) {
   return {
     id: clean(item.id, 100),
     author: clean(item.author, 60),
-    message: clean(item.message, 600),
+    message: clean(item.message, 2000),
     kind: clean(item.kind || 'NEW VOICE', 32),
     status: clean(item.status || 'pending', 24),
     submittedAt: clean(item.submittedAt, 40),
@@ -229,7 +229,7 @@ async function handleAdmin(req, res) {
   const now = new Date().toISOString();
   if (action === 'edit') {
     const author = clean(body.author, 60);
-    const message = clean(body.message, 600);
+    const message = clean(body.message, 2000);
     if (author.length < 2 || message.length < 10) {
       return res.status(400).json({ success: false, error: 'Edited name and message must be valid.' });
     }
@@ -299,7 +299,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const body = jsonBody(req);
     const name = clean(body.name, 60);
-    const message = clean(body.message, 600);
+    const message = clean(body.message, 2000);
     if (name.length < 2 || message.length < 10) {
       return res.status(400).json({ success: false, error: 'Please provide a name and a message of at least 10 characters.' });
     }
