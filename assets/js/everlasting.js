@@ -92,6 +92,15 @@ function renderWall(extraTributes = []) {
   }
 }
 
+function updateTributeCharacterCount() {
+  const messageInput = document.querySelector('#tribute-message');
+  const counter = document.querySelector('#tribute-character-count');
+  if (!messageInput || !counter) return;
+
+  const remaining = Math.max(0, messageInput.maxLength - messageInput.value.length);
+  counter.textContent = `${remaining} character${remaining === 1 ? '' : 's'} remaining`;
+}
+
 async function submitTribute(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -115,6 +124,7 @@ async function submitTribute(event) {
     });
     if (!response.ok) throw new Error('Submission failed');
     form.reset();
+    updateTributeCharacterCount();
     if (status) status.textContent = 'Thank you. Your word has been received for review.';
   } catch {
     if (status) status.textContent = 'We could not send it right now. Please try again shortly.';
@@ -128,4 +138,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderWall(approvedTributes);
   document.querySelector('#recompose-wall')?.addEventListener('click', () => renderWall(approvedTributes));
   document.querySelector('#tribute-form')?.addEventListener('submit', submitTribute);
+  document.querySelector('#tribute-message')?.addEventListener('input', updateTributeCharacterCount);
+  updateTributeCharacterCount();
 });

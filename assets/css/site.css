@@ -1847,6 +1847,7 @@ section { padding: 5rem 5vw; }
 .tribute-form input, .tribute-form textarea { width: 100%; border: 1px solid var(--cream-dark); border-radius: 6px; background: #fffdf9; color: var(--ink); font: inherit; padding: 0.9rem; margin-bottom: 1.1rem; }
 .tribute-form textarea { resize: vertical; }
 .tribute-form input:focus, .tribute-form textarea:focus { outline: 3px solid rgba(200, 135, 10, 0.28); border-color: var(--gold); }
+.tribute-character-count { display: block; color: #745c4d; font-size: 0.78rem; line-height: 1.4; text-align: right; margin: -0.8rem 0 1.1rem; }
 .tribute-form-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .form-note { color: #745c4d; font-size: 0.78rem; line-height: 1.4; max-width: 24ch; }
 .tribute-status { color: var(--brown); font-weight: 700; font-size: 0.9rem; margin: 1rem 0 0; }
