@@ -1934,3 +1934,151 @@ section { padding: 5rem 5vw; }
   .withdrawal-update__copy blockquote { font-size: 1.12rem; }
   .resources-body .resource-hero-art img { height: 330px; }
 }
+
+
+/* Homepage typography refinement: a tighter editorial hierarchy without changing the campaign palette. */
+.home-body {
+  font-synthesis: none;
+}
+.home-body h1,
+.home-body h2,
+.home-body h3,
+.home-body .hero-title-big,
+.home-body .hero-title-name {
+  text-wrap: balance;
+}
+.home-body .hero-text-light {
+  max-width: 780px;
+}
+.home-body .hero-eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  line-height: 1.3;
+  padding: 0.38rem 0.9rem;
+  margin-bottom: 1.35rem;
+}
+.home-body .hero-title-small {
+  font-size: clamp(1.1rem, 2.1vw, 1.45rem);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  margin-bottom: 0.45rem;
+}
+.home-body .hero-title-big {
+  font-size: clamp(4rem, 8.6vw, 7.4rem);
+  line-height: 0.78;
+  letter-spacing: 0.015em;
+}
+.home-body .hero-title-name {
+  font-size: clamp(4.1rem, 8.2vw, 6.8rem);
+  line-height: 0.82;
+  letter-spacing: 0.045em;
+  margin-bottom: 1.25rem;
+}
+.home-body .hero-subtitle {
+  max-width: 38rem;
+  font-size: clamp(0.78rem, 1.25vw, 0.98rem);
+  line-height: 1.45;
+  letter-spacing: 0.085em;
+  margin-bottom: 1.8rem;
+}
+.home-body .hero-quote {
+  max-width: 550px;
+  padding: 1.1rem 1.35rem;
+  font-size: clamp(0.93rem, 1.35vw, 1.04rem);
+  line-height: 1.58;
+}
+.home-body #about {
+  padding-top: clamp(5.5rem, 9vw, 8rem) !important;
+  padding-bottom: clamp(5.5rem, 9vw, 8rem) !important;
+}
+.home-body #about .section-eyebrow,
+.home-body .campaign-video-section .section-eyebrow,
+.home-body .campaign-motion-section .section-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  line-height: 1.35;
+}
+.home-body #about .section-title {
+  font-size: clamp(3rem, 5.8vw, 4.8rem);
+  line-height: 0.88;
+  letter-spacing: 0.025em;
+  margin-bottom: 1rem;
+}
+.home-body #about .section-lead {
+  max-width: 54ch;
+  font-size: 1.06rem;
+  line-height: 1.78;
+}
+.home-body #about .anchor-badge {
+  font-size: 0.75rem;
+  letter-spacing: 0.045em;
+  line-height: 1.3;
+}
+.home-body #about .compact-card-inner h3 {
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 1rem !important;
+  font-weight: 700;
+  letter-spacing: 0.015em;
+  line-height: 1.25;
+}
+.home-body #about .compact-card-inner p {
+  font-size: 0.94rem !important;
+  line-height: 1.65;
+}
+.home-body #about > div > .about-text > div:last-child h3 {
+  font-family: Inter, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 1.2rem !important;
+  line-height: 1.3;
+  letter-spacing: 0.01em;
+}
+.home-body #about > div > .about-text > div:last-child > p {
+  max-width: 62ch;
+  font-size: 1rem !important;
+  line-height: 1.75 !important;
+}
+.home-body .campaign-video-section .section-title,
+.home-body .campaign-motion-section .section-title {
+  font-size: clamp(2.8rem, 5.6vw, 4.8rem);
+  line-height: 0.86;
+  letter-spacing: 0.025em;
+}
+.home-body .campaign-video-note {
+  max-width: 52ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
+@media (max-width: 700px) {
+  .home-body .hero-text-light {
+    max-width: 34rem;
+  }
+  .home-body .hero-title-small {
+    font-size: 1.05rem;
+  }
+  .home-body .hero-title-big {
+    font-size: clamp(3.8rem, 17vw, 6rem);
+    line-height: 0.8;
+  }
+  .home-body .hero-title-name {
+    font-size: clamp(3.9rem, 16.5vw, 5.8rem);
+    line-height: 0.82;
+  }
+  .home-body .hero-subtitle {
+    max-width: 25rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 0.72rem;
+    letter-spacing: 0.075em;
+  }
+  .home-body .hero-quote {
+    text-align: left;
+    font-size: 0.91rem;
+    line-height: 1.6;
+  }
+  .home-body #about .section-title {
+    font-size: clamp(2.8rem, 13vw, 4.4rem);
+  }
+  .home-body .campaign-video-section .section-title,
+  .home-body .campaign-motion-section .section-title {
+    font-size: clamp(2.7rem, 12vw, 4rem);
+  }
+}
