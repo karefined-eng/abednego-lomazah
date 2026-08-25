@@ -72,6 +72,8 @@
           <div class="review-toolbar-actions">
             <button id="export-csv-button" class="wall-control" type="button">Download approved CSV ↓</button>
             <button id="export-json-button" class="wall-control" type="button">Backup approved JSON ↓</button>
+            <button id="export-all-csv-button" class="wall-control" type="button">Backup all CSV ↓</button>
+            <button id="export-all-json-button" class="wall-control" type="button">Backup all JSON ↓</button>
             <button id="refresh-button" class="wall-control" type="button">Refresh list ↻</button>
           </div>
         </div>
@@ -93,6 +95,8 @@
       const refreshButton = document.querySelector('#refresh-button');
       const exportCsvButton = document.querySelector('#export-csv-button');
       const exportJsonButton = document.querySelector('#export-json-button');
+      const exportAllCsvButton = document.querySelector('#export-all-csv-button');
+      const exportAllJsonButton = document.querySelector('#export-all-json-button');
       let token = sessionStorage.getItem('everlasting-review-token') || '';
 
       function setStatus(element, message, isError = false) {
@@ -171,7 +175,9 @@
           loginPanel.hidden = true;
           reviewPanel.hidden = false;
           renderPending(Array.isArray(data.pending) ? data.pending : []);
-          setStatus(reviewStatus, `${data.pending.length} pending word${data.pending.length === 1 ? '' : 's'}.`);
+          const total = Number.isFinite(data.archiveCount) ? data.archiveCount : 'unknown';
+          const limit = Number.isFinite(data.archiveLimit) ? data.archiveLimit.toLocaleString() : '10,000';
+          setStatus(reviewStatus, `${data.pending.length} pending word${data.pending.length === 1 ? '' : 's'} · ${total.toLocaleString ? total.toLocaleString() : total} total archived (capacity ${limit}).`);
         } catch (error) {
           sessionStorage.removeItem('everlasting-review-token');
           token = '';
@@ -181,12 +187,15 @@
         }
       }
 
-      async function downloadApproved(format) {
-        const button = format === 'csv' ? exportCsvButton : exportJsonButton;
+      async function downloadArchive(format, scope = 'approved') {
+        const button = scope === 'all'
+          ? (format === 'csv' ? exportAllCsvButton : exportAllJsonButton)
+          : (format === 'csv' ? exportCsvButton : exportJsonButton);
         button.disabled = true;
-        setStatus(reviewStatus, `Preparing approved-message ${format.toUpperCase()} export…`);
+        const label = scope === 'all' ? 'full archive' : 'approved-message';
+        setStatus(reviewStatus, `Preparing ${label} ${format.toUpperCase()} export…`);
         try {
-          const response = await fetch(`/api/tributes?admin=1&export=approved&format=${format}`, requestOptions());
+          const response = await fetch(`/api/tributes?admin=1&export=${scope}&format=${format}`, requestOptions());
           if (!response.ok) {
             const data = await response.json().catch(() => ({}));
             throw new Error(data.error || 'Could not export approved messages.');
@@ -195,14 +204,14 @@
           const url = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = url;
-          link.download = format === 'csv'
-            ? 'abednego-lomazah-approved-tributes.csv'
-            : 'abednego-lomazah-approved-tributes.json';
+          link.download = scope === 'all'
+            ? (format === 'csv' ? 'abednego-lomazah-all-tributes.csv' : 'abednego-lomazah-all-tributes.json')
+            : (format === 'csv' ? 'abednego-lomazah-approved-tributes.csv' : 'abednego-lomazah-approved-tributes.json');
           document.body.appendChild(link);
           link.click();
           link.remove();
           URL.revokeObjectURL(url);
-          setStatus(reviewStatus, `Approved-message ${format.toUpperCase()} export downloaded.`);
+          setStatus(reviewStatus, `${label} ${format.toUpperCase()} export downloaded.`);
         } catch (error) {
           setStatus(reviewStatus, error.message, true);
         } finally {
@@ -239,8 +248,10 @@
         loadPending();
       });
       refreshButton.addEventListener('click', () => loadPending());
-      exportCsvButton.addEventListener('click', () => downloadApproved('csv'));
-      exportJsonButton.addEventListener('click', () => downloadApproved('json'));
+      exportCsvButton.addEventListener('click', () => downloadArchive('csv'));
+      exportJsonButton.addEventListener('click', () => downloadArchive('json'));
+      exportAllCsvButton.addEventListener('click', () => downloadArchive('csv', 'all'));
+      exportAllJsonButton.addEventListener('click', () => downloadArchive('json', 'all'));
       if (token) loadPending(false);
     })();
   </script>

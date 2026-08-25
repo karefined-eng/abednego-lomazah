@@ -3,7 +3,12 @@ import { kv } from '@vercel/kv';
 const PUBLIC_KEY = 'everlasting_tributes_public';
 const PENDING_KEY = 'everlasting_tributes_pending';
 const REJECTED_KEY = 'everlasting_tributes_rejected';
-const MAX_RECORDS = 200;
+const ARCHIVE_INDEX_KEY = 'everlasting_tributes_archive_ids';
+const ARCHIVE_RECORD_PREFIX = 'everlasting_tribute_record:';
+const ARCHIVE_SEEDED_KEY = 'everlasting_tributes_archive_seeded_v1';
+const MAX_RECORDS = 10000;
+const PUBLIC_DISPLAY_RECORDS = 100;
+const ARCHIVE_READ_BATCH = 200;
 
 function clean(value, maxLength) {
   return String(value || '').replace(/[<>]/g, '').trim().slice(0, maxLength);
@@ -63,28 +68,84 @@ function reviewRecord(item) {
     submittedAt: clean(item.submittedAt, 40),
     updatedAt: clean(item.updatedAt, 40),
     moderatedAt: clean(item.moderatedAt, 40),
-    publishedAt: clean(item.publishedAt, 40)
+    publishedAt: clean(item.publishedAt, 40),
+    rejectedAt: clean(item.rejectedAt, 40)
   };
 }
 
-async function pendingRecords() {
-  const records = await kv.lrange(PENDING_KEY, 0, MAX_RECORDS - 1);
+async function listRecords(key) {
+  const records = await kv.lrange(key, 0, MAX_RECORDS - 1);
   return (records || []).map(parseItem).filter((item) => item && item.id && item.message && item.author);
 }
 
-async function approvedRecords() {
-  const records = await kv.lrange(PUBLIC_KEY, 0, MAX_RECORDS - 1);
-  return (records || []).map(parseItem).filter((item) => item && item.id && item.message && item.author);
+async function pendingRecords() {
+  return listRecords(PENDING_KEY);
+}
+
+function archiveKey(id) {
+  return `${ARCHIVE_RECORD_PREFIX}${id}`;
+}
+
+async function archiveRecords(status = '') {
+  const ids = await kv.lrange(ARCHIVE_INDEX_KEY, 0, MAX_RECORDS - 1);
+  const validIds = (ids || []).map((id) => String(id || '').trim()).filter(Boolean);
+  const records = [];
+
+  for (let start = 0; start < validIds.length; start += ARCHIVE_READ_BATCH) {
+    const batchIds = validIds.slice(start, start + ARCHIVE_READ_BATCH);
+    const values = await kv.mget(...batchIds.map(archiveKey));
+    values.forEach((value) => {
+      const item = parseItem(value);
+      if (item && item.id && item.message && item.author && (!status || item.status === status)) {
+        records.push(item);
+      }
+    });
+  }
+
+  return records;
+}
+
+async function saveArchiveRecord(record, addToIndex = false) {
+  await kv.set(archiveKey(record.id), JSON.stringify(record));
+  if (addToIndex) {
+    await kv.lpush(ARCHIVE_INDEX_KEY, record.id);
+    await kv.ltrim(ARCHIVE_INDEX_KEY, 0, MAX_RECORDS - 1);
+  }
+}
+
+async function ensureArchiveSeeded() {
+  if (await kv.get(ARCHIVE_SEEDED_KEY)) return;
+
+  const [pending, published, rejected] = await Promise.all([
+    listRecords(PENDING_KEY),
+    listRecords(PUBLIC_KEY),
+    listRecords(REJECTED_KEY)
+  ]);
+  const byId = new Map();
+  [...pending, ...published, ...rejected].forEach((record) => {
+    if (record?.id) byId.set(record.id, record);
+  });
+  const records = Array.from(byId.values()).slice(0, MAX_RECORDS);
+
+  for (const record of records) {
+    await saveArchiveRecord(record);
+  }
+  if (records.length) {
+    await kv.del(ARCHIVE_INDEX_KEY);
+    await kv.rpush(ARCHIVE_INDEX_KEY, ...records.map((record) => record.id));
+    await kv.ltrim(ARCHIVE_INDEX_KEY, 0, MAX_RECORDS - 1);
+  }
+  await kv.set(ARCHIVE_SEEDED_KEY, new Date().toISOString());
 }
 
 function csvCell(value) {
   return `"${String(value || '').replace(/"/g, '""').replace(/\r?\n/g, ' ')}"`;
 }
 
-function approvedCsv(records) {
-  const columns = ['id', 'author', 'message', 'kind', 'status', 'submittedAt', 'updatedAt', 'moderatedAt', 'publishedAt'];
+function recordsCsv(records) {
+  const columns = ['id', 'author', 'message', 'kind', 'status', 'submittedAt', 'updatedAt', 'moderatedAt', 'publishedAt', 'rejectedAt'];
   const rows = records.map((record) => {
-    const item = reviewRecord({ ...record, status: 'published' });
+    const item = reviewRecord(record);
     return columns.map((column) => csvCell(item[column])).join(',');
   });
   return [columns.join(','), ...rows].join('\n');
@@ -103,29 +164,44 @@ async function handleAdmin(req, res) {
     return res.status(401).json({ success: false, error: 'Admin authorization required.' });
   }
 
+  await ensureArchiveSeeded();
+
   if (req.method === 'GET') {
     const exportFormat = String(req.query?.format || '').toLowerCase();
     const exportScope = String(req.query?.export || '').toLowerCase();
-    if (exportScope === 'approved') {
-      const approved = await approvedRecords();
+    if (exportScope === 'approved' || exportScope === 'all') {
+      const records = await archiveRecords(exportScope === 'approved' ? 'published' : '');
       if (exportFormat === 'csv') {
+        const filename = exportScope === 'approved'
+          ? 'abednego-lomazah-approved-tributes.csv'
+          : 'abednego-lomazah-all-tributes.csv';
         res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-        res.setHeader('Content-Disposition', 'attachment; filename="abednego-lomazah-approved-tributes.csv"');
-        return res.status(200).send(approvedCsv(approved));
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+        return res.status(200).send(recordsCsv(records));
       }
+      const filename = exportScope === 'approved'
+        ? 'abednego-lomazah-approved-tributes.json'
+        : 'abednego-lomazah-all-tributes.json';
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.setHeader('Content-Disposition', 'attachment; filename="abednego-lomazah-approved-tributes.json"');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
       return res.status(200).json({
         success: true,
         exportedAt: new Date().toISOString(),
-        count: approved.length,
-        approved: approved.map((item) => reviewRecord({ ...item, status: 'published' }))
+        count: records.length,
+        records: records.map(reviewRecord)
       });
     }
 
     const records = await pendingRecords();
     const pending = records.filter((item) => item.status === 'pending').map(reviewRecord);
-    return res.status(200).json({ success: true, pending, archived: records.length - pending.length });
+    const archiveIds = await kv.lrange(ARCHIVE_INDEX_KEY, 0, MAX_RECORDS - 1);
+    return res.status(200).json({
+      success: true,
+      pending,
+      archived: records.length - pending.length,
+      archiveCount: (archiveIds || []).length,
+      archiveLimit: MAX_RECORDS
+    });
   }
 
   if (req.method !== 'POST') {
@@ -158,6 +234,7 @@ async function handleAdmin(req, res) {
       return res.status(400).json({ success: false, error: 'Edited name and message must be valid.' });
     }
     const edited = { ...current, author, message, updatedAt: now };
+    await saveArchiveRecord(edited);
     await updatePendingAt(index, edited);
     return res.status(200).json({ success: true, tribute: reviewRecord(edited) });
   }
@@ -169,6 +246,7 @@ async function handleAdmin(req, res) {
       publishedAt: now,
       moderatedAt: now
     };
+    await saveArchiveRecord(published);
     await kv.lpush(PUBLIC_KEY, JSON.stringify(published));
     await kv.ltrim(PUBLIC_KEY, 0, MAX_RECORDS - 1);
     await updatePendingAt(index, published);
@@ -181,6 +259,7 @@ async function handleAdmin(req, res) {
     rejectedAt: now,
     moderatedAt: now
   };
+  await saveArchiveRecord(rejected);
   await kv.lpush(REJECTED_KEY, JSON.stringify(rejected));
   await kv.ltrim(REJECTED_KEY, 0, MAX_RECORDS - 1);
   await updatePendingAt(index, rejected);
@@ -205,7 +284,7 @@ export default async function handler(req, res) {
 
   if (req.method === 'GET') {
     try {
-      const records = await kv.lrange(PUBLIC_KEY, 0, 99);
+      const records = await kv.lrange(PUBLIC_KEY, 0, PUBLIC_DISPLAY_RECORDS - 1);
       const tributes = (records || [])
         .map(parseItem)
         .filter((item) => item && item.message && item.author)
@@ -226,14 +305,17 @@ export default async function handler(req, res) {
     }
 
     try {
-      await kv.lpush(PENDING_KEY, JSON.stringify({
+      await ensureArchiveSeeded();
+      const record = {
         id: `tribute-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
         author: name,
         message,
         kind: 'NEW VOICE',
         status: 'pending',
         submittedAt: new Date().toISOString()
-      }));
+      };
+      await saveArchiveRecord(record, true);
+      await kv.lpush(PENDING_KEY, JSON.stringify(record));
       await kv.ltrim(PENDING_KEY, 0, MAX_RECORDS - 1);
       return res.status(202).json({ success: true, status: 'pending' });
     } catch (error) {
