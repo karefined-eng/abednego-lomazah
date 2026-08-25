@@ -495,7 +495,7 @@
       }
     }
 
-    /* Fire both fetches independently — one failing doesn't block the other */
+    /* Fire both fetches in parallel — one failing doesn't block the other */
     loadResources();
     loadRecordings();
   </script>
