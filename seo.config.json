@@ -1,0 +1,21 @@
+{
+  "siteUrl": "https://abednego-lomazah-site.vercel.app",
+  "framework": "static",
+  "htmlRoot": ".",
+  "routes": [
+    "/index.html",
+    "/resources.html",
+    "/updates.html",
+    "/everlasting.html",
+    "/privacy.html"
+  ],
+  "excludedRoutes": [
+    "/everlasting-admin.html",
+    "/removal-requests.html",
+    "/google41bf9b30aa3ad1b8.html",
+    "/yandex_ea5a29e6075e8366.html"
+  ],
+  "robotsPath": "robots.txt",
+  "sitemapPath": "sitemap.xml",
+  "requireOpenGraph": true
+}
